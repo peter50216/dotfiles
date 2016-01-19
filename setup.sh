@@ -1,8 +1,8 @@
-#!/bin/bash -v
+#!/bin/bash
 
 set -e
 
-sudo apt-get update
+read -t 5 -p "Hit ENTER to skip apt-get update or wait 5 seconds" || sudo apt-get update
 
 sudo apt-get -y install build-essential
 sudo apt-get -y install python-setuptools
