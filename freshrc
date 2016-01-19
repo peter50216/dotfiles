@@ -1,0 +1,16 @@
+# vim: set ft=sh:
+
+if [[ ! -f ~/.fresh_setup ]]; then
+  echo 'First time setup! Make sure we have everything installed...'
+  $FRESH_LOCAL/setup.sh
+  if [[ $? == 0 ]]; then
+    touch ~/.fresh_setup
+    echo 'First time setup complete! Delete ~/.fresh_setup and fresh to run again.'
+  else
+    echo 'First time setup fail QQ'
+    exit 1
+  fi
+fi
+
+fresh freshshell/fresh bin/fresh --bin
+fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
