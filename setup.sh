@@ -13,10 +13,10 @@ sudo apt-get -y install htop
 sudo apt-get -y install cmake
 sudo apt-get -y install aptitude
 
-# We should already have this :P
+# we should already have this :P
 sudo apt-get -y install git
 
-# For building python / ruby
+# for building python / ruby
 sudo apt-get -y install libssl-dev libreadline-dev libbz2-dev libsqlite3-dev libffi-dev
 
 # rbenv
@@ -31,5 +31,5 @@ if [[ ! -d ~/.pyenv ]]; then
   git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
 fi
 
-# Use zsh! sudoing since we already have used sudo in this shell :P
+# use zsh! sudoing since we already have used sudo in this shell :P
 sudo chsh -s /bin/zsh $USER
