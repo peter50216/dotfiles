@@ -7,7 +7,9 @@ fresh config/\* --file
 
 if [[ ! -f $FRESH_LOCAL/.setup ]]; then
   echo -e '\e[1;33mFirst time setup! Make sure we have everything installed...\e[m'
-  $FRESH_LOCAL/setup.sh
+  pushd $FRESH_LOCAL
+  ./setup/main.sh
+  popd
   if [[ $? == 0 ]]; then
     touch $FRESH_LOCAL/.setup
     echo -e '\e[1;33mFirst time setup complete! Delete $FRESH_LOCAL/.setup and fresh to run again.\e[m'
