@@ -16,7 +16,7 @@ sudo apt-get -y install git
 sudo chsh -s /bin/zsh $USER
 
 # install tmux-mem-cpu-load, shik's fork.
-local dir=`mktemp -d`
+dir=`mktemp -d`
 git clone https://bitbucket.org/shik/tmux-mem-cpu-load.git "$dir"
 pushd "$dir"
   cmake .
