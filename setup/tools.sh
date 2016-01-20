@@ -49,6 +49,6 @@ if ! ask_skip "Python $LATEST_PYTHON3"; then
 fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
-  echo "Going to run all long-running installs in tmux!"
+  echo 'Going to run all long-running installs in tmux!'
   run_in_tmux 'setup' "${cmds[@]}"
 fi
