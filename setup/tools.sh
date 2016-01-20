@@ -21,29 +21,35 @@ if [[ ! -d ~/.rbenv ]]; then
   ~/.rbenv/src/configure && make -C ~/.rbenv/src/
 fi
 
-LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-if ! ask_skip "ruby $LATEST_RUBY2"; then
-  # Install latest ruby in rbenv!
-  ~/.rbenv/bin/rbenv install $LATEST_RUBY2 &
-fi
-
 # pyenv
 if [[ ! -d ~/.pyenv ]]; then
   git clone git://github.com/yyuu/pyenv.git ~/.pyenv
   git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
 fi
 
+cmds=()
+
+LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
+if ! ask_skip "Ruby $LATEST_RUBY2"; then
+  # Install latest ruby in rbenv!
+  cmds+=("Ruby $LATEST_RUBY2" "~/.rbenv/bin/rbenv install $LATEST_RUBY2")
+fi
+
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-if ! ask_skip "python $LATEST_PYTHON2"; then
+if ! ask_skip "Python $LATEST_PYTHON2"; then
   # Install latest python in pyenv!
-  ~/.pyenv/bin/pyenv install $LATEST_PYTHON2 &
+  cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2 &")
 fi
 
 LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+3(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-if ! ask_skip "python $LATEST_PYTHON3"; then
+if ! ask_skip "Python $LATEST_PYTHON3"; then
   # Install latest python in pyenv!
-  ~/.pyenv/bin/pyenv install $LATEST_PYTHON3 &
+  cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3 &")
 fi
 
-echo "Waiting all ruby / python background install jobs to complete..."
+if [[ ${#cmds[@]} -ne 0 ]]; then
+  echo "Going to run all long-running installs in tmux!"
+  run_in_tmux 'setup' $cmds
+fi
+
 wait
