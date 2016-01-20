@@ -49,7 +49,7 @@ fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
   echo "Going to run all long-running installs in tmux!"
-  run_in_tmux 'setup' $cmds
+  run_in_tmux 'setup' "${cmds[@]}"
 fi
 
 wait
