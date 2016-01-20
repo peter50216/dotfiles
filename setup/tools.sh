@@ -3,7 +3,7 @@ set -e
 
 source setup/utils.sh
 
-sudo apt-get -y install sliversearcher-ag
+sudo apt-get -y install silversearcher-ag
 sudo apt-get -y install aptitude
 sudo apt-get -y install cmake
 sudo apt-get -y install htop
