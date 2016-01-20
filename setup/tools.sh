@@ -30,19 +30,19 @@ fi
 cmds=()
 
 # TODO(Darkpi): Should we add rbenv/pyenv global to somewhere?
-LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -1`
+LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Ruby $LATEST_RUBY2"; then
   # Install latest ruby in rbenv!
   cmds+=("Ruby $LATEST_RUBY2" "~/.rbenv/bin/rbenv install $LATEST_RUBY2")
 fi
 
-LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -1`
+LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON2"; then
   # Install latest python in pyenv!
   cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2")
 fi
 
-LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -1`
+LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON3"; then
   # Install latest python in pyenv!
   cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3")
