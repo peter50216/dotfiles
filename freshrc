@@ -1,11 +1,11 @@
 # vim: set ft=sh:
 
-if [[ ! -f ~/.fresh_setup ]]; then
+if [[ ! -f $FRESH_LOCAL/.setup ]]; then
   echo -e '\033[1;33mFirst time setup! Make sure we have everything installed...\033[m'
   $FRESH_LOCAL/setup.sh
   if [[ $? == 0 ]]; then
-    touch ~/.fresh_setup
-    echo -e '\033[1;33mFirst time setup complete! Delete ~/.fresh_setup and fresh to run again.\033[m'
+    touch $FRESH_LOCAL/.setup
+    echo -e '\033[1;33mFirst time setup complete! Delete $FRESH_LOCAL/.setup and fresh to run again.\033[m'
   else
     echo -e '\033[1;31mFirst time setup fail QQ\033[m'
     exit 1
