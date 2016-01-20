@@ -20,7 +20,7 @@ if [[ ! -d ~/.rbenv ]]; then
 fi
 
 LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-read -t 5 -p "Hit ENTER to skip installing ruby $LATEST_RUBY2 or wait 5 seconds"
+read -t 5 -p $'Hit ENTER to skip installing \e[1;37mruby '"$LATEST_RUBY2"$'\e[m or wait 5 seconds'
 if [[ $? != 0 ]]; then
   # Install latest ruby in rbenv!
   ~/.rbenv/bin/rbenv install $LATEST_RUBY2 &
@@ -33,14 +33,14 @@ if [[ ! -d ~/.pyenv ]]; then
 fi
 
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-read -t 5 -p "Hit ENTER to skip installing python $LATEST_PYTHON2 or wait 5 seconds"
+read -t 5 -p $'Hit ENTER to skip installing \e[1;37mpython '"$LATEST_PYTHON2"$'\e[m or wait 5 seconds'
 if [[ $? != 0 ]]; then
   # Install latest python in pyenv!
   ~/.pyenv/bin/pyenv install $LATEST_PYTHON2 &
 fi
 
 LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+3(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
-read -t 5 -p "Hit ENTER to skip installing python $LATEST_PYTHON3 or wait 5 seconds"
+read -t 5 -p $'Hit ENTER to skip installing \e[1;37mpython '"$LATEST_PYTHON3"$'\e[m or wait 5 seconds'
 if [[ $? != 0 ]]; then
   # Install latest python in pyenv!
   ~/.pyenv/bin/pyenv install $LATEST_PYTHON3 &
