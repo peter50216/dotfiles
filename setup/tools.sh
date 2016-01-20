@@ -38,13 +38,13 @@ fi
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
 if ! ask_skip "Python $LATEST_PYTHON2"; then
   # Install latest python in pyenv!
-  cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2 &")
+  cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2")
 fi
 
 LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | grep -E '^\s+3(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
 if ! ask_skip "Python $LATEST_PYTHON3"; then
   # Install latest python in pyenv!
-  cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3 &")
+  cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3")
 fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
