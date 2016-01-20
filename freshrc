@@ -4,12 +4,13 @@ fresh freshshell/fresh bin/fresh --bin
 fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
 
 fresh config/\* --file
+fresh bin/\* --bin
 
 fresh_after_build() {
   if [[ ! -f $FRESH_LOCAL/.setup ]]; then
     echo -e '\e[1;33mFirst time setup! Make sure we have everything installed...\e[m'
     pushd $FRESH_LOCAL
-    ./setup/main.sh
+      ./setup/main.sh
     popd
     if [[ $? == 0 ]]; then
       touch $FRESH_LOCAL/.setup
