@@ -1,5 +1,10 @@
 # vim: set ft=sh:
 
+fresh freshshell/fresh bin/fresh --bin
+fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
+
+fresh config/\* --file
+
 if [[ ! -f $FRESH_LOCAL/.setup ]]; then
   echo -e '\033[1;33mFirst time setup! Make sure we have everything installed...\033[m'
   $FRESH_LOCAL/setup.sh
@@ -11,8 +16,3 @@ if [[ ! -f $FRESH_LOCAL/.setup ]]; then
     exit 1
   fi
 fi
-
-fresh freshshell/fresh bin/fresh --bin
-fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
-
-fresh config/\* --file
