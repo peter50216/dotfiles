@@ -29,6 +29,7 @@ fi
 
 cmds=()
 
+# TODO(Darkpi): Should we add rbenv/pyenv global to somewhere?
 LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | grep -E '^\s+2(\.|[0-9])+$' | tail -1 | tr -d '[[:space:]]'`
 if ! ask_skip "Ruby $LATEST_RUBY2"; then
   # Install latest ruby in rbenv!
@@ -51,5 +52,3 @@ if [[ ${#cmds[@]} -ne 0 ]]; then
   echo "Going to run all long-running installs in tmux!"
   run_in_tmux 'setup' "${cmds[@]}"
 fi
-
-wait
