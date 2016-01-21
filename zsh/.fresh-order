@@ -1,3 +1,4 @@
-zplug-pre.zsh
 plugins.zsh
-zplug-post.zsh
+options.zsh
+bindings.zsh
+alias.zsh
