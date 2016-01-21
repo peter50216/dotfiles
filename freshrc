@@ -3,25 +3,17 @@
 fresh freshshell/fresh bin/fresh --bin
 fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
 
-fresh sorin-ionescu/prezto . --file=~/.zprezto/
 fresh zsh/\* --file=~/.zshrc
 
 fresh config/\* --file
 fresh bin/\* --bin
 
 fresh_after_build() {
-  # Workaround for git submodule: https://github.com/freshshell/fresh/issues/95
-  if [ -z "${updated_submodules+1}" ]; then
-    cd $FRESH_PATH/source/sorin-ionescu/prezto/ \
-      && git pull && git submodule update --init --recursive
-    export updated_submodules=0
+  # Managing zplug through fresh makes each fresh delete all cloned plugins of
+  # zplug :(, so we just clone it manually here...
+  if [[ ! -d ~/.zplug ]]; then
+    git clone https://github.com/b4b4r07/zplug.git ~/.zplug
   fi
-  if [ "$updated_submodules" -eq 0 ]; then
-    export updated_submodules=$[updated_submodules+1]
-    ~/bin/fresh
-  fi
-  unset updated_submodules
-
   if [[ ! -f $FRESH_LOCAL/.setup ]]; then
     echo -e '\e[1;33mFirst time setup! Make sure we have everything installed...\e[m'
     pushd $FRESH_LOCAL
