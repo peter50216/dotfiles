@@ -1,5 +1,6 @@
 # pure-prompt
-fpath=( "$HOME/.fresh/build/vendor/.zfunctions" $fpath )
-autoload -U promptinit && promptinit
-prompt pure
+zplug "mafredri/zsh-async"
+zplug "sindresorhus/pure"
 
+# zsh-syntax-highlighting
+zplug "zsh-users/zsh-syntax-highlighting", nice:10

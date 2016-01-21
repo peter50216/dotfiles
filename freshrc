@@ -3,13 +3,10 @@
 fresh freshshell/fresh bin/fresh --bin
 fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
 
-# pure-prompt
-fresh sindresorhus/pure pure.zsh --file=vendor/.zfunctions/prompt_pure_setup
-fresh sindresorhus/pure async.zsh --file=vendor/.zfunctions/async
+# zplug
+fresh b4b4r07/zplug . --file=~/.zplug/
 
-fresh-options --file=~/.zshrc
-  fresh zsh/plugins.zsh
-fresh-options
+fresh zsh/\* --file=~/.zshrc
 
 fresh config/\* --file
 fresh bin/\* --bin
