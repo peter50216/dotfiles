@@ -3,12 +3,16 @@
 fresh freshshell/fresh bin/fresh --bin
 fresh freshshell/fresh contrib/source-build.sh --file=~/.zshrc
 
-fresh zsh/\* --file=~/.zshrc
+# pure-prompt
+fresh sindresorhus/pure pure.zsh --file=vendor/.zfunctions/prompt_pure_setup
+fresh sindresorhus/pure async.zsh --file=vendor/.zfunctions/async
+
+fresh-options --file=~/.zshrc
+  fresh zsh/plugins.zsh
+fresh-options
 
 fresh config/\* --file
 fresh bin/\* --bin
-
-fresh nojhan/liquidprompt liquidprompt --file=vendor/liquidprompt
 
 fresh_after_build() {
   if [[ ! -f $FRESH_LOCAL/.setup ]]; then
