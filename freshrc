@@ -8,7 +8,7 @@ fresh zsh/\* --file=~/.zshrc
 fresh config/\* --file
 fresh bin/\* --bin
 
-fresh nojhan/liquidprompt liquidprompt --file=vendor/
+fresh nojhan/liquidprompt liquidprompt --file=vendor/liquidprompt
 
 fresh_after_build() {
   if [[ ! -f $FRESH_LOCAL/.setup ]]; then
