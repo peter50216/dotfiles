@@ -9,6 +9,22 @@ zplug "sindresorhus/pure"
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
 
+# oh-my-zsh
+# options
+DISABLE_AUTO_TITLE="true"
+COMPLETION_WAITING_DOTS="true"
+ZSH_TMUX_AUTOCONNECT="false"
+BUNDLED_COMMANDS=(passenger padrino)
+
+# plugins
+plugins=(ssh-agent tmux git gitignore \
+  bundler rbenv ruby gem \
+  pip pyenv python \
+  node golang vagrant)
+for p in "${plugins[@]}"; do
+  zplug "plugins/$p", from:oh-my-zsh
+done
+
 if ! zplug check --verbose; then
   zplug install
 fi
