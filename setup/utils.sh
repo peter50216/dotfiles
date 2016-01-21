@@ -1,7 +1,12 @@
 function ask_skip {
   local name=$1
   local time=${2:-5}
-  read -t $time -p $'Hit ENTER to skip \e[1;37m'"$name"$'\e[m or wait '"$time"$' seconds\n'
+  if read -t $time -p $'Hit ENTER to skip \e[1;37m'"$name"$'\e[m or wait '"$time"$' seconds'; then
+    return 0
+  else
+    echo
+    return 1
+  fi
 }
 
 function run_in_tmux {
