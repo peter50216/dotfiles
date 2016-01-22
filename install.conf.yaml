@@ -1,0 +1,26 @@
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+# git
+    ~/.gitconfig: config/gitconfig
+    ~/.gitignore_global: config/gitignore_global
+# tmux
+    ~/.tmux.conf: config/tmux.conf
+# zsh
+    ~/.zlogin: config/zlogin
+    ~/.zpreztorc: config/zpreztorc
+    ~/.zprofile: config/zprofile
+    ~/.zshenv: config/zshenv
+    ~/.zshrc: config/zshrc
+# prezto
+    ~/.zprezto: prezto
+# binary
+    ~/bin/checksec.sh:
+      create: true
+      path: bin/checksec.sh
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - [setup/main.sh, Running setup script]
+

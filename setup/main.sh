@@ -1,27 +1,16 @@
 #!/bin/bash
-set -e
 
-source setup/utils.sh
-
-ask_skip 'apt-get update' || sudo apt-get update
-
-sudo apt-get -y install build-essential
-sudo apt-get -y install zsh
-sudo apt-get -y install tmux
-
-# we should already have this :P
-sudo apt-get -y install git
-
-# use zsh! sudoing since we already have used sudo in this shell :P
-sudo chsh -s /bin/zsh $USER
-
-# install tmux-mem-cpu-load, shik's fork.
-dir=`mktemp -d`
-git clone https://bitbucket.org/shik/tmux-mem-cpu-load.git "$dir"
-pushd "$dir"
-  cmake .
-  make
-  sudo make install
-popd
-
-ask_skip 'useful tools setup' || ./setup/tools.sh
+if [[ ! -f ~/.dotfiles/.setup ]]; then
+  echo -e '\e[1;33mFirst time setup! Make sure we have everything installed...\e[m'
+  pushd ~/.dotfiles/
+    ./setup/run_all.sh
+    ret=$?
+  popd
+  if [[ $ret == 0 ]]; then
+    touch ~/.dotfiles/.setup
+    echo -e '\e[1;33mFirst time setup complete! Delete ~/.dotfiles/.setup and ~/.dotfiles/setup/main.sh to run again.\e[m'
+  else
+    echo -e '\e[1;31mFirst time setup fail QQ\e[m'
+    exit 1
+  fi
+fi

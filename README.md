@@ -1,10 +1,10 @@
 New dotfiles repo.
 
 ``` sh
-FRESH_LOCAL_SOURCE=peter50216/dotfiles bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/master/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/master/fetch.sh)
 ```
 
 Total rewrite in progress...
-Going to be managed by [fresh]
+Going to be managed by [dotbot]
 
-[fresh]: http://freshshell.com
+[dotbot]: https://github.com/anishathalye/dotbot

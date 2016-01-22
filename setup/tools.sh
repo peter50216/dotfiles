@@ -28,27 +28,38 @@ if [[ ! -d ~/.pyenv ]]; then
 fi
 
 cmds=()
+rubies=()
+pythons=()
 
 # TODO(Darkpi): Should we add rbenv/pyenv global to somewhere?
 LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Ruby $LATEST_RUBY2"; then
   # Install latest ruby in rbenv!
   cmds+=("Ruby $LATEST_RUBY2" "~/.rbenv/bin/rbenv install $LATEST_RUBY2")
+  rubies+=("$LATEST_RUBY2")
 fi
 
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON2"; then
   # Install latest python in pyenv!
   cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2")
+  pythons+=("$LATEST_PYTHON2")
 fi
 
 LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | awk '$1~/^3[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON3"; then
   # Install latest python in pyenv!
   cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3")
+  pythons+=("$LATEST_PYTHON3")
 fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
   echo 'Going to run all long-running installs in tmux!'
   run_in_tmux 'setup' "${cmds[@]}"
+  if [[ ${#rubies[@]} -ne 0 ]]; then
+    ~/.rbenv/bin/rbenv global "${rubies[@]}"
+  fi
+  if [[ ${#pythons[@]} -ne 0 ]]; then
+    ~/.pyenv/bin/pyenv global "${pythons[@]}"
+  fi
 fi

@@ -1,0 +1,31 @@
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Do stupid fix
+# We'll never use non-256-color terminal!
+if [[ $TERM == "xterm" ]]; then
+  export TERM=xterm-256color
+fi
+
+unsetopt share_history
+
+# No Ctrl+S freezing in vim.
+stty -ixon
+
+export WECHALLUSER="peter50216"
+export WECHALLTOKEN="C03C8-2EC56-699E9-B4004-8AB5F-D50AB"
+
+if [[ -n "${key[PageUp]}" ]]; then
+  bindkey "${key[PageUp]}" backward-word
+fi
+if [[ -n "${key[PageDown]}" ]]; then
+  bindkey "${key[PageDown]}" forward-word
+fi
+
+alias ll='ls -lFh'
+alias la='ls -lAFh'
+alias ta='tmux at -t'
+alias tl='tmux ls'
+alias cpv="rsync -pogh -e /dev/null --progress --"
