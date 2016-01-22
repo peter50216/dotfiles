@@ -3,12 +3,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Do stupid fix
-# We'll never use non-256-color terminal!
-if [[ $TERM == "xterm" ]]; then
-  export TERM=xterm-256color
-fi
-
 unsetopt share_history
 
 # No Ctrl+S freezing in vim.
@@ -27,3 +21,4 @@ fi
 
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
+source ~/.dotfiles/zsh/lazy.zsh
