@@ -1,4 +1,4 @@
-plugins.zsh
+prezto.zsh
 options.zsh
 bindings.zsh
 alias.zsh
