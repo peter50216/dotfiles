@@ -15,10 +15,12 @@ if [[ -n "${key[PageDown]}" ]]; then
   bindkey "${key[PageDown]}" forward-word
 fi
 
+source ~/.dotfiles/zsh/alias.zsh
+source ~/.dotfiles/zsh/env.zsh
+
+eval "$(rbenv init -)"
+eval "$(pyenv init -)"
+
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
 fi
-
-source ~/.dotfiles/zsh/alias.zsh
-source ~/.dotfiles/zsh/env.zsh
-source ~/.dotfiles/zsh/lazy.zsh
