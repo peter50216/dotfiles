@@ -17,9 +17,7 @@ fi
 
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
-
-eval "$(rbenv init -)"
-eval "$(pyenv init -)"
+source ~/.dotfiles/zsh/lazy.zsh
 
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
