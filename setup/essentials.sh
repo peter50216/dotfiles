@@ -7,6 +7,7 @@ ask_skip 'apt-get update' || sudo apt-get update
 sudo apt-get -y install build-essential
 sudo apt-get -y install zsh
 sudo apt-get -y install tmux
+sudo apt-get -y install vim
 
 # we should already have this :P
 sudo apt-get -y install git
