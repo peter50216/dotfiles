@@ -8,3 +8,10 @@ export WECHALLUSER="peter50216"
 export WECHALLTOKEN="C03C8-2EC56-699E9-B4004-8AB5F-D50AB"
 
 export PATH=$HOME/bin:$PATH
+
+if [[ -d ~/.pyenv ]]; then
+  export PATH=~/.pyenv/bin:$PATH
+fi
+if [[ -d ~/.rbenv ]]; then
+  export PATH=~/.rbenv/bin:$PATH
+fi
