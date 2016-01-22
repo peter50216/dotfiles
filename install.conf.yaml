@@ -21,6 +21,13 @@
       path: bin/checksec.sh
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
-  - [setup/main.sh, Running setup script]
+  -
+    command: git submodule update --init --recursive
+    description: Installing submodules
+    stdout: true
+  -
+    command: setup/main.sh
+    description: Running setup script
+    stdin: true
+    stdout: true
 
