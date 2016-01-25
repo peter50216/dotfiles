@@ -4,12 +4,18 @@
 # difference from calling rbenv init - in .zshrc, but it doesn't matter in most
 # case I think?
 
-pyenv() {
-  eval "$(command pyenv init -)"
-  pyenv "$@"
-}
+if [[ -d ~/.pyenv ]]; then
+  source ~/.pyenv/completions/pyenv.zsh
+  pyenv() {
+    eval "$(command pyenv init -)"
+    pyenv "$@"
+  }
+fi
 
-rbenv() {
-  eval "$(command rbenv init -)"
-  rbenv "$@"
-}
+if [[ -d ~/.rbenv ]]; then
+  source ~/.rbenv/completions/rbenv.zsh
+  rbenv() {
+    eval "$(command rbenv init -)"
+    rbenv "$@"
+  }
+fi
