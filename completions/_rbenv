@@ -1,3 +1,4 @@
+#compdef rbenv
 _rbenv() {
   local words completions
   read -cA words
