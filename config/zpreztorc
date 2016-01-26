@@ -25,13 +25,16 @@ zstyle ':prezto:*:*' color 'yes'
 # The order matters.
 zstyle ':prezto:load' pmodule \
   'environment' \
-  'terminal' \
+  'directory' \
   'editor' \
   'history' \
-  'directory' \
   'spectrum' \
+  'ssh' \
+  'syntax-highlighting' \
+  'terminal' \
   'completion' \
   'prompt'
+# completion and prompt must be last two, environment must be first.
 
 zstyle ':prezto:module:syntax-highlighting' highlighters \
   'main' 'brackets'

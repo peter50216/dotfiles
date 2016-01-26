@@ -11,6 +11,7 @@ command -v zsh >/dev/null 2>&1 || sudo apt-get -y install zsh
 command -v tmux >/dev/null 2>&1 || sudo apt-get -y install tmux
 command -v vim >/dev/null 2>&1 || sudo apt-get -y install vim
 command -v cmake >/dev/null 2>&1 || sudo apt-get -y install cmake
+command -v ssh-agent >/dev/null 2>&1 || sudo apt-get -y install keychain
 
 # we should already have this :P
 command -v git >/dev/null 2>&1 || sudo apt-get -y install git
