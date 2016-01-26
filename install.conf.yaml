@@ -1,3 +1,9 @@
+- shell:
+  -
+    command: git submodule update --init --recursive
+    description: Installing submodules
+    stdout: true
+
 - clean: ['~']
 
 - link:
@@ -22,13 +28,16 @@
 
 - shell:
   -
-    command: git submodule update --init --recursive
-    description: Installing submodules
-    stdout: true
-  -
     command: setup/main.sh
     description: Running setup script
     stdin: true
     stdout: true
     stderr: true
+  -
+    command: cd modules/tmux-mem-cpu-load && cmake . && make
+    description: Building tmux-mem-cpu-load
 
+- link:
+    ~/bin/tmux-mem-cpu-load:
+      create: true
+      path: modules/tmux-mem-cpu-load/tmux-mem-cpu-load
