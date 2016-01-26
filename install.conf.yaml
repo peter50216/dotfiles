@@ -14,7 +14,7 @@
     ~/.zshenv: config/zshenv
     ~/.zshrc: config/zshrc
 # prezto
-    ~/.zprezto: prezto
+    ~/.zprezto: modules/prezto
 # binary
     ~/bin/checksec.sh:
       create: true

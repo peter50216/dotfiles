@@ -1,6 +1,6 @@
 [submodule "dotbot"]
-	path = dotbot
+	path = modules/dotbot
 	url = https://github.com/anishathalye/dotbot
 [submodule "prezto"]
-	path = prezto
+	path = modules/prezto
 	url = https://github.com/sorin-ionescu/prezto.git
