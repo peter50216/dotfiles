@@ -23,6 +23,10 @@ source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 
+for file in ~/.dotfiles/zsh/functions/*.zsh; do
+  source "$file"
+done
+
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
 fi
