@@ -12,11 +12,11 @@ unsetopt share_history    # Don't share history in multiple simutaneous zsh.
 # No Ctrl+S freezing in vim.
 stty -ixon
 
-if [[ -n "${key[PageUp]}" ]]; then
-  bindkey "${key[PageUp]}" backward-word
+if [[ -n "${terminfo[kpp]}" ]]; then
+  bindkey "${terminfo[kpp]}" backward-word
 fi
-if [[ -n "${key[PageDown]}" ]]; then
-  bindkey "${key[PageDown]}" forward-word
+if [[ -n "${terminfo[knp]}" ]]; then
+  bindkey "${terminfo[knp]}" forward-word
 fi
 
 source ~/.dotfiles/zsh/alias.zsh
