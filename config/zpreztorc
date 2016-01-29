@@ -33,6 +33,7 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'terminal' \
   'completion' \
+  'utility' \
   'prompt'
 # completion and prompt must be last two, environment must be first.
 
