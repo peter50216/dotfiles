@@ -7,3 +7,6 @@
 [submodule "modules/tmux-mem-cpu-load"]
 	path = modules/tmux-mem-cpu-load
 	url = https://peter50216@bitbucket.org/peter50216/tmux-mem-cpu-load.git
+[submodule "modules/vim-plug"]
+	path = modules/vim-plug
+	url = https://github.com/junegunn/vim-plug.git
