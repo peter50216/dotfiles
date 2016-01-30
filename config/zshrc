@@ -19,6 +19,8 @@ if [[ -n "${terminfo[knp]}" ]]; then
   bindkey "${terminfo[knp]}" forward-word
 fi
 
+source ~/.dotfiles/modules/k/k.sh
+
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh

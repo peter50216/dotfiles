@@ -20,14 +20,15 @@ zstyle ':prezto:load' pmodule \
   'rsync' \
   'spectrum' \
   'ssh' \
-  'syntax-highlighting' \
   'terminal' \
   'utility' \
-  'history-substring-search' \
   'completion' \
-  'prompt'
-# IMPORTANT: completion and prompt must be last two, environment must be first.
-#            history-substring-search must be after syntax-highlighting
+  'prompt' \
+  'syntax-highlighting' \
+  'history-substring-search'
+# IMPORTANT: Do not change order of last five
+#   (utility, completion, prompt, syntax-highlighting, history-substring-search)
+#   and the first one.
 
 zstyle ':prezto:module:syntax-highlighting' highlighters \
   'main' 'brackets'
