@@ -1,49 +1,86 @@
+" vim: set fmr={{{,}}} fdls=0 fdm=marker:
+" peter50216's vimrc.
+
+"--------------------------------------------------------------------
+" Plugins {{{
+" Use vim-plug to manage.
 call plug#begin('~/.vim/plugged')
 
 " Sensible default!
 Plug 'tpope/vim-sensible'
 
-" Plugins
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'Raimondi/delimitMate'
+" Unite.vim and its family {{{
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neoyank.vim'
+Plug 'Shougo/unite-help'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/unite.vim'
+Plug 'thinca/vim-unite-history'
+" }}}
+
+" Completions and diagnosis {{{
 " Still too much trouble involving pyenv and system python for YCM auto
 " recompile post-update, just do that manually!
 Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/syntastic'
+" }}}
+
+" Fast Formatting & Moving Around {{{
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'Raimondi/delimitMate'
+Plug 'scrooloose/nerdcommenter'
+Plug 'sickill/vim-pasta'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-entire' " ae ie
+Plug 'kana/vim-textobj-line' " al il
+Plug 'nelstrom/vim-textobj-rubyblock'
+" }}}
+
+" Buffers {{{
+Plug 'ton/vim-bufsurf'
+" }}}
+
+" Misc {{{
+" TODO(Darkpi): Consider vimfiler?
+Plug 'Konfekt/FastFold'
 Plug 'airblade/vim-gitgutter'
 Plug 'jpalardy/vim-slime'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'kana/vim-textobj-user' | Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-Plug 'sickill/vim-pasta'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
-Plug 'tpope/vim-surround'
-Plug 'vim-scripts/ifdef-highlighting'
 Plug 'vim-scripts/restore_view.vim'
+" }}}
 
-" To consider list
+" To consider list {{{
 " Plug 'Chiel92/vim-autoformat'
 " Plug 'junegunn/vim-easy-align'
 " Plug 'jeaye/color_coded'
+" }}}
 
-" Language syntax/indent/compile/etc.
+" Language syntax/indent/compile/etc. {{{
+Plug 'vim-scripts/ifdef-highlighting'
 " One pack for all!!!
 Plug 'sheerun/vim-polyglot'
+" }}}
 
 call plug#end()
+" }}}
 
-" Settings
+"--------------------------------------------------------------------
+" Vim Settings {{{
 set background=dark
-set completeopt=menuone
+set completeopt=longest,menuone
 set confirm
 set encoding=utf8
 set expandtab
+set fcs=vert:\|
 set fileencoding=utf8
 set fileencodings=utf8,big5,cp950
 set foldmethod=marker
@@ -56,200 +93,392 @@ set list
 set mouse=a
 set number
 set ruler
+set scrolloff=5
 set shiftround
 set shiftwidth=2
 set showcmd
-" set showmatch
-" set showtabline=2
 set smartcase
-" set smartindent
-" set softtabstop=2
-" set t_Co=256
-" set tabstop=2
-" set title
-" set titleold=
-" set undofile
-" set viewoptions=cursor,folds,slash,unix
-" set whichwrap=<,>
-" set wildmenu
-" colorscheme torte
-" 
-" " Custom keybinding
-" let mapleader=','
-" nnoremap ; :
-" nnoremap <BackSpace> gT
-" nnoremap <Tab> gt
-" nnoremap ` <C-w>w
-" nmap <silent> <leader>/ :nohlsearch<CR>
-" cmap w!! w !sudo tee % > /dev/null
-" noremap <S-Up> <Up>
-" noremap <S-Down> <Down>
-" inoremap <S-Up> <Up>
-" inoremap <S-Down> <Down>
-" nnoremap <leader>a <C-a>
-" nnoremap <leader>x <C-x>
-" vnoremap ; :
-" " imap {<CR> {<ESC>o}<ESC>%a<CR>
-" set pastetoggle=<F2>
-" 
-" " Save your swp files to a less annoying place than the current directory.
-" " If you have .vim-swap in the current directory, it'll use that.
-" " Otherwise it saves it to ~/.vim/swap, ~/tmp or .
-" if isdirectory($HOME . '/.vim/swap') == 0
-"   :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
-" endif
-" set directory=./.vim-swap//
-" set directory+=~/.vim/swap//
-" set directory+=~/tmp//
-" set directory+=.
-" 
-" if exists("+undofile")
-"   " undofile - This allows you to use undos after exiting and restarting
-"   " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo
-"   " :help undo-persistence
-"   " This is only present in 7.3+
-"   if isdirectory($HOME . '/.vim/undo') == 0
-"     :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
-"   endif
-"   set undodir=./.vim-undo//
-"   set undodir+=~/.vim/undo//
-"   set undofile
-" endif
-" 
-" " Custom auto-complete menu colors
-" highlight PmenuSel ctermfg=white ctermbg=20
-" highlight Pmenu ctermfg=252 ctermbg=17
-" 
-" " Extra whitespace on line end.
-" " highlight ExtraWhitespace ctermbg=red
-" " match ExtraWhitespace /\s\+$/
-" " autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-" " autocmd BufWinLeave * call clearmatches()
-" " autocmd Syntax * normal zR
-" function! LoadDefaultCode()
-"   silent! 0r ~/templates/default.%:e
-" endfunction
-" 
-" function! LoadDefaultCodeIfEmpty()
-"   if line('$') == 1 && col('$') == 1
-"     call LoadDefaultCode()
-"   endif
-" endfunction
-" 
-" autocmd! BufNewFile * call LoadDefaultCode()
-" autocmd! BufRead * call LoadDefaultCodeIfEmpty()
-" 
-" " Filetype specific settings
-" autocmd FileType coffee setl foldmethod=indent
-" " YCM doesn't recognize Cpp11 file type.
-" " autocmd BufNewFile,BufRead *.cpp set filetype=cpp11
-" " autocmd BufNewFile,BufRead *.h set filetype=cpp11
-" autocmd BufNewFile,BufRead *.html set filetype=htmldjango
-" 
-" " syntax in slim, copied from jade.vim
-" autocmd FileType slim call SetSlimInlineStyle()
-" function! SetSlimInlineStyle()
-"   hi def link slimFilter PreProc
-"   silent! syntax include @htmlCoffeescript syntax/coffee.vim
-"   unlet! b:current_syntax
-"   syn region slimCoffeescript matchgroup=slimFilter start="^\z(\s*\)coffee:\s*$" end="^\%(\z1\s\|\s*$\)\@!" contains=@htmlCoffeescript
-"   syn region slimJavascript matchgroup=slimFilter start="^\z(\s*\)javascript:\s*$" end="^\%(\z1\s\|\s*$\)\@!" contains=@htmlJavascript
-"   syn region slimCss matchgroup=slimFilter start="^\z(\s*\)css:\s*$"  end="^\%(\z1\s\|\s*$\)\@!" contains=@htmlCss
-" endfunction
-" 
-" let c_no_curly_error=1
-" 
-" " NERDTree
-" let NERDTreeWinSize=16
-" let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un']
-" let g:nerdtree_tabs_open_on_console_startup=1
-" nnoremap n :NERDTreeTabsToggle<CR>
-" 
-" " NERDCommenter
-" let g:NERDSpaceDelims=1
-" 
-" " YouCompleteMe
-" let g:ycm_confirm_extra_conf=0
-" " To avoid problem with hack below for UltiSnip
-" " let g:ycm_key_list_select_completion = []
-" let g:ycm_key_list_select_completion = ['<TAB>']
-" let g:ycm_key_list_previous_completion = ['<S-TAB>']
-" noremap <F5> :YcmForceCompileAndDiagnostics<CR>
-" inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
-" noremap <C-g> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" inoremap <C-g> <ESC>:YcmCompleter GoToDefinitionElseDeclaration<CR>
-" autocmd! BufWritePost * silent YcmForceCompileAndDiagnostics
-" 
-" " Syntastic
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_mode_map={ 'mode': 'active',
-"                            \ 'active_filetypes': [],
-"                            \ 'passive_filetypes': ['html'] }
-" let g:syntastic_javascript_checkers=['gjslint']
-" 
-" " EasyMotion
-" map <Leader> <Plug>(easymotion-prefix)
-" nmap s <Plug>(easymotion-s2)
-" nmap t <Plug>(easymotion-t2)
-" map  / <Plug>(easymotion-sn)
-" omap / <Plug>(easymotion-tn)
-" map  n <Plug>(easymotion-next)
-" map  N <Plug>(easymotion-prev)
-" let g:EasyMotion_move_highlight = 0
-" 
-" " Numbers.vim
-" let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree']
-" 
-" " Local vimrc
-" let g:localvimrc_whitelist=''
-" let g:localvimrc_ask=0
-" let g:localvimrc_sandbox=0
-" 
-" " Indent guide
-" let g:indent_guides_auto_colors=0
-" let g:indent_guides_guide_size=1
-" let g:indent_guides_enable_on_vim_startup=1
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-" 
-" " ListToggle
-" let g:lt_location_list_toggle_map='<leader>l'
-" let g:lt_quickfix_list_toggle_map='<leader>q'
-" 
-" " DelimitMate
-" let g:delimitMate_expand_cr = 1
-" " let g:delimitMate_balance_matchpairs = 1
-" inoremap <C-D> <C-R>=delimitMate#JumpMany()<CR>
-" " prevent confilct with YCM gotodefinition
-" autocmd BufNewFile,BufRead,BufEnter * silent! iunmap <buffer> <C-g>g
-" 
-" " Vim-Go
-" let g:go_auto_type_info=1
-" 
-" " vim-slime
-" let g:slime_target="tmux"
-" 
-" " vim-gitgutter
-" let g:gitgutter_sign_column_always=1
-" 
-" " Colors
-" highlight Folded ctermfg=243 ctermbg=234 guifg=Cyan guibg=DarkGrey
-" highlight FoldColumn ctermbg=234 guifg=Cyan guibg=Grey
-" 
-" " vim-autoformat
-" noremap <F3> :Autoformat<CR>
-" let g:autoformat_autoindent = 0
-" 
-" " Status line
-" highlight StatusLine cterm=none ctermbg=235
-" highlight StatusLineNC ctermfg=252 ctermbg=235
-" highlight User1 ctermfg=blue ctermbg=235
-" highlight User2 ctermfg=red ctermbg=235
-" highlight User3 ctermfg=yellow ctermbg=235
-" highlight User4 ctermfg=green ctermbg=235
-" set laststatus=2
-" set statusline=%=%1*
-" set statusline+=%{getcwd()}/%f
-" set statusline+=\ %2*[%{&encoding}/%{&fileformat}/%Y]
-" set statusline+=\ %3*%l,%c
-" set statusline+=\ %4*%-4P
+set smartindent
+set softtabstop=2
+set synmaxcol=200
+set t_Co=256
+set tabstop=2
+set title
+set titleold=
+set ttimeoutlen=50
+set viewoptions=cursor,folds,slash,unix
+set virtualedit=block
+set visualbell t_vb=
+set wildmenu
+set wildignore=*.o,*.so,*.swp,*~,*.pyc
+" TODO(Darkpi): See if there's better colorscheme available?
+colorscheme torte
+" }}}
+
+"--------------------------------------------------------------------
+" Colors {{{
+highlight Folded ctermfg=243 ctermbg=234 guifg=Cyan guibg=DarkGrey
+highlight FoldColumn ctermbg=234 guifg=Cyan guibg=Grey
+" Custom auto-complete menu colors
+highlight PmenuSel ctermfg=white ctermbg=20
+highlight Pmenu ctermfg=252 ctermbg=17
+" }}}
+
+"--------------------------------------------------------------------
+" Status line {{{
+highlight StatusLine cterm=none ctermbg=235
+highlight StatusLineNC cterm=none ctermbg=233
+highlight Status1C ctermfg=blue ctermbg=235
+highlight Status2C ctermfg=red ctermbg=235
+highlight Status3C ctermfg=yellow ctermbg=235
+highlight Status4C ctermfg=green ctermbg=235
+highlight Status1NC ctermfg=darkgray ctermbg=233
+highlight Status2NC ctermfg=124 ctermbg=233
+highlight Status3NC ctermfg=100 ctermbg=233
+highlight Status4NC ctermfg=70 ctermbg=233
+set laststatus=2
+function! SetHighlight(nr)
+  for i in [1,2,3,4]
+    if (winnr() == a:nr)
+      exec 'highlight! link Status'.i.' Status'.i.'C'
+    else
+      exec 'highlight! link Status'.i.' Status'.i.'NC'
+    endif
+  endfor
+  return ''
+endfunction
+function! BuildStatusLine(nr)
+  return '%{SetHighlight(' . a:nr . ')}' .
+        \ '%=%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
+endfunction
+set statusline=%!BuildStatusLine(winnr())
+" }}}
+
+"--------------------------------------------------------------------
+" Misc Utilities {{{
+" Move swap/undo files. {{{
+" Save your swp files to a less annoying place than the current directory.
+" If you have .vim-swap in the current directory, it'll use that.
+" Otherwise it saves it to ~/.vim/swap, ~/tmp or .
+if isdirectory($HOME . '/.vim/swap') == 0
+  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+endif
+set directory=./.vim-swap//
+set directory+=~/.vim/swap//
+set directory+=~/tmp//
+set directory+=.
+
+if exists("+undofile")
+  " undofile - This allows you to use undos after exiting and restarting
+  " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo,
+  " then .
+  " :help undo-persistence
+  " This is only present in 7.3+
+  if isdirectory($HOME . '/.vim/undo') == 0
+    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  endif
+  set undodir=./.vim-undo//
+  set undodir+=~/.vim/undo//
+  set undodir+=.
+  set undofile
+endif
+" }}}
+
+" Load default code {{{
+" TODO(Darkpi): Pull these things into a custom plugin?
+function! LoadDefaultCode()
+  " Some code from embear/vim-localvimrc
+  if (&buftype != "")
+    return
+  endif
+  " TODO(Darkpi): Do we want to use %:e or &ft?
+  let l:ext=expand('%:e')
+  if empty(l:ext)
+    return
+  endif
+  let l:directory=fnameescape(expand("%:p:h"))
+  if empty(l:directory)
+    let l:directory=fnameescape(getcwd())
+  endif
+  let l:paths=[".default", "templates/default"]
+  for l:path in l:paths
+    let l:ds=findfile(l:path.".".l:ext, l:directory.";", 1)
+    if !empty(l:ds)
+      exec "silent! 0r ".l:ds
+      break
+    endif
+  endfor
+endfunction
+
+function! LoadDefaultCodeIfEmpty()
+  if line('$') == 1 && col('$') == 1
+    call LoadDefaultCode()
+  endif
+endfunction
+
+autocmd! BufNewFile * call LoadDefaultCode()
+" Deal with file newed by nerdtree.
+autocmd! BufRead * call LoadDefaultCodeIfEmpty()
+" }}}
+" }}}
+
+"--------------------------------------------------------------------
+" Abbreviations {{{
+iabbrev @@ peter50216@gmail.com
+" TODO(Darkpi): Abbreviations for frequent typos.
+" }}}
+
+"--------------------------------------------------------------------
+" Custom keybinding {{{
+let mapleader=','
+let maplocalleader=','
+set pastetoggle=<F2>
+
+" One less shift!
+vnoremap ; :
+nnoremap ; :
+
+" Habit from normal text editor...
+vnoremap <S-Up> <Up>
+vnoremap <S-Down> <Down>
+
+" Esc is sooo far away :D
+inoremap jk <Esc>
+
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
+
+" Folds
+nnoremap <Leader>f0 :set fdl=0<CR>
+nnoremap <Leader>f1 :set fdl=1<CR>
+nnoremap <Leader>f2 :set fdl=2<CR>
+nnoremap <Leader>f3 :set fdl=3<CR>
+nnoremap <CR> za
+
+" To avoid C-a collision with tmux.
+nnoremap <Leader>a <C-a>
+nnoremap <Leader>x <C-x>
+
+" Fast edit & reload vimrc
+nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
+
+" Easy doing some complex things
+if executable('ruby')
+  vnoremap <Leader>rr :!ruby<CR>
+  vnoremap <Leader>re :!ruby -e 'print eval($stdin.read)'<CR>
+endif
+
+nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Splits
+" Maximize
+nnoremap <Leader>m <C-w>_<C-w><Bar>
+" }}}
+
+"--------------------------------------------------------------------
+" Temporary bindings for training. {{{
+cnoremap tabe <Nop>
+inoremap <Esc> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Home> <Nop>
+inoremap <End> <Nop>
+inoremap <PageUp> <Nop>
+inoremap <PageDown> <Nop>
+nnoremap <Left> <Nop>
+nnoremap <Right> <Nop>
+nnoremap <Up> <Nop>
+nnoremap <Down> <Nop>
+nnoremap <Home> <Nop>
+nnoremap <End> <Nop>
+nnoremap <PageUp> <Nop>
+nnoremap <PageDown> <Nop>
+" }}}
+
+"--------------------------------------------------------------------
+" Autocmds {{{
+augroup VimRCAutoCmd
+  autocmd!
+  autocmd BufWritePost .vimrc nested so $MYVIMRC
+augroup END
+" }}}
+
+"--------------------------------------------------------------------
+" Plugin Settings {{{
+
+" NERDTree {{{
+" Settings {{{
+let NERDTreeWinSize=20
+let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un']
+" }}}
+" Mappings {{{
+nnoremap <S-Tab> :NERDTreeToggle<CR>
+nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
+" }}}
+" }}}
+
+" NERDCommenter {{{
+" Settings {{{
+let g:NERDSpaceDelims=1
+" }}}
+" }}}
+
+" YouCompleteMe {{{
+" Settings {{{
+let g:ycm_confirm_extra_conf=0
+let g:ycm_key_list_select_completion=['<TAB>']
+let g:ycm_key_list_previous_completion=['<S-TAB>']
+" }}}
+" Mappings {{{
+noremap <F5> :YcmForceCompileAndDiagnostics<CR>
+inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
+noremap <Leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" }}}
+" Autocmds {{{
+augroup VimRCYouCompleteMe
+  autocmd!
+  autocmd BufWritePost * silent YcmForceCompileAndDiagnostics
+augroup END
+" }}}
+" }}}
+
+" Syntastic {{{
+" Settings {{{
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_mode_map={ 'mode': 'active',
+      \ 'active_filetypes': [],
+      \ 'passive_filetypes': ['html'] }
+let g:syntastic_javascript_checkers=['gjslint']
+" }}}
+" }}}
+
+" EasyMotion {{{
+" Settings {{{
+let g:EasyMotion_move_highlight=0
+let g:EasyMotion_smartcase=1
+" }}}
+" Mappings {{{
+map s <Plug>(easymotion-s2)
+map t <Plug>(easymotion-t2)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+" }}}
+" }}}
+
+" FastFold {{{
+" Settings {{{
+let g:fastfold_force=1
+" }}}
+" }}}
+
+" incsearch {{{
+"
+" }}}
+
+" Indent guide {{{
+" Settings {{{
+let g:indent_guides_auto_colors=0
+let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=1
+" }}}
+" Autocmds {{{
+augroup VimRCIndentGuide
+  autocmd!
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+augroup END
+" }}}
+" }}}
+
+" DelimitMate {{{
+" Settings {{{
+let g:delimitMate_expand_cr=1
+" }}}
+" Mappings {{{
+imap <C-D> <Plug>delimitMateJumpMany
+" }}}
+" }}}
+
+" vim-slime {{{
+" Settings {{{
+let g:slime_target="tmux"
+" }}}
+" }}}
+
+" vim-gitgutter {{{
+" Settings {{{
+let g:gitgutter_sign_column_always=1
+" }}}
+" }}}
+
+" neoyank {{{
+" Settings {{{
+let g:neoyank#limit=1000
+" }}}
+" }}}
+
+" Unite.vim {{{
+" Settings {{{
+let g:unite_source_rec_max_cache_files=500000
+let g:unite_winheight=25
+call unite#custom#profile('default', 'context', {
+      \   'start_insert' : 1,
+      \   'prompt': '>> ',
+      \   'smartcase': 1
+      \ })
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '.pyc',
+      \ '\.git/',
+      \ 'node_modules/',
+      \ 'tmp/',
+      \ 'vendor/',
+      \ ], '\|'))
+if executable('sift')
+  let g:unite_source_grep_command='sift'
+  let g:unite_source_grep_default_opts=
+        \ '-s --git --no-color --line-number --column'
+  let g:unite_source_grep_recursive_opt=''
+elseif executable('ag')
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts=
+        \ '-S --vimgrep --hidden --ignore ' .
+        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt=''
+endif
+" }}}
+" Mappings {{{
+nnoremap [unite] <Nop>
+nmap <Space> [unite]
+
+nnoremap [unite]b :Unite buffer<CR>
+nnoremap [unite]f :Unite file_rec/async<CR>
+nnoremap [unite]g :Unite grep<CR>
+nnoremap [unite]h :Unite help<CR>
+nnoremap [unite]o :Unite outline<CR>
+nnoremap [unite]r :Unite file_mru<CR>
+nnoremap [unite]y :Unite history/yank<CR>
+" }}}
+" }}}
+
+" vim-eunuch {{{
+" Mappings {{{
+cnoremap w!! SudoWrite
+" }}}
+" }}}
+
+" vim-polyglot {{{
+" Settings {{{
+" for vim-cpp
+let c_no_curly_error=1
+" }}}
+" }}}
+
+" }}}
