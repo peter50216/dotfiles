@@ -16,3 +16,6 @@
 [submodule "modules/z"]
 	path = modules/z
 	url = https://github.com/rupa/z.git
+[submodule "modules/tmux-sensible"]
+	path = modules/tmux-sensible
+	url = https://github.com/tmux-plugins/tmux-sensible.git
