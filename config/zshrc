@@ -20,6 +20,7 @@ if [[ -n "${terminfo[knp]}" ]]; then
 fi
 
 source ~/.dotfiles/modules/k/k.sh
+source ~/.dotfiles/modules/z/z.sh
 
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh

@@ -62,6 +62,8 @@ Plug 'vim-scripts/restore_view.vim'
 " Plug 'Chiel92/vim-autoformat'
 " Plug 'junegunn/vim-easy-align'
 " Plug 'jeaye/color_coded'
+" Plug 'tpope/vim-dispatch'
+" Plug 'mtth/scratch.vim'
 " }}}
 
 " Language syntax/indent/compile/etc. {{{
@@ -127,7 +129,7 @@ highlight Pmenu ctermfg=252 ctermbg=17
 "--------------------------------------------------------------------
 " Status line {{{
 highlight StatusLine cterm=none ctermbg=235
-highlight StatusLineNC cterm=none ctermbg=233
+highlight StatusLineNC cterm=none ctermbg=234
 highlight Status1C ctermfg=blue ctermbg=235
 highlight Status2C ctermfg=red ctermbg=235
 highlight Status3C ctermfg=yellow ctermbg=235
@@ -242,10 +244,22 @@ nnoremap ; :
 vnoremap <S-Up> <Up>
 vnoremap <S-Down> <Down>
 
+" Easier Replace
+vnoremap <C-R> "hy:%s/<C-R>h//g<Left><Left>
+
+" Reselect visual block after indent
+vnoremap > >gv
+vnoremap < <gv
+
+vmap <Tab> >
+vmap <S-Tab> <
+
 " Esc is sooo far away :D
 inoremap jk <Esc>
 
-nnoremap <silent> <Leader>/ :nohlsearch<CR>
+nnoremap Q :q<CR>
+
+nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
 " Folds
 nnoremap <Leader>f0 :set fdl=0<CR>
@@ -255,8 +269,8 @@ nnoremap <Leader>f3 :set fdl=3<CR>
 nnoremap <CR> za
 
 " To avoid C-a collision with tmux.
-nnoremap <Leader>a <C-a>
-nnoremap <Leader>x <C-x>
+nnoremap + <C-a>
+nnoremap - <C-x>
 
 " Fast edit & reload vimrc
 nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
@@ -267,11 +281,16 @@ if executable('ruby')
   vnoremap <Leader>re :!ruby -e 'print eval($stdin.read)'<CR>
 endif
 
-nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
-
 " Splits
-" Maximize
-nnoremap <Leader>m <C-w>_<C-w><Bar>
+" Maximize current split
+nnoremap <Leader>wm <C-w>_<C-w><Bar>
+" Resize all split
+nnoremap <Leader>wr <C-w>=
+nnoremap _ :split<CR>
+nnoremap <Bar> :vsplit<CR>
+
+" Reindent all code, while preserving cursor location
+nnoremap <Leader>= mqHmwgg=G`wzt`q
 " }}}
 
 "--------------------------------------------------------------------
@@ -310,7 +329,7 @@ augroup END
 " NERDTree {{{
 " Settings {{{
 let NERDTreeWinSize=20
-let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un']
+let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un', '\.git$[[dir]]']
 " }}}
 " Mappings {{{
 nnoremap <S-Tab> :NERDTreeToggle<CR>
@@ -321,6 +340,10 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " NERDCommenter {{{
 " Settings {{{
 let g:NERDSpaceDelims=1
+" }}}
+" Mappings {{{
+nmap \ <Leader>c<Space>
+vmap \ <Leader>c<Space>
 " }}}
 " }}}
 
@@ -361,10 +384,10 @@ let g:EasyMotion_smartcase=1
 " Mappings {{{
 map s <Plug>(easymotion-s2)
 map t <Plug>(easymotion-t2)
-map  / <Plug>(easymotion-sn)
+map / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+map n <Plug>(easymotion-next)
+map N <Plug>(easymotion-prev)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 " }}}
@@ -374,10 +397,6 @@ map <Leader>k <Plug>(easymotion-k)
 " Settings {{{
 let g:fastfold_force=1
 " }}}
-" }}}
-
-" incsearch {{{
-"
 " }}}
 
 " Indent guide {{{
@@ -407,6 +426,12 @@ imap <C-D> <Plug>delimitMateJumpMany
 " vim-slime {{{
 " Settings {{{
 let g:slime_target="tmux"
+let g:slime_no_mapping=1
+" }}}
+" Mappings {{{
+vmap <Leader>ss <Plug>SlimeRegionSend
+nmap <Leader>ss <Plug>SlimeParagraphSend
+nmap <Leader>sc <Plug>SlimeConfig
 " }}}
 " }}}
 
@@ -458,13 +483,23 @@ endif
 nnoremap [unite] <Nop>
 nmap <Space> [unite]
 
+nnoremap [unite]<Space> :Unite buffer file_mru bookmark file_rec/async<CR>
 nnoremap [unite]b :Unite buffer<CR>
-nnoremap [unite]f :Unite file_rec/async<CR>
+nnoremap [unite]c :Unite history/command<CR>
+nnoremap [unite]d :Unite -default-action=cd directory_mru directory_rec/async<CR>
+nnoremap [unite]f :Unite file_rec/async file/new<CR>
 nnoremap [unite]g :Unite grep<CR>
 nnoremap [unite]h :Unite help<CR>
+nnoremap [unite]l :Unite line<CR>
 nnoremap [unite]o :Unite outline<CR>
 nnoremap [unite]r :Unite file_mru<CR>
 nnoremap [unite]y :Unite history/yank<CR>
+" }}}
+" Autocmds {{{
+augroup VimRCUnite
+  autocmd!
+  autocmd FileType unite let b:loaded_delimitMate=1
+augroup END
 " }}}
 " }}}
 
@@ -478,6 +513,13 @@ cnoremap w!! SudoWrite
 " Settings {{{
 " for vim-cpp
 let c_no_curly_error=1
+" }}}
+" }}}
+
+" BufSurf {{{
+" Mappings {{{
+nnoremap Z :BufSurfBack<CR>
+nnoremap X :BufSurfForward<CR>
 " }}}
 " }}}
 

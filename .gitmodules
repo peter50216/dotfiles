@@ -13,3 +13,6 @@
 [submodule "k"]
 	path = modules/k
 	url = https://github.com/rimraf/k.git
+[submodule "modules/z"]
+	path = modules/z
+	url = https://github.com/rupa/z.git
