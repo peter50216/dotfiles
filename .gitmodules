@@ -19,3 +19,6 @@
 [submodule "modules/tmux-sensible"]
 	path = modules/tmux-sensible
 	url = https://github.com/tmux-plugins/tmux-sensible.git
+[submodule "modules/fzf"]
+	path = modules/fzf
+	url = https://github.com/junegunn/fzf.git

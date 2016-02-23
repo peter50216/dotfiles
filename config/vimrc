@@ -6,17 +6,12 @@
 " Use vim-plug to manage.
 call plug#begin('~/.vim/plugged')
 
-" Sensible default!
+" Sensible Default!
 Plug 'tpope/vim-sensible'
 
-" Unite.vim and its family {{{
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neoyank.vim'
-Plug 'Shougo/unite-help'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite.vim'
-Plug 'thinca/vim-unite-history'
+" File navigation {{{
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " }}}
 
 " Completions and diagnosis {{{
@@ -26,7 +21,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/syntastic'
 " }}}
 
-" Fast Formatting & Moving Around {{{
+" Fast formatting & moving around {{{
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Raimondi/delimitMate'
@@ -80,7 +75,7 @@ call plug#end()
 " }}}
 
 "--------------------------------------------------------------------
-" Vim Settings {{{
+" Vim settings {{{
 set background=dark
 set completeopt=longest,menuone
 set confirm
@@ -94,7 +89,7 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
-set lazyredraw
+" set lazyredraw
 set list
 set mouse=a
 set number
@@ -231,24 +226,24 @@ nnoremap <Leader>= mqHmwgg=G`wzt`q
 
 "--------------------------------------------------------------------
 " Temporary bindings for training. {{{
-cnoremap tabe <Nop>
-inoremap <Esc> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Home> <Nop>
-inoremap <End> <Nop>
-inoremap <PageUp> <Nop>
-inoremap <PageDown> <Nop>
-nnoremap <Left> <Nop>
-nnoremap <Right> <Nop>
-nnoremap <Up> <Nop>
-nnoremap <Down> <Nop>
-nnoremap <Home> <Nop>
-nnoremap <End> <Nop>
-nnoremap <PageUp> <Nop>
-nnoremap <PageDown> <Nop>
+" cnoremap tabe <Nop>
+" inoremap <Esc> <Nop>
+" inoremap <Left> <Nop>
+" inoremap <Right> <Nop>
+" inoremap <Up> <Nop>
+" inoremap <Down> <Nop>
+" inoremap <Home> <Nop>
+" inoremap <End> <Nop>
+" inoremap <PageUp> <Nop>
+" inoremap <PageDown> <Nop>
+" nnoremap <Left> <Nop>
+" nnoremap <Right> <Nop>
+" nnoremap <Up> <Nop>
+" nnoremap <Down> <Nop>
+" nnoremap <Home> <Nop>
+" nnoremap <End> <Nop>
+" nnoremap <PageUp> <Nop>
+" nnoremap <PageDown> <Nop>
 " }}}
 
 "--------------------------------------------------------------------
@@ -256,11 +251,11 @@ nnoremap <PageDown> <Nop>
 augroup MyAutoCmd
   autocmd!
 augroup END
-autocmd MyAutoCmd BufWritePost .vimrc nested so $MYVIMRC
+autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
 " }}}
 
 "--------------------------------------------------------------------
-" Misc Utilities {{{
+" Misc utilities {{{
 " Move swap/undo files. {{{
 " Save your swp files to a less annoying place than the current directory.
 " If you have .vim-swap in the current directory, it'll use that.
@@ -325,10 +320,29 @@ autocmd MyAutoCmd BufNewFile * call LoadDefaultCode()
 " Deal with file newed by nerdtree.
 autocmd MyAutoCmd BufRead * call LoadDefaultCodeIfEmpty()
 " }}}
+
+" Bracketed paste mode {{{
+let &t_ti .= "\<Esc>[?2004h"
+let &t_te .= "\<Esc>[?2004l"
+
+function! XTermPasteBegin(ret)
+  set pastetoggle=<f29>
+  set paste
+  return a:ret
+endfunction
+
+execute "set <f28>=\<Esc>[200~"
+execute "set <f29>=\<Esc>[201~"
+map <expr> <f28> XTermPasteBegin("i")
+imap <expr> <f28> XTermPasteBegin("")
+vmap <expr> <f28> XTermPasteBegin("c")
+cmap <f28> <nop>
+cmap <f29> <nop>
+" }}}
 " }}}
 
 "--------------------------------------------------------------------
-" Plugin Settings {{{
+" Plugin settings {{{
 " NERDTree {{{
 " Settings {{{
 let NERDTreeWinSize=20
@@ -388,7 +402,6 @@ let g:EasyMotion_smartcase=1
 " }}}
 " Mappings {{{
 map s <Plug>(easymotion-s2)
-map t <Plug>(easymotion-t2)
 map / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 map n <Plug>(easymotion-next)
@@ -458,56 +471,26 @@ let g:neomru#filename_format=':~'
 " }}}
 " }}}
 
-" Unite.vim {{{
+" fzf {{{
 " Settings {{{
-let g:unite_source_rec_max_cache_files=500000
-let g:unite_winheight=25
-call unite#custom#profile('default', 'context', {
-      \   'start_insert' : 1,
-      \   'prompt': '>> ',
-      \   'smartcase': 1
-      \ })
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '.pyc',
-      \ '\.git/',
-      \ 'node_modules/',
-      \ 'tmp/',
-      \ 'vendor/',
-      \ ], '\|'))
-if executable('sift')
-  let g:unite_source_grep_command='sift'
-  let g:unite_source_grep_default_opts=
-        \ '-s --git --no-color --line-number --column --binary-skip'
-  let g:unite_source_grep_recursive_opt=''
-elseif executable('ag')
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts=
-        \ '-S --vimgrep --hidden --ignore ' .
-        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt=''
-endif
+let g:fzf_command_prefix = 'FZF'
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'botright split',
+  \ 'ctrl-v': 'botright vsplit' }
 " }}}
 " Mappings {{{
-nnoremap [unite] <Nop>
-nmap <Space> [unite]
+nnoremap [fzf] <Nop>
+nmap <Space> [fzf]
 
-nnoremap [unite]<Space> :Unite buffer file_mru bookmark file_rec/async<CR>
-nnoremap [unite]b :Unite buffer<CR>
-nnoremap [unite]c :Unite command<CR>
-nnoremap [unite]d :Unite -default-action=cd directory_mru directory_rec/async<CR>
-nnoremap [unite]f :Unite file_rec/async<CR>
-nnoremap [unite]g :Unite grep:.<CR>
-nnoremap [unite]h :Unite help<CR>
-nnoremap [unite]l :Unite line<CR>
-nnoremap [unite]n :Unite find:.<CR>
-nnoremap [unite]o :Unite outline<CR>
-nnoremap [unite]r :Unite file_mru<CR>
-nnoremap [unite]s :Unite -quick-match buffer<CR>
-nnoremap [unite]y :Unite history/yank<CR>
-nnoremap [unite]; :Unite -default-action=edit history/command command<CR>
+nnoremap [fzf]<Space> :FZFHistory<CR>
+nnoremap [fzf]b :FZFBuffers<CR>
+nnoremap [fzf]c :FZFCommands<CR>
+nnoremap [fzf]f :FZF<CR>
+nnoremap [fzf]g :FZFAg<CR>
+nnoremap [fzf]l :FZFBLines<CR>
+nnoremap [fzf]s :FZFLines<CR>
+nnoremap [fzf]; :FZFHistory:<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
@@ -540,4 +523,9 @@ nnoremap X :BufSurfForward<CR>
 " }}}
 " }}}
 
+" vim-startify {{{
+" Settings {{{
+let g:startify_change_to_dir=0
+" }}}
+" }}}
 " }}}
