@@ -49,7 +49,6 @@ Plug 'mhinz/vim-startify'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdtree'
 Plug 'tmux-plugins/vim-tmux'
-Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
@@ -89,7 +88,7 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
-" set lazyredraw
+set lazyredraw
 set list
 set mouse=a
 set number
