@@ -401,8 +401,8 @@ let g:EasyMotion_smartcase=1
 " }}}
 " Mappings {{{
 map s <Plug>(easymotion-s2)
-map / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+map / <Plug>(easymotion-sn)\v
+omap / <Plug>(easymotion-tn)\v
 map n <Plug>(easymotion-next)
 map N <Plug>(easymotion-prev)
 map <Leader>j <Plug>(easymotion-j)
