@@ -13,4 +13,6 @@ if [[ ! -f ~/.dotfiles/.setup ]]; then
     echo -e '\e[1;31mFirst time setup fail QQ\e[m'
     exit 1
   fi
+else
+  echo -e '\e[1;33mFirst time setup already done! Delete ~/.dotfiles/.setup and ~/.dotfiles/setup/main.sh to run again.\e[m'
 fi

@@ -12,7 +12,7 @@ sudo apt-get -y install python-setuptools
 sudo apt-get -y install python-dev
 
 # for building python / ruby
-sudo apt-get -y install libssl-dev libreadline-dev libbz2-dev libsqlite3-dev libffi-dev
+sudo apt-get -y install libssl-dev libreadline-dev libbz2-dev libsqlite3-dev libffi-dev zlib1g-dev wget curl llvm libncurses5-dev libncursesw5-dev
 
 # rbenv
 if [[ ! -d ~/.rbenv ]]; then
