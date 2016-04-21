@@ -28,6 +28,11 @@ if [[ ! -d ~/.pyenv ]]; then
   git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
 fi
 
+if [[ -n "$TMUX" ]]; then
+  echo "Already in tmux! exit tmux to install rubies / pythons"
+  exit 1
+fi
+
 cmds=()
 rubies=()
 pythons=()
