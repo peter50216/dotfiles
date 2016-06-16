@@ -187,6 +187,12 @@ vnoremap < <gv
 vmap <Tab> >
 vmap <S-Tab> <
 
+" 0 is sooo much easier to type than ^, and ^ is more useful.
+nnoremap 0 ^
+nnoremap ^ 0
+vnoremap 0 ^
+vnoremap ^ 0
+
 " Esc is sooo far away :D
 inoremap jk <Esc>
 
