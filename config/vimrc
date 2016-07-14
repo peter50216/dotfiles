@@ -27,6 +27,7 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sickill/vim-pasta'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-user'
@@ -34,6 +35,8 @@ Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-line' " al il
 " Plug 'nelstrom/vim-textobj-rubyblock'
 " " }}}
+Plug 'junegunn/vim-easy-align'
+" }}}
 
 " Buffers {{{
 Plug 'ton/vim-bufsurf'
@@ -54,6 +57,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
+Plug 'vim-scripts/vis'
 " }}}
 
 " To consider list {{{
@@ -184,6 +188,12 @@ vnoremap < <gv
 vmap <Tab> >
 vmap <S-Tab> <
 
+" 0 is sooo much easier to type than ^, and ^ is more useful.
+nnoremap 0 ^
+nnoremap ^ 0
+vnoremap 0 ^
+vnoremap ^ 0
+
 " Esc is sooo far away :D
 inoremap jk <Esc>
 
@@ -207,8 +217,9 @@ nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 
 " Easy doing some complex things
 if executable('ruby')
-  vnoremap <Leader>rr :!ruby<CR>
-  vnoremap <Leader>re :!ruby -e 'print eval($stdin.read)'<CR>
+  " Stupid fix for vis that have one more space at the end...
+  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>`]x
+  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>`]x
 endif
 
 " Splits
@@ -216,8 +227,9 @@ endif
 nnoremap <Leader>wm <C-w>_<C-w><Bar>
 " Resize all split
 nnoremap <Leader>wr <C-w>=
-nnoremap _ :split<CR>
-nnoremap <Bar> :vsplit<CR>
+" Fast split
+nnoremap _ :split<CR><C-w>j
+nnoremap <Bar> :vsplit<CR><C-w>l
 
 " Reindent all code, while preserving cursor location
 nnoremap <Leader>= mqHmwgg=G`wzt`q
@@ -344,7 +356,7 @@ cmap <f29> <nop>
 " Plugin settings {{{
 " NERDTree {{{
 " Settings {{{
-let NERDTreeWinSize=20
+let NERDTreeWinSize=16
 let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un', '\.git$[[dir]]']
 " }}}
 " Mappings {{{
@@ -528,4 +540,12 @@ nnoremap X :BufSurfForward<CR>
 let g:startify_change_to_dir=0
 " }}}
 " }}}
+
+" vim-easy-align {{{
+" Mappings {{{
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+" }}}
+" }}}
+
 " }}}
