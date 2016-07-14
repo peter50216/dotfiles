@@ -29,11 +29,11 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'sickill/vim-pasta'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-entire' " ae ie
-Plug 'kana/vim-textobj-line' " al il
-Plug 'nelstrom/vim-textobj-rubyblock'
-" }}}
+" Plug 'kana/vim-textobj-user'
+" Plug 'kana/vim-textobj-entire' " ae ie
+" Plug 'kana/vim-textobj-line' " al il
+" Plug 'nelstrom/vim-textobj-rubyblock'
+" " }}}
 
 " Buffers {{{
 Plug 'ton/vim-bufsurf'
@@ -373,6 +373,7 @@ vmap \ <Leader>c<Space>
 let g:ycm_confirm_extra_conf=0
 let g:ycm_key_list_select_completion=['<TAB>']
 let g:ycm_key_list_previous_completion=['<S-TAB>']
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 " }}}
 " Mappings {{{
 noremap <F5> :YcmForceCompileAndDiagnostics<CR>
