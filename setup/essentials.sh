@@ -16,5 +16,3 @@ command -v ssh-agent >/dev/null 2>&1 || sudo apt-get -y install keychain
 # we should already have this :P
 command -v git >/dev/null 2>&1 || sudo apt-get -y install git
 
-# use zsh! sudoing since we already have used sudo in this shell :P
-sudo chsh -s /bin/zsh $USER

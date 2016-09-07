@@ -1,6 +1,6 @@
 [user]
-  name = Pi-Hsun Shih
-  email = peter50216@gmail.com
+  name = Peter Shih
+  email = pihsun@google.com
 [merge]
   tool = vimdiff
 [core]
@@ -21,3 +21,5 @@
 [pager]
   diff = diff-so-fancy | less --tabs=1,5 -RFX
   show = diff-so-fancy | less --tabs=1,5 -RFX
+[http]
+	cookiefile = /usr/local/google/home/pihsun/.gitcookies

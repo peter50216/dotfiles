@@ -116,7 +116,7 @@ set visualbell t_vb=
 set wildmenu
 set wildignore=*.o,*.so,*.swp,*~,*.pyc
 " TODO(Darkpi): See if there's better colorscheme available?
-colorscheme torte
+" colorscheme torte
 " }}}
 
 "--------------------------------------------------------------------
