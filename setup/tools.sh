@@ -48,14 +48,14 @@ fi
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON2"; then
   # Install latest python in pyenv!
-  cmds+=("Python $LATEST_PYTHON2" "~/.pyenv/bin/pyenv install $LATEST_PYTHON2")
+  cmds+=("Python $LATEST_PYTHON2" "env PYTHON_CONFIGURE_OPTS=--enable-shared ~/.pyenv/bin/pyenv install $LATEST_PYTHON2")
   pythons+=("$LATEST_PYTHON2")
 fi
 
 LATEST_PYTHON3=`~/.pyenv/bin/pyenv install -l | awk '$1~/^3[.0-9]+$/{print $1}' | tail -n 1`
 if ! ask_skip "Python $LATEST_PYTHON3"; then
   # Install latest python in pyenv!
-  cmds+=("Python $LATEST_PYTHON3" "~/.pyenv/bin/pyenv install $LATEST_PYTHON3")
+  cmds+=("Python $LATEST_PYTHON3" "env PYTHON_CONFIGURE_OPTS=--enable-shared ~/.pyenv/bin/pyenv install $LATEST_PYTHON3")
   pythons+=("$LATEST_PYTHON3")
 fi
 
