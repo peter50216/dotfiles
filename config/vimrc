@@ -34,7 +34,6 @@ Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-entire' " ae ie
 " Plug 'kana/vim-textobj-line' " al il
 " Plug 'nelstrom/vim-textobj-rubyblock'
-" " }}}
 Plug 'junegunn/vim-easy-align'
 " }}}
 
