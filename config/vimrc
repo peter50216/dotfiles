@@ -35,6 +35,7 @@ Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-line' " al il
 " Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'junegunn/vim-easy-align'
+Plug 'wellle/targets.vim'
 " }}}
 
 " Buffers {{{
@@ -355,7 +356,7 @@ cmap <f29> <nop>
 " Plugin settings {{{
 " NERDTree {{{
 " Settings {{{
-let NERDTreeWinSize=16
+let NERDTreeWinSize=24
 let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un', '\.git$[[dir]]']
 " }}}
 " Mappings {{{
@@ -537,6 +538,7 @@ nnoremap X :BufSurfForward<CR>
 " vim-startify {{{
 " Settings {{{
 let g:startify_change_to_dir=0
+let g:startify_custom_header=[]
 " }}}
 " }}}
 
