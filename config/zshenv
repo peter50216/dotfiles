@@ -9,3 +9,4 @@ fi
 
 # XXX: Dirty hack for can't chsh :(
 export SHELL=/bin/zsh
+export LANGUAGE=en_US.UTF-8
