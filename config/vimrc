@@ -80,6 +80,7 @@ call plug#end()
 "--------------------------------------------------------------------
 " Vim settings {{{
 set background=dark
+set colorcolumn=80
 set completeopt=longest,menuone
 set confirm
 set encoding=utf8
@@ -127,6 +128,7 @@ highlight FoldColumn ctermbg=234 guifg=Cyan guibg=Grey
 highlight PmenuSel ctermfg=white ctermbg=20
 highlight Pmenu ctermfg=252 ctermbg=17
 highlight Normal ctermbg=none
+highlight ColorColumn ctermbg=53
 " }}}
 
 "--------------------------------------------------------------------

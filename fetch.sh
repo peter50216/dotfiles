@@ -14,4 +14,6 @@ if ! command -v git >/dev/null 2>&1; then
   sudo apt-get -y install git
 fi
 git clone https://github.com/peter50216/dotfiles ~/dotfiles
-~/dotfiles/install
+cd ~/dotfiles
+git remote set-url --push origin git@github.com:peter50216/dotfiles.git
+./install
