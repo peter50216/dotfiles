@@ -7,6 +7,3 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
-# XXX: Dirty hack for can't chsh :(
-export SHELL=/bin/zsh
-export LANGUAGE=en_US.UTF-8

@@ -33,6 +33,10 @@
     ~/bin/common:
       create: true
       path: bin/
+# ssh
+    ~/.ssh/config:
+      create: true
+      path: config/ssh
 
 - shell:
   -

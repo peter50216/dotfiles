@@ -35,5 +35,3 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 zstyle ':prezto:module:prompt' theme 'pure'
-
-zstyle ':completion:*' users pihsun root

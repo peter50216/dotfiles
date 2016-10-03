@@ -116,7 +116,7 @@ set visualbell t_vb=
 set wildmenu
 set wildignore=*.o,*.so,*.swp,*~,*.pyc
 " TODO(Darkpi): See if there's better colorscheme available?
-" colorscheme torte
+colorscheme torte
 " }}}
 
 "--------------------------------------------------------------------
@@ -126,6 +126,7 @@ highlight FoldColumn ctermbg=234 guifg=Cyan guibg=Grey
 " Custom auto-complete menu colors
 highlight PmenuSel ctermfg=white ctermbg=20
 highlight Pmenu ctermfg=252 ctermbg=17
+highlight Normal ctermbg=none
 " }}}
 
 "--------------------------------------------------------------------
