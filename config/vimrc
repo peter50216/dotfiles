@@ -529,6 +529,9 @@ cnoremap w!! SudoWrite
 " for vim-cpp
 let c_no_curly_error=1
 " }}}
+" Autocmds {{{
+autocmd MyAutoCmd FileType python set softtabstop=2 tabstop=2 shiftwidth=2
+" }}}
 " }}}
 
 " BufSurf {{{
