@@ -62,7 +62,6 @@ Plug 'vim-scripts/vis'
 
 " To consider list {{{
 " Plug 'Chiel92/vim-autoformat'
-" Plug 'junegunn/vim-easy-align'
 " Plug 'jeaye/color_coded'
 " Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
