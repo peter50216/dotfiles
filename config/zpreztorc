@@ -35,3 +35,6 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 zstyle ':prezto:module:prompt' theme 'pure'
+
+# Solve completion takes too long.
+zstyle ':completion:*' users pihsun root
