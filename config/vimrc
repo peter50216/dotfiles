@@ -219,9 +219,11 @@ nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 
 " Easy doing some complex things
 if executable('ruby')
-  " Stupid fix for vis that have one more space at the end...
-  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>`]x
-  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>`]x
+  " If there's an extra space at the end sometimes, you need to pull a patched
+  " version of vis:
+  "     cd ~/.vim/plugged/vis; git pull origin pull/1/head:master
+  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>
+  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>
 endif
 
 " Splits
