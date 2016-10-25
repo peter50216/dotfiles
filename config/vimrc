@@ -133,7 +133,7 @@ highlight ColorColumn ctermbg=53
 "--------------------------------------------------------------------
 " Status line {{{
 highlight StatusLine cterm=none ctermbg=235
-highlight StatusLineNC cterm=none ctermbg=234
+highlight StatusLineNC cterm=none ctermbg=233
 highlight Status1C ctermfg=blue ctermbg=235
 highlight Status2C ctermfg=red ctermbg=235
 highlight Status3C ctermfg=yellow ctermbg=235
