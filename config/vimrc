@@ -57,7 +57,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
-Plug 'vim-scripts/vis'
+Plug 'hackel/vis'
 " }}}
 
 " To consider list {{{
@@ -219,9 +219,8 @@ nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 
 " Easy doing some complex things
 if executable('ruby')
-  " Stupid fix for vis that have one more space at the end...
-  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>`]x
-  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>`]x
+  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>
+  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>
 endif
 
 " Splits
