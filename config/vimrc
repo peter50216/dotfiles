@@ -79,7 +79,6 @@ call plug#end()
 "--------------------------------------------------------------------
 " Vim settings {{{
 set background=dark
-set colorcolumn=80
 set completeopt=longest,menuone
 set confirm
 set encoding=utf8
@@ -234,6 +233,17 @@ nnoremap <Bar> :vsplit<CR><C-w>l
 
 " Reindent all code, while preserving cursor location
 nnoremap <Leader>= mqHmwgg=G`wzt`q
+
+" Toggle colorcolumn
+function! g:ToggleColorColumn()
+  if &colorcolumn != ''
+    setlocal colorcolumn&
+  else
+    setlocal colorcolumn=+2
+  endif
+endfunction
+
+nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
 " }}}
 
 "--------------------------------------------------------------------
