@@ -57,12 +57,11 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
-Plug 'vim-scripts/vis'
+Plug 'hackel/vis'
 " }}}
 
 " To consider list {{{
 " Plug 'Chiel92/vim-autoformat'
-" Plug 'junegunn/vim-easy-align'
 " Plug 'jeaye/color_coded'
 " Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
@@ -134,7 +133,7 @@ highlight ColorColumn ctermbg=53
 "--------------------------------------------------------------------
 " Status line {{{
 highlight StatusLine cterm=none ctermbg=235
-highlight StatusLineNC cterm=none ctermbg=234
+highlight StatusLineNC cterm=none ctermbg=233
 highlight Status1C ctermfg=blue ctermbg=235
 highlight Status2C ctermfg=red ctermbg=235
 highlight Status3C ctermfg=yellow ctermbg=235
@@ -220,9 +219,8 @@ nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 
 " Easy doing some complex things
 if executable('ruby')
-  " Stupid fix for vis that have one more space at the end...
-  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>`]x
-  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>`]x
+  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>
+  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>
 endif
 
 " Splits
