@@ -58,6 +58,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'hackel/vis'
+Plug 'tpope/vim-fugitive'
 " }}}
 
 " To consider list {{{
@@ -239,7 +240,7 @@ function! g:ToggleColorColumn()
   if &colorcolumn != ''
     setlocal colorcolumn&
   else
-    setlocal colorcolumn=+2
+    setlocal colorcolumn=80
   endif
 endfunction
 
