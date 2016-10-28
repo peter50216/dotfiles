@@ -79,6 +79,7 @@ call plug#end()
 "--------------------------------------------------------------------
 " Vim settings {{{
 set background=dark
+set colorcolumn=80
 set completeopt=longest,menuone
 set confirm
 set encoding=utf8
