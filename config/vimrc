@@ -183,10 +183,6 @@ vnoremap <S-Down> <Down>
 " Easier Replace
 vnoremap <C-R> "hy:%s/<C-R>h//g<Left><Left>
 
-" Reselect visual block after indent
-vnoremap > >gv
-vnoremap < <gv
-
 vmap <Tab> >
 vmap <S-Tab> <
 
