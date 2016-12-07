@@ -203,6 +203,9 @@ inoremap jk <Esc>
 " Close buffer without affecting window layout
 nnoremap <Leader>q :bp\|bd #<CR>
 
+" Quick exit
+nnoremap Q :qa<CR>
+
 " Quick save
 nnoremap <Leader>w :w<CR>
 
@@ -447,6 +450,7 @@ let g:EasyMotion_move_highlight=0
 let g:EasyMotion_smartcase=1
 " }}}
 " Mappings {{{
+map <Leader>e <Plug>(easymotion-prefix)
 map s <Plug>(easymotion-s2)
 map / <Plug>(easymotion-sn)\v
 omap / <Plug>(easymotion-tn)\v
@@ -502,6 +506,7 @@ nmap <Leader>sc <Plug>SlimeConfig
 " vim-gitgutter {{{
 " Settings {{{
 let g:gitgutter_sign_column_always=1
+let g:gitgutter_map_keys=0
 " }}}
 " }}}
 
@@ -529,10 +534,10 @@ let g:fzf_action = {
 " nnoremap [fzf] <Nop>
 " nmap <Space> [fzf]
 
-nnoremap <Leader><Space> :FZFHistory<CR>
+nnoremap <Leader>h :FZFHistory<CR>
 nnoremap <Leader>b :FZFBuffers<CR>
 nnoremap <Leader>c :FZFCommands<CR>
-nnoremap <Leader>f :FZF<CR>
+nnoremap <Leader><Space> :FZF<CR>
 nnoremap <Leader>g :FZFAg<CR>
 nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>s :FZFLines<CR>
