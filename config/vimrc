@@ -28,6 +28,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sickill/vim-pasta'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-user'
@@ -80,6 +81,7 @@ call plug#end()
 "--------------------------------------------------------------------
 " Vim settings {{{
 set background=dark
+set clipboard=
 set completeopt=longest,menuone
 set confirm
 set encoding=utf8
@@ -168,8 +170,10 @@ iabbrev @@ peter50216@gmail.com
 
 "--------------------------------------------------------------------
 " Custom keybinding {{{
-let mapleader=','
-let maplocalleader=','
+" Trying space as leader key, need to be careful not conflict with fzf
+" bindings.
+let mapleader="\<Space>"
+let maplocalleader="\<Space>"
 set pastetoggle=<F2>
 
 " One less shift!
@@ -183,8 +187,8 @@ vnoremap <S-Down> <Down>
 " Easier Replace
 vnoremap <C-R> "hy:%s/<C-R>h//g<Left><Left>
 
-vmap <Tab> >
-vmap <S-Tab> <
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
 
 " 0 is sooo much easier to type than ^, and ^ is more useful.
 nnoremap 0 ^
@@ -195,16 +199,30 @@ vnoremap ^ 0
 " Esc is sooo far away :D
 inoremap jk <Esc>
 
-nnoremap Q :q<CR>
+" Close buffer without affecting window layout
+nnoremap <Leader>q :bp\|bd #<CR>
+
+" Quick save
+nnoremap <Leader>w :w<CR>
+
+" Copy/paste using system clipboard
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+" No "nore" so that vim-pasta can work. (need to try which case is preferred.)
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
 " Folds
-nnoremap <Leader>f0 :set fdl=0<CR>
-nnoremap <Leader>f1 :set fdl=1<CR>
-nnoremap <Leader>f2 :set fdl=2<CR>
-nnoremap <Leader>f3 :set fdl=3<CR>
-nnoremap <CR> za
+" I don't use fold that much now, can reserve <CR> to something more useful.
+" nnoremap <Leader>f0 :set fdl=0<CR>
+" nnoremap <Leader>f1 :set fdl=1<CR>
+" nnoremap <Leader>f2 :set fdl=2<CR>
+" nnoremap <Leader>f3 :set fdl=3<CR>
+" nnoremap <CR> za
 
 " To avoid C-a collision with tmux.
 nnoremap + <C-a>
@@ -221,9 +239,9 @@ endif
 
 " Splits
 " Maximize current split
-nnoremap <Leader>wm <C-w>_<C-w><Bar>
+" nnoremap <Leader>wm <C-w>_<C-w><Bar>
 " Resize all split
-nnoremap <Leader>wr <C-w>=
+" nnoremap <Leader>wr <C-w>=
 " Fast split
 nnoremap _ :split<CR><C-w>j
 nnoremap <Bar> :vsplit<CR><C-w>l
@@ -244,6 +262,9 @@ nnoremap <silent> <leader>tc :call g:ToggleColorColumn()<CR>
 
 " Insert newline without entering insert mode
 nnoremap <C-J> i<CR><Esc>k$
+
+" Don't show me that stupid window :D
+nnoremap q: :q
 
 " }}}
 
@@ -499,22 +520,22 @@ let g:neomru#filename_format=':~'
 " Settings {{{
 let g:fzf_command_prefix = 'FZF'
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'botright split',
-  \ 'ctrl-v': 'botright vsplit' }
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-x': 'botright split',
+      \ 'ctrl-v': 'botright vsplit' }
 " }}}
 " Mappings {{{
-nnoremap [fzf] <Nop>
-nmap <Space> [fzf]
+" nnoremap [fzf] <Nop>
+" nmap <Space> [fzf]
 
-nnoremap [fzf]<Space> :FZFHistory<CR>
-nnoremap [fzf]b :FZFBuffers<CR>
-nnoremap [fzf]c :FZFCommands<CR>
-nnoremap [fzf]f :FZF<CR>
-nnoremap [fzf]g :FZFAg<CR>
-nnoremap [fzf]l :FZFBLines<CR>
-nnoremap [fzf]s :FZFLines<CR>
-nnoremap [fzf]; :FZFHistory:<CR>
+nnoremap <Leader><Space> :FZFHistory<CR>
+nnoremap <Leader>b :FZFBuffers<CR>
+nnoremap <Leader>c :FZFCommands<CR>
+nnoremap <Leader>f :FZF<CR>
+nnoremap <Leader>g :FZFAg<CR>
+nnoremap <Leader>l :FZFBLines<CR>
+nnoremap <Leader>s :FZFLines<CR>
+nnoremap <Leader>; :FZFHistory:<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
@@ -559,8 +580,15 @@ let g:startify_custom_header=[]
 
 " vim-easy-align {{{
 " Mappings {{{
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+xmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
+" }}}
+" }}}
+
+" vim-expand-region {{{
+" Mappings {{{
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 " }}}
 " }}}
 
