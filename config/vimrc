@@ -527,6 +527,14 @@ let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'botright split',
       \ 'ctrl-v': 'botright vsplit' }
+command! -bang -nargs=* FZFRg
+  \ call fzf#vim#grep(
+  \   'rg --no-heading --vimgrep --colors path:style:bold --colors path:fg:blue'.
+  \   ' --colors line:style:bold --colors line:fg:black --colors match:fg:green'.
+  \   ' --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 " }}}
 " Mappings {{{
 " nnoremap [fzf] <Nop>
@@ -540,6 +548,7 @@ nnoremap <Leader>g :FZFAg<CR>
 nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>s :FZFLines<CR>
 nnoremap <Leader>; :FZFHistory:<CR>
+nnoremap <Leader>r :FZFRg <C-R><C-W><CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
