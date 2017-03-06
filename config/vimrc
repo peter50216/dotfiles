@@ -88,7 +88,7 @@ set encoding=utf8
 set expandtab
 set fcs=vert:\|
 set fileencoding=utf8
-set fileencodings=utf8,big5,cp950
+set fileencodings=utf8,iso-8859-1,big5,cp950
 set foldmethod=marker
 set hidden
 set hlsearch
@@ -211,11 +211,6 @@ nnoremap <Leader>w :w<CR>
 " Copy/paste using system clipboard
 vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
-" No "nore" so that vim-pasta can work. (need to try which case is preferred.)
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
 
 nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
@@ -273,6 +268,7 @@ nnoremap q: :q
 
 "--------------------------------------------------------------------
 " Temporary bindings for training. {{{
+" cnoremap w <Nop>
 " cnoremap tabe <Nop>
 " inoremap <Esc> <Nop>
 " inoremap <Left> <Nop>
@@ -440,6 +436,7 @@ let g:syntastic_mode_map={ 'mode': 'active',
       \ 'active_filetypes': [],
       \ 'passive_filetypes': ['html'] }
 let g:syntastic_javascript_checkers=['gjslint']
+let g:syntastic_python_pylint_args='--rcfile=~/pylint.rc'
 " }}}
 " }}}
 
@@ -587,6 +584,12 @@ let g:startify_custom_header=[]
 " Mappings {{{
 xmap <Leader>a <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
+" }}}
+" }}}
+
+" vim-pasta {{{
+" Settings {{{
+let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim", "nerdtree", "make"]
 " }}}
 " }}}
 
