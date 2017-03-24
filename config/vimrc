@@ -36,6 +36,7 @@ Plug 'tpope/vim-surround'
 " Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
+Plug 'Chiel92/vim-autoformat'
 " }}}
 
 " Buffers {{{
@@ -205,8 +206,9 @@ nnoremap <Leader>q :bp\|bd #<CR>
 " Quick exit
 nnoremap Q :qa<CR>
 
-" Quick save
+" Quick load/save
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>e :e<CR>
 
 " Copy/paste using system clipboard
 vnoremap <Leader>y "+y
@@ -446,7 +448,7 @@ let g:EasyMotion_move_highlight=0
 let g:EasyMotion_smartcase=1
 " }}}
 " Mappings {{{
-map <Leader>e <Plug>(easymotion-prefix)
+map <Leader>m <Plug>(easymotion-prefix)
 map s <Plug>(easymotion-s2)
 map / <Plug>(easymotion-sn)\v
 omap / <Plug>(easymotion-tn)\v
@@ -599,6 +601,24 @@ nmap <Leader>a <Plug>(EasyAlign)
 " vim-pasta {{{
 " Settings {{{
 let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim", "nerdtree", "make"]
+" }}}
+" }}}
+
+" vim-autoformat {{{
+" Settings {{{
+let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
+let g:formatters_python=['yapf']
+let g:formatters_javascript=['clangformat']
+let g:autoformat_autoindent=0
+let g:autoformat_retab=0
+let g:autoformat_remove_trailing_spaces=0
+" }}}
+" Mappings {{{
+vnoremap <Leader>f :Autoformat<CR>
+nnoremap <Leader>f V:Autoformat<CR>
+" }}}
+" Autocmds {{{
+autocmd BufNewFile,BufRead *.js set filetype=javascript
 " }}}
 " }}}
 
