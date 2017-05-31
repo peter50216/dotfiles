@@ -37,6 +37,7 @@ Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 Plug 'Chiel92/vim-autoformat'
+Plug 'rhysd/clever-f.vim'
 " }}}
 
 " Buffers {{{
@@ -60,6 +61,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
+Plug 'takac/vim-hardtime'
 " }}}
 
 " To consider list {{{
@@ -528,13 +530,13 @@ let g:fzf_action = {
       \ 'ctrl-x': 'botright split',
       \ 'ctrl-v': 'botright vsplit' }
 command! -bang -nargs=* FZFRg
-      \ call fzf#vim#grep(
-      \   'rg --no-heading --vimgrep --colors path:style:bold --colors path:fg:blue'.
-      \   ' --colors line:style:bold --colors line:fg:black --colors match:fg:green'.
-      \   ' --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
+  \ call fzf#vim#grep(
+  \   'rg --no-heading --vimgrep --colors path:style:bold --colors path:fg:blue'.
+  \   ' --colors line:style:bold --colors line:fg:black --colors match:fg:green'.
+  \   ' --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 " }}}
 " Mappings {{{
 " nnoremap [fzf] <Nop>
@@ -549,6 +551,7 @@ nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>rg :FZFRg <C-R><C-W><CR>
 nnoremap <Leader>s :FZFLines<CR>
 nnoremap <Leader>; :FZFHistory:<CR>
+nnoremap <Leader>r :FZFRg <C-R><C-W><CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
@@ -619,6 +622,30 @@ nnoremap <Leader>f V:Autoformat<CR>
 " }}}
 " Autocmds {{{
 autocmd BufNewFile,BufRead *.js set filetype=javascript
+" }}}
+" }}}
+
+" vim-multiple-cursors {{{
+" Settings {{{
+let g:multi_cursor_exit_from_visual_mode=0
+let g:multi_cursor_exit_from_insert_mode=0
+" }}}
+" }}}
+
+" vim-hardtime {{{
+" Settings {{{
+let g:hardtime_default_on=1
+let g:hardtime_maxcount=3
+let g:hardtime_showmsg=1
+let g:hardtime_allow_different_key=1
+let g:list_of_normal_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+let g:list_of_visual_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+" }}}
+" }}}
+
+" clever-f.vim {{{
+" Settings {{{
+let g:clever_f_fix_key_direction=1
 " }}}
 " }}}
 
