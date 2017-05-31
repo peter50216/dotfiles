@@ -37,6 +37,7 @@ Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 Plug 'Chiel92/vim-autoformat'
+Plug 'rhysd/clever-f.vim'
 " }}}
 
 " Buffers {{{
@@ -60,6 +61,7 @@ Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
 Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
+Plug 'takac/vim-hardtime'
 " }}}
 
 " To consider list {{{
@@ -619,6 +621,30 @@ nnoremap <Leader>f V:Autoformat<CR>
 " }}}
 " Autocmds {{{
 autocmd BufNewFile,BufRead *.js set filetype=javascript
+" }}}
+" }}}
+
+" vim-multiple-cursors {{{
+" Settings {{{
+let g:multi_cursor_exit_from_visual_mode=0
+let g:multi_cursor_exit_from_insert_mode=0
+" }}}
+" }}}
+
+" vim-hardtime {{{
+" Settings {{{
+let g:hardtime_default_on=1
+let g:hardtime_maxcount=3
+let g:hardtime_showmsg=1
+let g:hardtime_allow_different_key=1
+let g:list_of_normal_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+let g:list_of_visual_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+" }}}
+" }}}
+
+" clever-f.vim {{{
+" Settings {{{
+let g:clever_f_fix_key_direction=1
 " }}}
 " }}}
 
