@@ -3,6 +3,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+setopt magic_equal_subst
 setopt CLOBBER            # Don't care about overwrite existing file with > and >>.
                           # unset by modules/directory in prezto
 unsetopt share_history    # Don't share history in multiple simutaneous zsh.
