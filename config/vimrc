@@ -213,6 +213,7 @@ nnoremap <Leader>e :e<CR>
 " Copy/paste using system clipboard
 vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
 
 nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
@@ -399,7 +400,7 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " }}}
 " Autocmds {{{
 " Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
+autocmd MyAutoCmd BufEnter *
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " }}}
 " }}}
@@ -424,7 +425,6 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 " Mappings {{{
 noremap <F5> :YcmForceCompileAndDiagnostics<CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
-noremap <Leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
@@ -508,18 +508,6 @@ let g:gitgutter_map_keys=0
 " }}}
 " }}}
 
-" neoyank {{{
-" Settings {{{
-let g:neoyank#limit=1000
-" }}}
-" }}}
-
-" neomru {{{
-" Settings {{{
-let g:neomru#filename_format=':~'
-" }}}
-" }}}
-
 " fzf {{{
 " Settings {{{
 let g:fzf_command_prefix = 'FZF'
@@ -537,9 +525,6 @@ command! -bang -nargs=* FZFRg
   \   <bang>0)
 " }}}
 " Mappings {{{
-" nnoremap [fzf] <Nop>
-" nmap <Space> [fzf]
-
 nnoremap <Leader>h :FZFHistory<CR>
 nnoremap <Leader>b :FZFBuffers<CR>
 nnoremap <Leader>c :FZFCommands<CR>
@@ -550,9 +535,6 @@ nnoremap <Leader>rg :FZFRg <C-R><C-W><CR>
 nnoremap <Leader>s :FZFLines<CR>
 nnoremap <Leader>; :FZFHistory:<CR>
 nnoremap <Leader>r :FZFRg <C-R><C-W><CR>
-" }}}
-" Autocmds {{{
-autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
 " }}}
 " }}}
 
