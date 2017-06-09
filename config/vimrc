@@ -409,6 +409,7 @@ autocmd MyAutoCmd BufEnter *
 " NERDCommenter {{{
 " Settings {{{
 let g:NERDSpaceDelims=1
+let g:NERDDefaultAlign='left'
 " }}}
 " Mappings {{{
 nmap \ <Leader>c<Space>
