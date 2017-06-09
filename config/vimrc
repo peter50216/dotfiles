@@ -65,7 +65,6 @@ Plug 'takac/vim-hardtime'
 " }}}
 
 " To consider list {{{
-" Plug 'Chiel92/vim-autoformat'
 " Plug 'jeaye/color_coded'
 " Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
