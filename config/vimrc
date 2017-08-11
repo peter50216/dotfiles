@@ -66,7 +66,6 @@ Plug 'chrisbra/vim-diff-enhanced'
 " }}}
 
 " To consider list {{{
-" Plug 'Chiel92/vim-autoformat'
 " Plug 'jeaye/color_coded'
 " Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
@@ -405,7 +404,7 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " }}}
 " Autocmds {{{
 " Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
+autocmd MyAutoCmd BufEnter *
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " }}}
 " }}}
@@ -431,7 +430,6 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 " Mappings {{{
 noremap <F5> :YcmForceCompileAndDiagnostics<CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
-noremap <Leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
@@ -515,18 +513,6 @@ let g:gitgutter_map_keys=0
 " }}}
 " }}}
 
-" neoyank {{{
-" Settings {{{
-let g:neoyank#limit=1000
-" }}}
-" }}}
-
-" neomru {{{
-" Settings {{{
-let g:neomru#filename_format=':~'
-" }}}
-" }}}
-
 " fzf {{{
 " Settings {{{
 let g:fzf_command_prefix = 'FZF'
@@ -544,9 +530,6 @@ command! -bang -nargs=* FZFRg
   \   <bang>0)
 " }}}
 " Mappings {{{
-" nnoremap [fzf] <Nop>
-" nmap <Space> [fzf]
-
 nnoremap <Leader>b :FZFBuffers<CR>
 nnoremap <Leader>c :FZFCommands<CR>
 nnoremap <Leader><Space> :FZF<CR>
@@ -554,9 +537,6 @@ nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>g :FZFRg <C-R><C-W><CR>
 nnoremap <Leader>h :FZFBLines <C-R><C-W><CR>
 nnoremap <Leader>; :FZFHistory:<CR>
-" }}}
-" Autocmds {{{
-autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
 " }}}
 " }}}
 
