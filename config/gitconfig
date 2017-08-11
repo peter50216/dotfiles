@@ -22,4 +22,4 @@
   diff = diff-so-fancy | less --tabs=2 -RFX
   show = diff-so-fancy | less --tabs=2 -RFX
 [http]
-	cookiefile = /usr/local/google/home/pihsun/.gitcookies
+  cookiefile = ~/.gitcookies
