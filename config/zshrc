@@ -3,6 +3,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+setopt magic_equal_subst
 setopt CLOBBER            # Don't care about overwrite existing file with > and >>.
                           # unset by modules/directory in prezto
 unsetopt share_history    # Don't share history in multiple simutaneous zsh.
@@ -20,7 +21,7 @@ if [[ -n "${terminfo[knp]}" ]]; then
 fi
 
 source ~/.dotfiles/modules/k/k.sh
-source ~/.dotfiles/modules/z/z.sh
+# source ~/.dotfiles/modules/z/z.sh
 
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
@@ -37,7 +38,7 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files'
 
-# From: https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+# From: https://hackerfall.com/story/how-to-boost-your-vim-productivity
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
@@ -49,3 +50,8 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
+
+# Shik's z
+z() { builtin cd "$(ddb find "$@")" }
+_z_precmd() { (ddb add "$PWD" &) }
+precmd_functions+=( _z_precmd )

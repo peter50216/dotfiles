@@ -62,10 +62,10 @@ Plug 'vim-scripts/restore_view.vim'
 Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
 Plug 'takac/vim-hardtime'
+Plug 'chrisbra/vim-diff-enhanced'
 " }}}
 
 " To consider list {{{
-" Plug 'Chiel92/vim-autoformat'
 " Plug 'jeaye/color_coded'
 " Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
@@ -73,8 +73,10 @@ Plug 'takac/vim-hardtime'
 
 " Language syntax/indent/compile/etc. {{{
 Plug 'vim-scripts/ifdef-highlighting'
+Plug 'gentoo/gentoo-syntax'
 " One pack for all!!!
 Plug 'sheerun/vim-polyglot'
+Plug 'plasticboy/vim-markdown'
 " }}}
 
 call plug#end()
@@ -213,8 +215,10 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>e :e<CR>
 
 " Copy/paste using system clipboard
-vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
+noremap <Leader>y "+y
+noremap <Leader>d "+d
+noremap <Leader>p "+p
+noremap <Leader>P "+P
 
 nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
@@ -393,7 +397,7 @@ cmap <f29> <nop>
 " NERDTree {{{
 " Settings {{{
 let NERDTreeWinSize=24
-let NERDTreeIgnore=['\.o$', '\.a$', '\.d$', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un', '\.git$[[dir]]']
+let NERDTreeIgnore=['\.o$', '\.a$', '\.d$[[file]]', '\.pyc', '\.swo', '\.swp', '\.un\~', '\.un', '\.git$[[dir]]']
 " }}}
 " Mappings {{{
 nnoremap <S-Tab> :NERDTreeToggle<CR>
@@ -401,7 +405,7 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " }}}
 " Autocmds {{{
 " Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
+autocmd MyAutoCmd BufEnter *
       \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " }}}
 " }}}
@@ -409,6 +413,7 @@ autocmd MyAutoCmd BufEnter *
 " NERDCommenter {{{
 " Settings {{{
 let g:NERDSpaceDelims=1
+let g:NERDDefaultAlign='left'
 " }}}
 " Mappings {{{
 nmap \ <Leader>c<Space>
@@ -426,7 +431,6 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 " Mappings {{{
 noremap <F5> :YcmForceCompileAndDiagnostics<CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
-noremap <Leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
@@ -439,7 +443,7 @@ let g:syntastic_always_populate_loc_list=1
 let g:syntastic_mode_map={ 'mode': 'active',
       \ 'active_filetypes': [],
       \ 'passive_filetypes': ['html'] }
-let g:syntastic_javascript_checkers=['gjslint']
+let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_python_pylint_args='--rcfile=~/pylint.rc'
 " }}}
 " }}}
@@ -510,18 +514,6 @@ let g:gitgutter_map_keys=0
 " }}}
 " }}}
 
-" neoyank {{{
-" Settings {{{
-let g:neoyank#limit=1000
-" }}}
-" }}}
-
-" neomru {{{
-" Settings {{{
-let g:neomru#filename_format=':~'
-" }}}
-" }}}
-
 " fzf {{{
 " Settings {{{
 let g:fzf_command_prefix = 'FZF'
@@ -539,22 +531,13 @@ command! -bang -nargs=* FZFRg
   \   <bang>0)
 " }}}
 " Mappings {{{
-" nnoremap [fzf] <Nop>
-" nmap <Space> [fzf]
-
-nnoremap <Leader>h :FZFHistory<CR>
 nnoremap <Leader>b :FZFBuffers<CR>
 nnoremap <Leader>c :FZFCommands<CR>
 nnoremap <Leader><Space> :FZF<CR>
-nnoremap <Leader>g :FZFAg<CR>
 nnoremap <Leader>l :FZFBLines<CR>
-nnoremap <Leader>rg :FZFRg <C-R><C-W><CR>
-nnoremap <Leader>s :FZFLines<CR>
+nnoremap <Leader>g :FZFRg <C-R><C-W><CR>
+nnoremap <Leader>h :FZFBLines <C-R><C-W><CR>
 nnoremap <Leader>; :FZFHistory:<CR>
-nnoremap <Leader>r :FZFRg <C-R><C-W><CR>
-" }}}
-" Autocmds {{{
-autocmd MyAutoCmd FileType unite let b:loaded_delimitMate=1
 " }}}
 " }}}
 
@@ -610,6 +593,8 @@ let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim"
 " vim-autoformat {{{
 " Settings {{{
 let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
+" let g:formatdef_jsbeautify_json = '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
+let g:formatdef_jsbeautify_json = '"(cd ~/factory_things/json; bundle exec format.rb)"'
 let g:formatters_python=['yapf']
 let g:formatters_javascript=['clangformat']
 let g:autoformat_autoindent=0
@@ -646,6 +631,12 @@ let g:list_of_visual_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<R
 " clever-f.vim {{{
 " Settings {{{
 let g:clever_f_fix_key_direction=1
+" }}}
+" }}}
+
+" vim-markdown {{{
+" Settings {{{
+let g:vim_markdown_folding_disabled=1
 " }}}
 " }}}
 
