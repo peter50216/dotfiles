@@ -69,6 +69,10 @@ unarchive_tbz2() {
   tar -xvjf "$1" -C "$2"
 }
 
+unarchive_7z() {
+  7za x "$1" -o "$2"
+}
+
 unarchive() {
   local archive_orig_path="$1"
   if [[ ! -f "${archive_orig_path}" ]]; then
@@ -105,6 +109,9 @@ unarchive() {
       ;;
     *.tbz|*.tbz2)
       archive_type=tbz2
+      ;;
+    *.7z)
+      archive_type=7z
       ;;
     *)
       die "Unknown archive: ${archive_orig_path}"
