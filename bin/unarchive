@@ -1,0 +1,152 @@
+#!/bin/bash
+set -e
+set -o noclobber
+
+temp_files=()
+
+cleanup() {
+  for file in "${temp_files[@]}"; do
+    rm -rf "${file}"
+  done
+}
+
+info() {
+  echo -e "\e[1;33m$*\e[m"
+}
+
+die() {
+  echo "ERROR: $*" >&2
+  cleanup
+  exit 1
+}
+
+atomic_file() {
+  { > "$1" ; } &> /dev/null
+}
+
+atomic_directory() {
+  mkdir "$1" 2>/dev/null
+}
+
+find_unique_name() {
+  local orig_name="$1"
+  local file_type="$2"
+  local name="${orig_name}"
+  local ext=""
+  if [[ ${file_type} == "file" ]]; then
+    ext="${name##*.}"
+    name="${name%.*}"
+    if [[ "${orig_name}" != "${name}" ]]; then
+      ext=".${ext}"
+    fi
+  fi
+
+  if "atomic_${file_type}" "${name}${ext}"; then
+    echo "${name}${ext}"
+    return
+  fi
+
+  local num=2
+  while ! "atomic_${file_type}" "${name}_${num}${ext}"; do
+    ((num++))
+  done
+  echo "${name}_${num}${ext}"
+}
+
+unarchive_zip() {
+  unzip -d "$2" "$1"
+}
+
+unarchive_tgz() {
+  tar -xvzf "$1" -C "$2"
+}
+
+unarchive_txz() {
+  tar --xz -xvf "$1" -C "$2"
+}
+
+unarchive_tbz2() {
+  tar -xvjf "$1" -C "$2"
+}
+
+unarchive() {
+  local archive="$1"
+  if [[ ! -f "${archive}" ]]; then
+    die "archive ${archive} doesn't exist."
+  fi
+
+  local archive_type
+  local archive_basename="${archive%.*}"
+
+  case "${archive}" in
+    *.zip)
+      archive_type=zip
+      ;;
+    *.tar.gz)
+      archive_type=tgz
+      archive_basename="${archive%.tar.gz}"
+      ;;
+    *.tgz)
+      archive_type=tgz
+      ;;
+    *.tar.xz)
+      archive_type=txz
+      archive_basename="${archive%.tar.xz}"
+      ;;
+    *.txz)
+      archive_type=txz
+      ;;
+    *.tar.bz2)
+      archive_type=tbz2
+      archive_basename="${archive%.tar.bz2}"
+      ;;
+    *.tbz|*.tbz2)
+      archive_type=tbz2
+      ;;
+    *)
+      die "Unknown archive: ${archive}"
+  esac
+
+  local temp_dir
+  temp_dir=$(mktemp -d -p .)
+  temp_files+=(${temp_dir})
+
+  "unarchive_${archive_type}" "${archive}" "${temp_dir}"
+
+  local sub_files=()
+  while IFS= read -r -d '' f; do
+    sub_files+=($f)
+  done < <(find "${temp_dir}" -maxdepth 1 -mindepth 1 -print0)
+
+  if (( "${#sub_files[@]}" == 0 )); then
+    info "${archive}: No file in archive!"
+    return
+  fi
+
+  local target
+  if (( "${#sub_files[@]}" == 1 )); then
+    local file="${sub_files[0]}"
+    local file_type
+    file_type=$([[ -f "${file}" ]] && echo "file" || echo "directory")
+    target="$(find_unique_name "$(basename "${file}")" "${file_type}")"
+    mv -T "${file}" "${target}"
+    info "${archive}: Single ${file_type}, moved to ${target}."
+  else
+    target="$(find_unique_name "${archive_basename}" "directory")"
+    mv -T "${temp_dir}" "${target}"
+    info "${archive}: Extracted to ${target}."
+  fi
+}
+
+main() {
+  trap cleanup EXIT
+  if (( $# == 0 )); then
+    echo "Usage: $0 [archive files]"
+    exit 1
+  fi
+  while (( $# > 0 )); do
+    unarchive "$1"
+    shift
+  done
+}
+main "$@"
