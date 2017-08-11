@@ -3,13 +3,11 @@ set -e
 set -o noclobber
 
 temp_files=()
-orig_dir=$(pwd)
 
 cleanup() {
   for file in "${temp_files[@]}"; do
     rm -rf "${file}"
   done
-  cd "${orig_dir}" 2>/dev/null
 }
 
 info() {
@@ -72,13 +70,13 @@ unarchive_tbz2() {
 }
 
 unarchive() {
-  local archive="$1"
-  cd "$(dirname "${archive}")"
-
-  archive="$(basename "${archive}")"
-  if [[ ! -f "${archive}" ]]; then
-    die "archive ${archive} doesn't exist."
+  local archive_orig_path="$1"
+  if [[ ! -f "${archive_orig_path}" ]]; then
+    die "${archive_orig_path}: archive doesn't exist."
   fi
+
+  local archive
+  archive="$(basename "${archive_orig_path}")"
 
   local archive_type
   local archive_basename="${archive%.*}"
@@ -109,14 +107,14 @@ unarchive() {
       archive_type=tbz2
       ;;
     *)
-      die "Unknown archive: ${archive}"
+      die "Unknown archive: ${archive_orig_path}"
   esac
 
   local temp_dir
   temp_dir=$(mktemp -d -p .)
   temp_files+=(${temp_dir})
 
-  "unarchive_${archive_type}" "${archive}" "${temp_dir}"
+  "unarchive_${archive_type}" "${archive_orig_path}" "${temp_dir}"
 
   local sub_files=()
   while IFS= read -r -d '' f; do
@@ -124,7 +122,7 @@ unarchive() {
   done < <(find "${temp_dir}" -maxdepth 1 -mindepth 1 -print0)
 
   if (( "${#sub_files[@]}" == 0 )); then
-    info "${archive}: No file in archive!"
+    info "${archive_orig_path}: No file in archive!"
     return
   fi
 
@@ -135,11 +133,11 @@ unarchive() {
     file_type=$([[ -f "${file}" ]] && echo "file" || echo "directory")
     target="$(find_unique_name "$(basename "${file}")" "${file_type}")"
     mv -T "${file}" "${target}"
-    info "${archive}: Single ${file_type}, moved to ${target}."
+    info "${archive_orig_path}: Single ${file_type}, moved to ${target}."
   else
     target="$(find_unique_name "${archive_basename}" "directory")"
     mv -T "${temp_dir}" "${target}"
-    info "${archive}: Extracted to ${target}."
+    info "${archive_orig_path}: Extracted to ${target}."
   fi
 }
 
@@ -149,12 +147,9 @@ main() {
     echo "Usage: $0 [archive files]"
     exit 1
   fi
-  local argv=()
-  for f in "$@"; do
-    argv+=("$(realpath "${f}")")
-  done
-  for f in "${argv[@]}"; do
-    unarchive "${f}"
+  while (( $# > 0 )); do
+    unarchive "$1"
+    shift
   done
 }
 main "$@"
