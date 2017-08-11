@@ -3,11 +3,13 @@ set -e
 set -o noclobber
 
 temp_files=()
+orig_dir=$(pwd)
 
 cleanup() {
   for file in "${temp_files[@]}"; do
     rm -rf "${file}"
   done
+  cd "${orig_dir}" 2>/dev/null
 }
 
 info() {
@@ -71,6 +73,9 @@ unarchive_tbz2() {
 
 unarchive() {
   local archive="$1"
+  cd "$(dirname "${archive}")"
+
+  archive="$(basename "${archive}")"
   if [[ ! -f "${archive}" ]]; then
     die "archive ${archive} doesn't exist."
   fi
@@ -144,9 +149,12 @@ main() {
     echo "Usage: $0 [archive files]"
     exit 1
   fi
-  while (( $# > 0 )); do
-    unarchive "$1"
-    shift
+  local argv=()
+  for f in "$@"; do
+    argv+=("$(realpath "${f}")")
+  done
+  for f in "${argv[@]}"; do
+    unarchive "${f}"
   done
 }
 main "$@"
