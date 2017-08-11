@@ -25,7 +25,7 @@ atomic_file() {
 }
 
 atomic_directory() {
-  mkdir "$1" 2>/dev/null
+  mkdir -- "$1" 2>/dev/null
 }
 
 find_unique_name() {
@@ -54,7 +54,7 @@ find_unique_name() {
 }
 
 unarchive_zip() {
-  unzip -d "$2" "$1"
+  unzip -d "$2" -- "$1"
 }
 
 unarchive_tgz() {
@@ -70,7 +70,7 @@ unarchive_tbz2() {
 }
 
 unarchive_7z() {
-  7za x "$1" -o "$2"
+  7za x -o "$2" -- "$1"
 }
 
 unarchive() {
@@ -139,11 +139,11 @@ unarchive() {
     local file_type
     file_type=$([[ -f "${file}" ]] && echo "file" || echo "directory")
     target="$(find_unique_name "$(basename "${file}")" "${file_type}")"
-    mv -T "${file}" "${target}"
+    mv -T -- "${file}" "${target}"
     info "${archive_orig_path}: Single ${file_type}, moved to ${target}."
   else
     target="$(find_unique_name "${archive_basename}" "directory")"
-    mv -T "${temp_dir}" "${target}"
+    mv -T -- "${temp_dir}" "${target}"
     info "${archive_orig_path}: Extracted to ${target}."
   fi
 }
