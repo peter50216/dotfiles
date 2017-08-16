@@ -34,10 +34,10 @@ find_unique_name() {
   local name="${orig_name}"
   local ext=""
   if [[ ${file_type} == "file" ]]; then
-    ext="${name##*.}"
+    ext=""
     name="${name%.*}"
     if [[ "${orig_name}" != "${name}" ]]; then
-      ext=".${ext}"
+      ext=".${orig_name##*.}"
     fi
   fi
 
