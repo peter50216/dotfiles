@@ -140,11 +140,11 @@ unarchive() {
     file_type=$([[ -f "${file}" ]] && echo "file" || echo "directory")
     target="$(find_unique_name "$(basename "${file}")" "${file_type}")"
     mv -T -- "${file}" "${target}"
-    info "${archive_orig_path}: Single ${file_type}, moved to ${target}."
+    info "${archive_orig_path}: Single ${file_type}, moved to ${target}"
   else
     target="$(find_unique_name "${archive_basename}" "directory")"
     mv -T -- "${temp_dir}" "${target}"
-    info "${archive_orig_path}: Extracted to ${target}."
+    info "${archive_orig_path}: Extracted to ${target}"
   fi
 }
 
