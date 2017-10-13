@@ -26,6 +26,7 @@ source ~/.dotfiles/modules/k/k.sh
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh
+source ~/.dotfiles/zsh/ddb.sh
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
   source "$file"
@@ -50,8 +51,3 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
-
-# Shik's z
-z() { builtin cd "$(ddb find "$@")" }
-_z_precmd() { (ddb add "$PWD" &) }
-precmd_functions+=( _z_precmd )
