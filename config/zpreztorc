@@ -23,9 +23,11 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
-  'history-substring-search'
-# IMPORTANT: Do not change order of last five
-#   (utility, completion, prompt, syntax-highlighting, history-substring-search)
+  'history-substring-search' \
+  'autosuggestions'
+# IMPORTANT: Do not change order of last six
+#   (utility, completion, prompt, syntax-highlighting,
+#    history-substring-search, autosuggestions)
 #   and the first one.
 
 zstyle ':prezto:module:syntax-highlighting' highlighters \
