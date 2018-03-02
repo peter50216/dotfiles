@@ -62,7 +62,11 @@ unarchive_tgz() {
 }
 
 unarchive_txz() {
-  tar --xz -xvf "$1" -C "$2"
+  if type pixz >/dev/null 2>&1; then
+    tar --use-compress-program pixz -xvf "$1" -C "$2"
+  else
+    tar --xz -xvf "$1" -C "$2"
+  fi
 }
 
 unarchive_tbz2() {
@@ -71,6 +75,10 @@ unarchive_tbz2() {
 
 unarchive_7z() {
   7za x -o "$2" -- "$1"
+}
+
+unarchive_tar() {
+  tar -xvf "$1" -C "$2"
 }
 
 unarchive() {
@@ -88,6 +96,9 @@ unarchive() {
   case "${archive}" in
     *.zip)
       archive_type=zip
+      ;;
+    *.tar)
+      archive_type=tar
       ;;
     *.tar.gz)
       archive_type=tgz
