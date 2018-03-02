@@ -18,7 +18,8 @@ Plug 'junegunn/fzf.vim'
 " Still too much trouble involving pyenv and system python for YCM auto
 " recompile post-update, just do that manually!
 Plug 'Valloric/YouCompleteMe'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 " }}}
 
 " Fast formatting & moving around {{{
@@ -74,6 +75,7 @@ Plug 'chrisbra/vim-diff-enhanced'
 " Language syntax/indent/compile/etc. {{{
 Plug 'vim-scripts/ifdef-highlighting'
 Plug 'gentoo/gentoo-syntax'
+Plug 'mattn/emmet-vim'
 " One pack for all!!!
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
@@ -108,6 +110,7 @@ set sessionoptions-=curdir
 set noshiftround
 set shiftwidth=2
 set showcmd
+set signcolumn=yes
 set smartcase
 set smartindent
 set softtabstop=2
@@ -149,9 +152,18 @@ highlight Status1NC ctermfg=darkgray ctermbg=233
 highlight Status2NC ctermfg=124 ctermbg=233
 highlight Status3NC ctermfg=100 ctermbg=233
 highlight Status4NC ctermfg=70 ctermbg=233
+
+highlight StatusLoadC ctermfg=253 ctermbg=19
+highlight StatusLoadNC ctermfg=26 ctermbg=233
+highlight StatusGoodC ctermfg=green ctermbg=235
+highlight StatusGoodNC ctermfg=70 ctermbg=233
+highlight StatusWarnC ctermfg=253 ctermbg=53
+highlight StatusWarnNC ctermfg=90 ctermbg=233
+highlight StatusErrorC ctermfg=white ctermbg=88
+highlight StatusErrorNC ctermfg=160 ctermbg=233
 set laststatus=2
 function! SetHighlight(nr)
-  for i in [1,2,3,4]
+  for i in [1,2,3,4,"Load","Warn","Error","Good"]
     if (winnr() == a:nr)
       exec 'highlight! link Status'.i.' Status'.i.'C'
     else
@@ -160,8 +172,30 @@ function! SetHighlight(nr)
   endfor
   return ''
 endfunction
+function! GetAleStatus()
+  if ale#engine#IsCheckingBuffer(bufnr(''))
+    let l:color = 'Load'
+    let l:status = '.'
+  else
+    let l:counts = ale#statusline#Count(bufnr(''))
+    if l:counts.error + l:counts.style_error > 0
+      let l:color = 'Error'
+      let l:status = 'x'
+    elseif l:counts.warning + l:counts.style_warning > 0
+      let l:color = 'Warn'
+      let l:status = 'w'
+    else
+      let l:color = 'Good'
+      let l:status = 'o'
+    endif
+  endif
+  exec 'highlight! link StatusAle Status' . l:color
+  return l:status
+endfunction
 function! BuildStatusLine(nr)
+  " TODO: make this looks better.
   return '%{SetHighlight(' . a:nr . ')}' .
+        \ '%#StatusAle# %{GetAleStatus()} %*' .
         \ '%=%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
 endfunction
 set statusline=%!BuildStatusLine(winnr())
@@ -302,7 +336,7 @@ nnoremap q: :q
 augroup MyAutoCmd
   autocmd!
 augroup END
-autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
+" autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
 " }}}
 
 "--------------------------------------------------------------------
@@ -437,14 +471,16 @@ autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
 " }}}
 " }}}
 
-" Syntastic {{{
+" ale {{{
 " Settings {{{
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_mode_map={ 'mode': 'active',
-      \ 'active_filetypes': [],
-      \ 'passive_filetypes': ['html'] }
-let g:syntastic_javascript_checkers=['eslint']
-let g:syntastic_python_pylint_args='--rcfile=~/pylint.rc'
+let g:ale_python_pylint_options='--rcfile=~/pylint.rc'
+" }}}
+" Autocmds {{{
+augroup AleRedrawStatus
+  autocmd!
+  autocmd User ALELintPre  redrawstatus!
+  autocmd User ALELintPost redrawstatus!
+augroup END
 " }}}
 " }}}
 
@@ -489,6 +525,16 @@ let g:delimitMate_expand_cr=1
 " }}}
 " Mappings {{{
 imap <C-D> <Plug>delimitMateJumpMany
+
+" Workaround YCM issue as in https://github.com/Valloric/YouCompleteMe/issues/2696
+imap <silent> <BS> <C-R>=YcmOnDeleteChar()<CR><Plug>delimitMateBS
+
+function! YcmOnDeleteChar()
+  if pumvisible()
+    return "\<C-y>"
+  endif
+  return "" 
+endfunction
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
@@ -509,7 +555,6 @@ nmap <Leader>sc <Plug>SlimeConfig
 
 " vim-gitgutter {{{
 " Settings {{{
-let g:gitgutter_sign_column_always=1
 let g:gitgutter_map_keys=0
 " }}}
 " }}}
