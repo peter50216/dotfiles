@@ -89,7 +89,6 @@ call plug#end()
 set background=dark
 set colorcolumn=80
 set clipboard=
-set completeopt=longest,menuone
 set confirm
 set encoding=utf8
 set expandtab
@@ -337,7 +336,7 @@ nnoremap q: :q
 augroup MyAutoCmd
   autocmd!
 augroup END
-" autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
+autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
 " }}}
 
 "--------------------------------------------------------------------
