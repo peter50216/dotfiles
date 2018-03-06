@@ -88,6 +88,7 @@ call plug#end()
 " Vim settings {{{
 set background=dark
 set clipboard=
+set completeopt=menuone
 set confirm
 set encoding=utf8
 set expandtab
@@ -172,6 +173,10 @@ function! SetHighlight(nr)
   return ''
 endfunction
 function! GetAleStatus()
+  if !exists('*ale#engine#IsCheckingBuffer')
+    return ''
+  endif
+
   if ale#engine#IsCheckingBuffer(bufnr(''))
     let l:color = 'Load'
     let l:status = '.'
@@ -194,8 +199,8 @@ endfunction
 function! BuildStatusLine(nr)
   " TODO: make this looks better.
   return '%{SetHighlight(' . a:nr . ')}' .
-        \ '%#StatusAle# %{GetAleStatus()} %*' .
-        \ '%=%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
+        \ '%#StatusAle# %{GetAleStatus()} %* ' .
+        \ '%=%<%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
 endfunction
 set statusline=%!BuildStatusLine(winnr())
 " }}}
@@ -473,6 +478,9 @@ autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
 " ale {{{
 " Settings {{{
 let g:ale_python_pylint_options='--rcfile=~/pylint.rc'
+let g:ale_linters = {
+      \ 'javascript': ['eslint'],
+      \ }
 " }}}
 " Autocmds {{{
 augroup AleRedrawStatus
