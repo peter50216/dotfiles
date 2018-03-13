@@ -64,6 +64,7 @@ Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
 " Plug 'takac/vim-hardtime'
 Plug 'chrisbra/vim-diff-enhanced'
+Plug 'peter50216/vim-plugin'
 " }}}
 
 " To consider list {{{
@@ -172,34 +173,42 @@ function! SetHighlight(nr)
   endfor
   return ''
 endfunction
-function! GetAleStatus()
-  if !exists('*ale#engine#IsCheckingBuffer')
+function! GetCheckStatus()
+  if exists('*ale#engine#IsCheckingBuffer')
+    if ale#engine#IsCheckingBuffer(bufnr(''))
+      let l:color = 'Load'
+      let l:status = '.'
+    else
+      let l:counts = ale#statusline#Count(bufnr(''))
+      let l:error = l:counts.error + l:counts.style_error
+      let l:warning = l:counts.warning + l:counts.style_warning
+      if exists('*youcompleteme#GetErrorCount')
+        let l:error = l:error + youcompleteme#GetErrorCount()
+        let l:warning = l:warning + youcompleteme#GetWarningCount()
+      endif
+
+      if l:error > 0
+        let l:color = 'Error'
+        let l:status = 'x'
+      elseif l:warning > 0
+        let l:color = 'Warn'
+        let l:status = 'w'
+      else
+        let l:color = 'Good'
+        let l:status = 'o'
+      endif
+    endif
+    exec 'highlight! link StatusCheck Status' . l:color
+    return l:status
+  else
+    " Assume that PlugInstall is not run, and YCM is not available too :P
     return ''
   endif
-
-  if ale#engine#IsCheckingBuffer(bufnr(''))
-    let l:color = 'Load'
-    let l:status = '.'
-  else
-    let l:counts = ale#statusline#Count(bufnr(''))
-    if l:counts.error + l:counts.style_error > 0
-      let l:color = 'Error'
-      let l:status = 'x'
-    elseif l:counts.warning + l:counts.style_warning > 0
-      let l:color = 'Warn'
-      let l:status = 'w'
-    else
-      let l:color = 'Good'
-      let l:status = 'o'
-    endif
-  endif
-  exec 'highlight! link StatusAle Status' . l:color
-  return l:status
 endfunction
 function! BuildStatusLine(nr)
   " TODO: make this looks better.
   return '%{SetHighlight(' . a:nr . ')}' .
-        \ '%#StatusAle# %{GetAleStatus()} %* ' .
+        \ '%#StatusCheck# %{GetCheckStatus()} %* ' .
         \ '%=%<%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
 endfunction
 set statusline=%!BuildStatusLine(winnr())
@@ -480,6 +489,8 @@ autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
 let g:ale_python_pylint_options='--rcfile=~/pylint.rc'
 let g:ale_linters = {
       \ 'javascript': ['eslint'],
+      \ 'cpp': [],
+      \ 'c': [],
       \ }
 " }}}
 " Autocmds {{{
