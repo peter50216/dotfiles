@@ -174,36 +174,37 @@ function! SetHighlight(nr)
   return ''
 endfunction
 function! GetCheckStatus()
+  let l:loading = 0
+  let l:error = 0
+  let l:warning = 0
   if exists('*ale#engine#IsCheckingBuffer')
     if ale#engine#IsCheckingBuffer(bufnr(''))
-      let l:color = 'Load'
-      let l:status = '.'
+      let l:loading = 1
     else
       let l:counts = ale#statusline#Count(bufnr(''))
-      let l:error = l:counts.error + l:counts.style_error
-      let l:warning = l:counts.warning + l:counts.style_warning
-      if exists('*youcompleteme#GetErrorCount')
-        let l:error = l:error + youcompleteme#GetErrorCount()
-        let l:warning = l:warning + youcompleteme#GetWarningCount()
-      endif
-
-      if l:error > 0
-        let l:color = 'Error'
-        let l:status = 'x'
-      elseif l:warning > 0
-        let l:color = 'Warn'
-        let l:status = 'w'
-      else
-        let l:color = 'Good'
-        let l:status = 'o'
-      endif
+      let l:error = l:error + l:counts.error + l:counts.style_error
+      let l:warning = l:warning + l:counts.warning + l:counts.style_warning
     endif
-    exec 'highlight! link StatusCheck Status' . l:color
-    return l:status
-  else
-    " Assume that PlugInstall is not run, and YCM is not available too :P
-    return ''
   endif
+  if exists('*youcompleteme#GetErrorCount')
+    let l:error = l:error + youcompleteme#GetErrorCount()
+    let l:warning = l:warning + youcompleteme#GetWarningCount()
+  endif
+  if l:loading > 0
+    let l:color = 'Load'
+    let l:status = '.'
+  elseif l:error > 0
+    let l:color = 'Error'
+    let l:status = 'x'
+  elseif l:warning > 0
+    let l:color = 'Warn'
+    let l:status = 'w'
+  else
+    let l:color = 'Good'
+    let l:status = 'o'
+  endif
+  exec 'highlight! link StatusCheck Status' . l:color
+  return l:status
 endfunction
 function! BuildStatusLine(nr)
   " TODO: make this looks better.
