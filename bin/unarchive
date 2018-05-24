@@ -74,7 +74,7 @@ unarchive_tbz2() {
 }
 
 unarchive_7z() {
-  7za x -o "$2" -- "$1"
+  7za x -o"$2" -- "$1"
 }
 
 unarchive_tar() {
