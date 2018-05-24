@@ -10,7 +10,7 @@ _ddb_setup() {
         else
             dir=$(ddb find -- "$@") || return 1
         fi
-        [[ -n "$dir" ]] && cd "$dir" || return 1
+        cd "$dir" || return 1
     }
     if [[ -n "$BASH_VERSION" ]]; then
         PROMPT_COMMAND="$PROMPT_COMMAND"$'\n''(ddb poke -- "$PWD" &)'
