@@ -21,7 +21,7 @@ die() {
 }
 
 atomic_file() {
-  { > "$1" ; } &> /dev/null
+  { true > "$1" ; } &> /dev/null
 }
 
 atomic_directory() {
