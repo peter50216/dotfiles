@@ -129,7 +129,7 @@ unarchive() {
   esac
 
   local temp_dir
-  temp_dir=$(mktemp -d -p .)
+  temp_dir=$(mktemp -d tmp.unarchive.XXXXXXXXXX)
   temp_files+=(${temp_dir})
 
   "unarchive_${archive_type}" "${archive_orig_path}" "${temp_dir}"
