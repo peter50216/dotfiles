@@ -414,7 +414,7 @@ noremap <F5> :YcmForceCompileAndDiagnostics<CR>
 inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
 " }}}
 " Autocmds {{{
-autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
+autocmd MyAutoCmd BufWritePost * silent! YcmForceCompileAndDiagnostics
 " }}}
 " }}}
 
