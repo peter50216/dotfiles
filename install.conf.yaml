@@ -27,6 +27,10 @@
       create: true
       path: modules/vim-plug/plug.vim
     ~/.ycm_extra_conf.py: config/ycm_extra_conf.py
+# nvim
+    ~/.config/nvim/init.vim:
+      create: true
+      path: config/nvim-init.vim
 # fzf
     ~/.fzf: modules/fzf
 # binary
