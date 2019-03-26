@@ -2,14 +2,14 @@
   name = Peter Shih
   email = peter50216@gmail.com
 [merge]
-  tool = vimdiff
+  tool = nvim -d
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = ~/.gitignore_global
 [color]
   ui = true
 [diff]
-  tool = vimdiff
+  tool = nvim -d
 [push]
   default = current
 [alias]

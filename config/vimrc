@@ -17,9 +17,9 @@ Plug 'junegunn/fzf.vim'
 " Completions and diagnosis {{{
 " Still too much trouble involving pyenv and system python for YCM auto
 " recompile post-update, just do that manually!
-Plug 'Valloric/YouCompleteMe'
-" Plug 'scrooloose/syntastic'
+Plug 'Valloric/YouCompleteMe', {'on': []}
 Plug 'w0rp/ale'
+" Plug 'SirVer/ultisnips'
 " }}}
 
 " Fast formatting & moving around {{{
@@ -28,7 +28,7 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sickill/vim-pasta'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 " Plug 'kana/vim-textobj-user'
@@ -38,7 +38,8 @@ Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 Plug 'Chiel92/vim-autoformat'
-Plug 'rhysd/clever-f.vim'
+" Plug 'rhysd/clever-f.vim'
+Plug 'unblevable/quick-scope'
 " }}}
 
 " Buffers {{{
@@ -48,7 +49,7 @@ Plug 'ton/vim-bufsurf'
 " Misc {{{
 " TODO(Darkpi): Consider vimfiler?
 Plug 'Konfekt/FastFold'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'jpalardy/vim-slime'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
@@ -64,7 +65,18 @@ Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
 " Plug 'takac/vim-hardtime'
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'peter50216/vim-plugin'
+" Plug 'peter50216/vim-plugin'
+if !has('nvim')
+  Plug 'drmikehenry/vim-fixkey'
+endif
+
+" TODO: rewrite this in a faster language (rust? Or maybe just accept
+" vimscript...) so the startup time can be faster.
+" Plug 'peter50216/vim-simple-statusline'
+" }}}
+
+" {{{ Colorscheme
+Plug 'w0ng/vim-hybrid'
 " }}}
 
 " To consider list {{{
@@ -97,6 +109,7 @@ set fcs=vert:\|
 set fileencoding=utf8
 set fileencodings=utf8,iso-8859-1,big5,cp950
 set foldmethod=marker
+set guicursor=
 set hidden
 set hlsearch
 set ignorecase
@@ -118,101 +131,27 @@ set softtabstop=2
 set synmaxcol=200
 set t_Co=256
 set tabstop=2
+if has('nvim')
+  set termguicolors
+end
 set title
 set titleold=
 set ttimeoutlen=50
+set updatetime=1000
 set viewoptions=cursor,folds,slash,unix
 set virtualedit=block
 set visualbell t_vb=
 set wildmenu
 set wildignore=*.o,*.so,*.swp,*~,*.pyc
-" TODO(Darkpi): See if there's better colorscheme available?
-colorscheme torte
+colorscheme hybrid
 " }}}
 
 "--------------------------------------------------------------------
 " Colors {{{
-highlight Folded ctermfg=243 ctermbg=234 guifg=Cyan guibg=DarkGrey
-highlight FoldColumn ctermbg=234 guifg=Cyan guibg=Grey
-" Custom auto-complete menu colors
-highlight PmenuSel ctermfg=white ctermbg=20
-highlight Pmenu ctermfg=252 ctermbg=17
-highlight Normal ctermbg=none
-highlight ColorColumn ctermbg=53
-" }}}
-
-"--------------------------------------------------------------------
-" Status line {{{
-highlight StatusLine cterm=none ctermbg=235
-highlight StatusLineNC cterm=none ctermbg=233
-highlight Status1C ctermfg=blue ctermbg=235
-highlight Status2C ctermfg=red ctermbg=235
-highlight Status3C ctermfg=yellow ctermbg=235
-highlight Status4C ctermfg=green ctermbg=235
-highlight Status1NC ctermfg=darkgray ctermbg=233
-highlight Status2NC ctermfg=124 ctermbg=233
-highlight Status3NC ctermfg=100 ctermbg=233
-highlight Status4NC ctermfg=70 ctermbg=233
-
-highlight StatusLoadC ctermfg=253 ctermbg=19
-highlight StatusLoadNC ctermfg=26 ctermbg=233
-highlight StatusGoodC ctermfg=green ctermbg=235
-highlight StatusGoodNC ctermfg=70 ctermbg=233
-highlight StatusWarnC ctermfg=253 ctermbg=53
-highlight StatusWarnNC ctermfg=90 ctermbg=233
-highlight StatusErrorC ctermfg=white ctermbg=88
-highlight StatusErrorNC ctermfg=160 ctermbg=233
-set laststatus=2
-function! SetHighlight(nr)
-  for i in [1,2,3,4,"Load","Warn","Error","Good"]
-    if (winnr() == a:nr)
-      exec 'highlight! link Status'.i.' Status'.i.'C'
-    else
-      exec 'highlight! link Status'.i.' Status'.i.'NC'
-    endif
-  endfor
-  return ''
-endfunction
-function! GetCheckStatus()
-  let l:loading = 0
-  let l:error = 0
-  let l:warning = 0
-  if exists('*ale#engine#IsCheckingBuffer')
-    if ale#engine#IsCheckingBuffer(bufnr(''))
-      let l:loading = 1
-    else
-      let l:counts = ale#statusline#Count(bufnr(''))
-      let l:error = l:error + l:counts.error + l:counts.style_error
-      let l:warning = l:warning + l:counts.warning + l:counts.style_warning
-    endif
-  endif
-  if exists('*youcompleteme#GetErrorCount')
-    let l:error = l:error + youcompleteme#GetErrorCount()
-    let l:warning = l:warning + youcompleteme#GetWarningCount()
-  endif
-  if l:loading > 0
-    let l:color = 'Load'
-    let l:status = '.'
-  elseif l:error > 0
-    let l:color = 'Error'
-    let l:status = 'x'
-  elseif l:warning > 0
-    let l:color = 'Warn'
-    let l:status = 'w'
-  else
-    let l:color = 'Good'
-    let l:status = 'o'
-  endif
-  exec 'highlight! link StatusCheck Status' . l:color
-  return l:status
-endfunction
-function! BuildStatusLine(nr)
-  " TODO: make this looks better.
-  return '%{SetHighlight(' . a:nr . ')}' .
-        \ '%#StatusCheck# %{GetCheckStatus()} %* ' .
-        \ '%=%<%#Status1#%F %#Status2#[%{&encoding}/%{&fileformat}/%Y]%#Status3# %l,%c %#Status4#%4P '
-endfunction
-set statusline=%!BuildStatusLine(winnr())
+" For transparent background
+highlight Normal ctermbg=NONE guibg=NONE
+" hybrid MatchParen doesn't work well with terminal reverted cursor color :(
+highlight MatchParen ctermfg=60 ctermbg=234 guifg=#5F5F87 guibg=#1d1f21
 " }}}
 
 "--------------------------------------------------------------------
@@ -272,10 +211,6 @@ nnoremap <silent> <Leader>/ :set hlsearch! hlsearch?<CR>
 
 " Folds
 " I don't use fold that much now, can reserve <CR> to something more useful.
-" nnoremap <Leader>f0 :set fdl=0<CR>
-" nnoremap <Leader>f1 :set fdl=1<CR>
-" nnoremap <Leader>f2 :set fdl=2<CR>
-" nnoremap <Leader>f3 :set fdl=3<CR>
 nnoremap <CR> za
 
 " To avoid C-a collision with tmux.
@@ -283,7 +218,9 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 " Fast edit & reload vimrc
-nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
+" Since NeoVim has a different $MYVIMRC and I use same vimrc for both,
+" hard-code ~/.vimrc here.
+nnoremap <Leader>ve :vsplit ~/.vimrc<CR>
 
 " Easy doing some complex things
 if executable('ruby')
@@ -323,34 +260,12 @@ nnoremap q: :q
 " }}}
 
 "--------------------------------------------------------------------
-" Temporary bindings for training. {{{
-" cnoremap w <Nop>
-" cnoremap tabe <Nop>
-" inoremap <Esc> <Nop>
-" inoremap <Left> <Nop>
-" inoremap <Right> <Nop>
-" inoremap <Up> <Nop>
-" inoremap <Down> <Nop>
-" inoremap <Home> <Nop>
-" inoremap <End> <Nop>
-" inoremap <PageUp> <Nop>
-" inoremap <PageDown> <Nop>
-" nnoremap <Left> <Nop>
-" nnoremap <Right> <Nop>
-" nnoremap <Up> <Nop>
-" nnoremap <Down> <Nop>
-" nnoremap <Home> <Nop>
-" nnoremap <End> <Nop>
-" nnoremap <PageUp> <Nop>
-" nnoremap <PageDown> <Nop>
-" }}}
-
-"--------------------------------------------------------------------
 " Autocmds {{{
 augroup MyAutoCmd
   autocmd!
 augroup END
 autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
+autocmd MyAutoCmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
 " }}}
 
 "--------------------------------------------------------------------
@@ -438,6 +353,21 @@ vmap <expr> <f28> XTermPasteBegin("c")
 cmap <f28> <nop>
 cmap <f29> <nop>
 " }}}
+
+" Lazy-loading slow-startup plugins {{{
+augroup LazyLoadGroup
+  autocmd!
+augroup END
+autocmd LazyLoadGroup CursorHold * call LoadPluginTrigger()
+autocmd LazyLoadGroup InsertEnter * call LoadPluginTrigger()
+
+function! LoadPluginTrigger()
+  call plug#load('YouCompleteMe')
+  augroup LazyLoadGroup
+    autocmd!
+  augroup END
+endfunction
+" }}}
 " }}}
 
 "--------------------------------------------------------------------
@@ -462,6 +392,7 @@ autocmd MyAutoCmd BufEnter *
 " Settings {{{
 let g:NERDSpaceDelims=1
 let g:NERDDefaultAlign='left'
+let g:NERDUsePlaceHolders=0
 " }}}
 " Mappings {{{
 nmap \ <Leader>c<Space>
@@ -475,6 +406,7 @@ let g:ycm_confirm_extra_conf=0
 let g:ycm_key_list_select_completion=['<TAB>']
 let g:ycm_key_list_previous_completion=['<S-TAB>']
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+let g:ycm_max_diagnostics_to_display=0
 " }}}
 " Mappings {{{
 noremap <F5> :YcmForceCompileAndDiagnostics<CR>
@@ -489,10 +421,12 @@ autocmd MyAutoCmd BufWritePost * silent YcmForceCompileAndDiagnostics
 " Settings {{{
 let g:ale_python_pylint_options='--rcfile=~/pylint.rc'
 let g:ale_linters = {
-      \ 'javascript': ['eslint'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'typescript': ['tslint'],
       \ 'cpp': [],
       \ 'c': [],
       \ }
+highlight ALEWarning ctermbg=None
 " }}}
 " Autocmds {{{
 augroup AleRedrawStatus
@@ -511,6 +445,7 @@ let g:EasyMotion_smartcase=1
 " Mappings {{{
 map <Leader>m <Plug>(easymotion-prefix)
 map s <Plug>(easymotion-s2)
+
 map / <Plug>(easymotion-sn)\v
 omap / <Plug>(easymotion-tn)\v
 map n <Plug>(easymotion-next)
@@ -572,9 +507,11 @@ nmap <Leader>sc <Plug>SlimeConfig
 " }}}
 " }}}
 
-" vim-gitgutter {{{
+" vim-signify {{{
 " Settings {{{
-let g:gitgutter_map_keys=0
+highlight SignifySignAdd ctermfg=65 ctermbg=NONE guifg=#5F875F guibg=NONE
+highlight SignifySignChange ctermfg=60 ctermbg=NONE guifg=#5F5F87 guibg=NONE
+highlight SignifySignDelete ctermfg=167 ctermbg=NONE guifg=#CC6666 guibg=NONE
 " }}}
 " }}}
 
@@ -585,10 +522,17 @@ let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'botright split',
       \ 'ctrl-v': 'botright vsplit' }
+if &termguicolors
+  let s:blue = '0x81,0xa2,0xbe'
+  let s:green = '0x8a,0xe2,0x34'
+else
+  let s:blue = 'blue'
+  let s:green = 'green'
+endif
 command! -bang -nargs=* FZFRg
   \ call fzf#vim#grep(
-  \   'rg --no-heading --vimgrep --colors path:style:bold --colors path:fg:blue'.
-  \   ' --colors line:style:bold --colors line:fg:black --colors match:fg:green'.
+  \   'rg --no-heading --vimgrep --colors path:style:bold --colors path:fg:'.s:blue.
+  \   ' --colors line:style:bold --colors line:fg:black --colors match:fg:'.s:green.
   \   ' --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
@@ -621,6 +565,7 @@ cnoremap w!! SudoWrite
 " Settings {{{
 " for vim-cpp
 let c_no_curly_error=1
+let g:jsx_ext_required=0
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType python set softtabstop=2 tabstop=2 shiftwidth=2
@@ -650,7 +595,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 
 " vim-pasta {{{
 " Settings {{{
-let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim", "nerdtree", "make"]
+let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim", "nerdtree", "make", "gitsendemail"]
 " }}}
 " }}}
 
@@ -669,8 +614,12 @@ let g:autoformat_remove_trailing_spaces=0
 vnoremap <Leader>f :Autoformat<CR>
 nnoremap <Leader>f V:Autoformat<CR>
 " }}}
-" Autocmds {{{
-autocmd BufNewFile,BufRead *.js set filetype=javascript
+" }}}
+
+" vim-visual-multi {{{
+" Settings {{{
+let g:VM_leader=','
+let g:VM_mouse_mappings=1
 " }}}
 " }}}
 
@@ -701,6 +650,27 @@ let g:clever_f_fix_key_direction=1
 " vim-markdown {{{
 " Settings {{{
 let g:vim_markdown_folding_disabled=1
+" }}}
+" }}}
+
+" quick-scope {{{
+" Settings {{{
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" }}}
+" }}}
+
+" UltiSnips {{{
+" Settings {{{
+let g:UltiSnipsSnippetDirectories=[$HOME.'/UltiSnips']
+let g:UltiSnipsExpandTrigger="<c-j>"
+" }}}
+" }}}
+
+" targets.vim {{{
+" Autocmds {{{
+autocmd User targets#mappings#user call targets#mappings#extend({
+    \ 'a': {'argument': [{'o': '[({[]', 'c': '[]})]', 's': ','}]}
+    \ })
 " }}}
 " }}}
 
