@@ -67,7 +67,11 @@ unarchive_zip() {
 }
 
 unarchive_tgz() {
-  tar -xvzf "$1" -C "$2"
+  if type pigz >/dev/null 2>&1; then
+    tar --use-compress-program pigz -xvf "$1" -C "$2"
+  else
+    tar -xvzf "$1" -C "$2"
+  fi
 }
 
 unarchive_txz() {
