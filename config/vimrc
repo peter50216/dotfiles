@@ -7,7 +7,7 @@
 call plug#begin('~/.vim/plugged')
 
 " Sensible Default!
-Plug 'tpope/vim-sensible'
+" Plug 'tpope/vim-sensible'
 
 " File navigation {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -17,8 +17,9 @@ Plug 'junegunn/fzf.vim'
 " Completions and diagnosis {{{
 " Still too much trouble involving pyenv and system python for YCM auto
 " recompile post-update, just do that manually!
-Plug 'Valloric/YouCompleteMe', {'on': []}
-Plug 'w0rp/ale'
+" Plug 'Valloric/YouCompleteMe', {'on': []}
+" Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 " Plug 'SirVer/ultisnips'
 " }}}
 
@@ -53,7 +54,7 @@ Plug 'mhinz/vim-signify'
 Plug 'jpalardy/vim-slime'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdtree'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-abolish'
@@ -65,14 +66,15 @@ Plug 'hackel/vis'
 Plug 'tpope/vim-fugitive'
 " Plug 'takac/vim-hardtime'
 Plug 'chrisbra/vim-diff-enhanced'
-" Plug 'peter50216/vim-plugin'
+Plug 'peter50216/vim-plugin'
 if !has('nvim')
   Plug 'drmikehenry/vim-fixkey'
 endif
 
 " TODO: rewrite this in a faster language (rust? Or maybe just accept
 " vimscript...) so the startup time can be faster.
-" Plug 'peter50216/vim-simple-statusline'
+Plug 'peter50216/vim-simple-statusline'
+Plug '~/chromium/src/tools/vim/mojom'
 " }}}
 
 " {{{ Colorscheme
@@ -106,7 +108,7 @@ set completeopt=menuone
 set confirm
 set encoding=utf8
 set expandtab
-set fcs=vert:\|
+set fillchars=vert:\|
 set fileencoding=utf8
 set fileencodings=utf8,iso-8859-1,big5,cp950
 set foldmethod=marker
@@ -124,6 +126,7 @@ set scrolloff=5
 set sessionoptions-=curdir
 set noshiftround
 set shiftwidth=2
+set shortmess+=c
 set showcmd
 set signcolumn=yes
 set smartcase
@@ -138,7 +141,7 @@ end
 set title
 set titleold=
 set ttimeoutlen=50
-set updatetime=1000
+set updatetime=200
 set viewoptions=cursor,folds,slash,unix
 set virtualedit=block
 set visualbell t_vb=
@@ -225,8 +228,8 @@ nnoremap <Leader>ve :vsplit ~/.vimrc<CR>
 
 " Easy doing some complex things
 if executable('ruby')
-  vnoremap <Leader>rr :B !ruby 2>/dev/null<CR>
-  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>/dev/null<CR>
+  vnoremap <Leader>rr :B !ruby 2>&1<CR>
+  vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>&1<CR>
 endif
 
 " Splits
@@ -243,7 +246,7 @@ nnoremap <Leader>= mqHmwgg=G`wzt`q
 
 " Toggle colorcolumn
 function! g:ToggleColorColumn()
-  if &colorcolumn != ''
+  if &colorcolumn !=# ''
     setlocal colorcolumn&
   else
     setlocal colorcolumn=80
@@ -267,6 +270,7 @@ augroup MyAutoCmd
 augroup END
 autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
 autocmd MyAutoCmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+autocmd MyAutoCmd BufNewFile,BufRead *.toml set filetype=toml
 " }}}
 
 "--------------------------------------------------------------------
@@ -283,7 +287,7 @@ set directory+=~/.vim/swap//
 set directory+=~/tmp//
 set directory+=.
 
-if exists("+undofile")
+if exists('+undofile')
   " undofile - This allows you to use undos after exiting and restarting
   " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo,
   " then .
@@ -303,7 +307,7 @@ endif
 " TODO(Darkpi): Pull these things into a custom plugin?
 function! LoadDefaultCode()
   " Some code from embear/vim-localvimrc
-  if (&buftype != "")
+  if (&buftype !=# '')
     return
   endif
   " TODO(Darkpi): Do we want to use %:e or &ft?
@@ -311,15 +315,15 @@ function! LoadDefaultCode()
   if empty(l:ext)
     return
   endif
-  let l:directory=fnameescape(expand("%:p:h"))
+  let l:directory=fnameescape(expand('%:p:h'))
   if empty(l:directory)
     let l:directory=fnameescape(getcwd())
   endif
-  let l:paths=[".default", "templates/default"]
+  let l:paths=['.default', 'templates/default']
   for l:path in l:paths
-    let l:ds=findfile(l:path.".".l:ext, l:directory.";", 1)
+    let l:ds=findfile(l:path.'.'.l:ext, l:directory.';', 1)
     if !empty(l:ds)
-      exec "silent! 0r ".l:ds
+      exec 'silent! 0r '.l:ds
       break
     endif
   endfor
@@ -348,9 +352,9 @@ endfunction
 
 execute "set <f28>=\<Esc>[200~"
 execute "set <f29>=\<Esc>[201~"
-map <expr> <f28> XTermPasteBegin("i")
-imap <expr> <f28> XTermPasteBegin("")
-vmap <expr> <f28> XTermPasteBegin("c")
+map <expr> <f28> XTermPasteBegin('i')
+imap <expr> <f28> XTermPasteBegin('')
+vmap <expr> <f28> XTermPasteBegin('c')
 cmap <f28> <nop>
 cmap <f29> <nop>
 " }}}
@@ -363,7 +367,7 @@ autocmd LazyLoadGroup CursorHold * call LoadPluginTrigger()
 autocmd LazyLoadGroup InsertEnter * call LoadPluginTrigger()
 
 function! LoadPluginTrigger()
-  call plug#load('YouCompleteMe')
+  " call plug#load('YouCompleteMe')
   augroup LazyLoadGroup
     autocmd!
   augroup END
@@ -385,7 +389,7 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " Autocmds {{{
 " Close vim if the only window open is nerdtree
 autocmd MyAutoCmd BufEnter *
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+      \ if (winnr('$') == 1 && exists('b:NERDTreeType') && b:NERDTreeType == 'primary') | q | endif
 " }}}
 " }}}
 
@@ -398,6 +402,42 @@ let g:NERDUsePlaceHolders=0
 " Mappings {{{
 nmap \ <Leader>c<Space>
 vmap \ <Leader>c<Space>
+" }}}
+" }}}
+
+" coc.nvim {{{
+" Settings {{{
+" }}}
+" Mappings {{{
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype ==# 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+command! -nargs=0 Format :call CocAction('format')
+nmap <silent> <Leader>xx <Plug>(coc-diagnostic-info)
+nmap <silent> <Leader>xf <Plug>(coc-fix-current)
+nmap <silent> <Leader>xd <Plug>(coc-definition)
+nmap <silent> <Leader>xt <Plug>(coc-type-definition)
+nmap <silent> <Leader>xr <Plug>(coc-rename)
+nmap <silent> <Leader>xi <Plug>(coc-implementation)
+nmap <silent> <Leader>xq <Plug>(coc-references)
+" }}}
+" Autocmds {{{
 " }}}
 " }}}
 
@@ -447,10 +487,10 @@ let g:EasyMotion_smartcase=1
 map <Leader>m <Plug>(easymotion-prefix)
 map s <Plug>(easymotion-s2)
 
-map / <Plug>(easymotion-sn)\v
-omap / <Plug>(easymotion-tn)\v
-map n <Plug>(easymotion-next)
-map N <Plug>(easymotion-prev)
+" map / <Plug>(easymotion-sn)\v
+" omap / <Plug>(easymotion-tn)\v
+" map n <Plug>(easymotion-next)
+" map N <Plug>(easymotion-prev)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 " }}}
@@ -488,7 +528,7 @@ function! YcmOnDeleteChar()
   if pumvisible()
     return "\<C-y>"
   endif
-  return "" 
+  return ''
 endfunction
 " }}}
 " Autocmds {{{
@@ -498,7 +538,7 @@ autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 
 " vim-slime {{{
 " Settings {{{
-let g:slime_target="tmux"
+let g:slime_target='tmux'
 let g:slime_no_mapping=1
 " }}}
 " Mappings {{{
@@ -541,7 +581,7 @@ command! -bang -nargs=* FZFRg
 " }}}
 " Mappings {{{
 nnoremap <Leader>b :FZFBuffers<CR>
-nnoremap <Leader>c :FZFCommands<CR>
+" nnoremap <Leader>c :FZFCommands<CR>
 nnoremap <Leader><Space> :FZF<CR>
 nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>g :FZFRg <C-R><C-W><CR>
@@ -570,6 +610,7 @@ let g:jsx_ext_required=0
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd FileType python set softtabstop=2 tabstop=2 shiftwidth=2
+autocmd MyAutoCmd FileType go set noet softtabstop=4 tabstop=4 shiftwidth=4
 " }}}
 " }}}
 
@@ -589,14 +630,14 @@ let g:startify_custom_header=[]
 
 " vim-easy-align {{{
 " Mappings {{{
-xmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
+" xmap <Leader>a <Plug>(EasyAlign)
+" nmap <Leader>a <Plug>(EasyAlign)
 " }}}
 " }}}
 
 " vim-pasta {{{
 " Settings {{{
-let g:pasta_disabled_filetypes = ["python", "coffee", "markdown", "yaml", "slim", "nerdtree", "make", "gitsendemail"]
+let g:pasta_disabled_filetypes = ['python', 'coffee', 'markdown', 'yaml', 'slim', 'nerdtree', 'make', 'gitsendemail']
 " }}}
 " }}}
 
@@ -637,8 +678,8 @@ let g:hardtime_default_on=1
 let g:hardtime_maxcount=3
 let g:hardtime_showmsg=1
 let g:hardtime_allow_different_key=1
-let g:list_of_normal_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
-let g:list_of_visual_keys = ["h", "j", "k", "l", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+let g:list_of_normal_keys = ['h', 'j', 'k', 'l', '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
+let g:list_of_visual_keys = ['h', 'j', 'k', 'l', '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
 " }}}
 " }}}
 
@@ -663,13 +704,13 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " UltiSnips {{{
 " Settings {{{
 let g:UltiSnipsSnippetDirectories=[$HOME.'/UltiSnips']
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger='<c-j>'
 " }}}
 " }}}
 
 " targets.vim {{{
 " Autocmds {{{
-autocmd User targets#mappings#user call targets#mappings#extend({
+autocmd MyAutoCmd User targets#mappings#user call targets#mappings#extend({
     \ 'a': {'argument': [{'o': '[({[]', 'c': '[]})]', 's': ','}]}
     \ })
 " }}}
