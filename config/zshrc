@@ -8,6 +8,8 @@ setopt CLOBBER            # Don't care about overwrite existing file with > and 
                           # unset by modules/directory in prezto
 unsetopt share_history    # Don't share history in multiple simutaneous zsh.
                           # set by modules/history in prezto
+HISTSIZE=100000
+SAVEHIST=100000
 
 
 # No Ctrl+S freezing in vim.
