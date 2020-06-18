@@ -94,6 +94,7 @@ Plug 'mattn/emmet-vim'
 " One pack for all!!!
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
+Plug 'sgeb/vim-diff-fold'
 " }}}
 
 call plug#end()
@@ -112,10 +113,12 @@ set fillchars=vert:\|
 set fileencoding=utf8
 set fileencodings=utf8,iso-8859-1,big5,cp950
 set foldmethod=marker
-set guicursor=
 set hidden
 set hlsearch
 set ignorecase
+if has('nvim')
+  set inccommand=nosplit
+endif
 set incsearch
 set lazyredraw
 set list
@@ -160,7 +163,7 @@ highlight MatchParen ctermfg=60 ctermbg=234 guifg=#5F5F87 guibg=#1d1f21
 
 "--------------------------------------------------------------------
 " Abbreviations {{{
-iabbrev @@ peter50216@gmail.com
+iabbrev @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 " TODO(Darkpi): Abbreviations for frequent typos.
 " }}}
 
@@ -267,10 +270,12 @@ nnoremap q: :q
 " Autocmds {{{
 augroup MyAutoCmd
   autocmd!
+  autocmd BufWritePost .vimrc nested source $MYVIMRC
+  autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+  autocmd BufNewFile,BufRead *.toml set filetype=toml
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
 augroup END
-autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
-autocmd MyAutoCmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
-autocmd MyAutoCmd BufNewFile,BufRead *.toml set filetype=toml
 " }}}
 
 "--------------------------------------------------------------------
@@ -436,6 +441,8 @@ nmap <silent> <Leader>xt <Plug>(coc-type-definition)
 nmap <silent> <Leader>xr <Plug>(coc-rename)
 nmap <silent> <Leader>xi <Plug>(coc-implementation)
 nmap <silent> <Leader>xq <Plug>(coc-references)
+nmap <silent> <Leader>xn <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>xp <Plug>(coc-diagnostic-prev)
 " }}}
 " Autocmds {{{
 " }}}
@@ -582,9 +589,9 @@ command! -bang -nargs=* FZFRg
 " Mappings {{{
 nnoremap <Leader>b :FZFBuffers<CR>
 " nnoremap <Leader>c :FZFCommands<CR>
-nnoremap <Leader><Space> :FZF<CR>
+nnoremap <Leader><Space> :FZFFiles<CR>
 nnoremap <Leader>l :FZFBLines<CR>
-nnoremap <Leader>g :FZFRg <C-R><C-W><CR>
+nnoremap <Leader>g m':FZFRg <C-R><C-W><CR>
 nnoremap <Leader>h :FZFBLines <C-R><C-W><CR>
 nnoremap <Leader>; :FZFHistory:<CR>
 " }}}
@@ -648,6 +655,7 @@ let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.
 let g:formatdef_jsbeautify_json = '"(cd ~/factory_things/json; bundle exec format.rb)"'
 let g:formatters_python=['yapf']
 let g:formatters_javascript=['clangformat']
+let g:formatters_html = ['prettier']
 let g:autoformat_autoindent=0
 let g:autoformat_retab=0
 let g:autoformat_remove_trailing_spaces=0
