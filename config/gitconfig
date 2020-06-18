@@ -26,3 +26,5 @@
   cookiefile = ~/.gitcookies
 [pretty]
   fixes = Fixes: %h (\"%s\")
+[include]
+  path = ~/.gitconfig_local
