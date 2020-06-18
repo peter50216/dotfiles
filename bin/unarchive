@@ -149,7 +149,7 @@ unarchive() {
 
   local sub_files=()
   while IFS= read -r -d '' f; do
-    sub_files+=($f)
+    sub_files+=("$f")
   done < <(find "${temp_dir}" -maxdepth 1 -mindepth 1 -print0)
 
   if (( "${#sub_files[@]}" == 0 )); then

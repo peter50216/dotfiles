@@ -6,6 +6,7 @@
 [core]
   editor = nvim
   excludesfile = ~/.gitignore_global
+  abbrev = 12
 [color]
   ui = true
 [diff]
@@ -23,3 +24,5 @@
   show = diff-so-fancy | less --tabs=2 -RFX
 [http]
   cookiefile = ~/.gitcookies
+[pretty]
+  fixes = Fixes: %h (\"%s\")
