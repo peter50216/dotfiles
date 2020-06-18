@@ -10,12 +10,6 @@
 [submodule "modules/vim-plug"]
 	path = modules/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
-[submodule "k"]
-	path = modules/k
-	url = https://github.com/rimraf/k.git
-[submodule "modules/z"]
-	path = modules/z
-	url = https://github.com/rupa/z.git
 [submodule "modules/tmux-sensible"]
 	path = modules/tmux-sensible
 	url = https://github.com/tmux-plugins/tmux-sensible.git
