@@ -7,6 +7,8 @@
   editor = nvim
   excludesfile = ~/.gitignore_global
   abbrev = 12
+  commitGraph = true
+  pager = delta
 [color]
   ui = true
 [diff]
@@ -19,12 +21,23 @@
   br = branch
   co = checkout
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-[pager]
-  diff = diff-so-fancy | less --tabs=2 -RFX
-  show = diff-so-fancy | less --tabs=2 -RFX
 [http]
-  cookiefile = ~/.gitcookies
+  cookiefile = /usr/local/google/home/pihsun/.gitcookies
 [pretty]
   fixes = Fixes: %h (\"%s\")
 [include]
   path = ~/.gitconfig_local
+[gc]
+  writeCommitGraph = false
+[delta]
+  features = line-numbers
+  syntax-theme = Monokai Extended
+  file-style = 221
+  file-decoration-style = 221 ol ul
+  hunk-header-decoration-style = 243 box ul
+  line-numbers-minus-style = 167
+  line-numbers-plus-style = 114
+  line-numbers-left-style = 243
+  line-numbers-right-style = 243
+  line-numbers-right-format = "{np:^4}⋮"
+  file-modified-label = "modified:"
