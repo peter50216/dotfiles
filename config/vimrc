@@ -19,7 +19,7 @@ Plug 'junegunn/fzf.vim'
 " recompile post-update, just do that manually!
 " Plug 'Valloric/YouCompleteMe', {'on': []}
 " Plug 'w0rp/ale'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 " Plug 'SirVer/ultisnips'
 " }}}
 
@@ -56,6 +56,7 @@ Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 " Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
@@ -79,6 +80,7 @@ Plug '~/chromium/src/tools/vim/mojom'
 
 " {{{ Colorscheme
 Plug 'w0ng/vim-hybrid'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 " }}}
 
 " To consider list {{{
@@ -88,13 +90,16 @@ Plug 'w0ng/vim-hybrid'
 " }}}
 
 " Language syntax/indent/compile/etc. {{{
+Plug 'pantharshit00/vim-prisma'
 Plug 'vim-scripts/ifdef-highlighting'
 Plug 'gentoo/gentoo-syntax'
 Plug 'mattn/emmet-vim'
+Plug 'alexlafroscia/postcss-syntax.vim'
 " One pack for all!!!
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
 Plug 'sgeb/vim-diff-fold'
+Plug 'jyelloz/vim-dts-indent'
 " }}}
 
 call plug#end()
@@ -271,7 +276,7 @@ nnoremap q: :q
 augroup MyAutoCmd
   autocmd!
   autocmd BufWritePost .vimrc nested source $MYVIMRC
-  autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+  " autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
   autocmd BufNewFile,BufRead *.toml set filetype=toml
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
@@ -401,8 +406,8 @@ autocmd MyAutoCmd BufEnter *
 " NERDCommenter {{{
 " Settings {{{
 let g:NERDSpaceDelims=1
-let g:NERDDefaultAlign='left'
 let g:NERDUsePlaceHolders=0
+let g:NERDCustomDelimiters = { 'vue': { 'left': '//','right': '' } }
 " }}}
 " Mappings {{{
 nmap \ <Leader>c<Space>
@@ -434,8 +439,9 @@ function! s:show_documentation()
   endif
 endfunction
 command! -nargs=0 Format :call CocAction('format')
-nmap <silent> <Leader>xx <Plug>(coc-diagnostic-info)
-nmap <silent> <Leader>xf <Plug>(coc-fix-current)
+nmap <silent> <Leader>xf <Plug>(coc-diagnostic-info)
+nmap <silent> <Leader>xa <Plug>(coc-codeaction)
+nmap <silent> <Leader>xx <Plug>(coc-fix-current)
 nmap <silent> <Leader>xd <Plug>(coc-definition)
 nmap <silent> <Leader>xt <Plug>(coc-type-definition)
 nmap <silent> <Leader>xr <Plug>(coc-rename)
@@ -653,9 +659,14 @@ let g:pasta_disabled_filetypes = ['python', 'coffee', 'markdown', 'yaml', 'slim'
 let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
 " let g:formatdef_jsbeautify_json = '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
 let g:formatdef_jsbeautify_json = '"(cd ~/factory_things/json; bundle exec format.rb)"'
-let g:formatters_python=['yapf']
+let g:formatdef_npx_prettier = '"pnpx prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
+let g:formatters_javascript=['npx_prettier', 'prettier']
+let g:formatters_typescript=['npx_prettier', 'prettier']
+let g:formatters_typescriptreact=['npx_prettier', 'prettier']
+let g:formatters_vue=['npx_prettier', 'prettier']
 let g:formatters_javascript=['clangformat']
 let g:formatters_html = ['prettier']
+let g:formatters_ruby = ['rubocop']
 let g:autoformat_autoindent=0
 let g:autoformat_retab=0
 let g:autoformat_remove_trailing_spaces=0
