@@ -41,3 +41,5 @@
   line-numbers-right-style = 243
   line-numbers-right-format = "{np:^4}⋮"
   file-modified-label = "modified:"
+  plus-style = syntax "#002000"
+  minus-style = syntax "#280000"
