@@ -1,6 +1,10 @@
 " vim: set fmr={{{,}}} fdls=0 fdm=marker:
 " peter50216's vimrc.
 
+" TODO: Remove this after migration
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+
 "--------------------------------------------------------------------
 " Plugins {{{
 " Use vim-plug to manage.
@@ -21,6 +25,7 @@ Plug 'junegunn/fzf.vim'
 " Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 " Plug 'SirVer/ultisnips'
+" Plug 'neovim/nvim-lspconfig'
 " }}}
 
 " Fast formatting & moving around {{{
