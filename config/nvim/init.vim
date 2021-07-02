@@ -10,21 +10,15 @@ let &packpath = &runtimepath
 " Use vim-plug to manage.
 call plug#begin('~/.vim/plugged')
 
-" Sensible Default!
-" Plug 'tpope/vim-sensible'
-
 " File navigation {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " }}}
 
 " Completions and diagnosis {{{
-" Still too much trouble involving pyenv and system python for YCM auto
-" recompile post-update, just do that manually!
-" Plug 'Valloric/YouCompleteMe', {'on': []}
-" Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-" Plug 'SirVer/ultisnips'
+" TODO(Darkpi): Check builtin lsp support
+" ref: https://blog.inkdrop.info/how-to-set-up-neovim-0-5-modern-plugins-lsp-treesitter-etc-542c3d9c9887
 " Plug 'neovim/nvim-lspconfig'
 " }}}
 
@@ -37,14 +31,8 @@ Plug 'sickill/vim-pasta'
 Plug 'mg979/vim-visual-multi'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
-" Plug 'kana/vim-textobj-user'
-" Plug 'kana/vim-textobj-entire' " ae ie
-" Plug 'kana/vim-textobj-line' " al il
-" Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 Plug 'Chiel92/vim-autoformat'
-" Plug 'rhysd/clever-f.vim'
 Plug 'unblevable/quick-scope'
 " }}}
 
@@ -53,24 +41,20 @@ Plug 'ton/vim-bufsurf'
 " }}}
 
 " Misc {{{
-" TODO(Darkpi): Consider vimfiler?
+" TODO(Darkpi): Consider defx.nvim?
 Plug 'Konfekt/FastFold'
 Plug 'mhinz/vim-signify'
 Plug 'jpalardy/vim-slime'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-" Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-scriptease'
 Plug 'vim-scripts/restore_view.vim'
-Plug 'hackel/vis'
+Plug 'hackel/vis'  " For ruby shortcuts below
 Plug 'tpope/vim-fugitive'
-" Plug 'takac/vim-hardtime'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'peter50216/vim-plugin'
 if !has('nvim')
@@ -85,13 +69,11 @@ Plug '~/chromium/src/tools/vim/mojom'
 
 " {{{ Colorscheme
 Plug 'w0ng/vim-hybrid'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
 " }}}
 
 " To consider list {{{
-" Plug 'jeaye/color_coded'
-" Plug 'tpope/vim-dispatch'
 " Plug 'mtth/scratch.vim'
+" Plug 'nvim-telescope/telescope.nvim'
 " }}}
 
 " Language syntax/indent/compile/etc. {{{
@@ -103,6 +85,7 @@ Plug 'mattn/emmet-vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'sgeb/vim-diff-fold'
 Plug 'jyelloz/vim-dts-indent'
+Plug 'tmux-plugins/vim-tmux'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " }}}
 
