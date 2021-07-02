@@ -1,0 +1,4 @@
+{
+  "clangd.semanticHighlighting": true,
+  "rust-analyzer.inlayHints.typeHints": false
+}
