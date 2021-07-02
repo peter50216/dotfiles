@@ -13,6 +13,10 @@ call plug#begin('~/.vim/plugged')
 " File navigation {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" telescope.vim is somewhat slow QQ
+" Plug 'nvim-telescope/telescope.nvim'
 " }}}
 
 " Completions and diagnosis {{{
@@ -161,8 +165,6 @@ iabbrev @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 
 "--------------------------------------------------------------------
 " Custom keybinding {{{
-" Trying space as leader key, need to be careful not conflict with fzf
-" bindings.
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 set pastetoggle=<F2>
@@ -585,6 +587,42 @@ nnoremap <Leader>l :FZFBLines<CR>
 nnoremap <Leader>g m':FZFRg <C-R><C-W><CR>
 nnoremap <Leader>h :FZFBLines <C-R><C-W><CR>
 nnoremap <Leader>; :FZFHistory:<CR>
+" }}}
+" }}}
+
+" telescope.nvim {{{
+" Settings {{{
+" }}}
+" Mappings {{{
+" lua <<EOF
+" local action_set = require('telescope.actions.set')
+" local actions = require('telescope.actions')
+
+" -- TODO(Darkpi): this has weird behavior on boundary...
+" function move_selection_next_page(prompt_bufnr)
+  " action_set.shift_selection(prompt_bufnr, 12)
+" end
+" function move_selection_previous_page(prompt_bufnr)
+  " action_set.shift_selection(prompt_bufnr, -12)
+" end
+
+" require('telescope').setup{
+  " defaults = {
+    " mappings = {
+      " i = {
+        " ["<esc>"] = actions.close,
+        " ["<pageup>"] = move_selection_previous_page,
+        " ["<pagedown>"] = move_selection_next_page,
+      " },
+    " },
+  " }
+" }
+" EOF
+" nnoremap <Leader>b <cmd>Telescope buffers<CR>
+" nnoremap <Leader><Space> <cmd>Telescope find_files<CR>
+" nnoremap <Leader>l <cmd>Telescope current_buffer_fuzzy_find<CR>
+" nnoremap <Leader>g <cmd>Telescope grep_string<CR>
+" nnoremap <Leader>h :FZFBLines <C-R><C-W><CR>
 " }}}
 " }}}
 
