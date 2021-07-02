@@ -95,16 +95,15 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 " }}}
 
 " Language syntax/indent/compile/etc. {{{
-Plug 'pantharshit00/vim-prisma'
 Plug 'vim-scripts/ifdef-highlighting'
 Plug 'gentoo/gentoo-syntax'
 Plug 'mattn/emmet-vim'
-Plug 'alexlafroscia/postcss-syntax.vim'
 " One pack for all!!!
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
 Plug 'sgeb/vim-diff-fold'
 Plug 'jyelloz/vim-dts-indent'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " }}}
 
 call plug#end()
@@ -235,9 +234,7 @@ nnoremap + <C-a>
 nnoremap - <C-x>
 
 " Fast edit & reload vimrc
-" Since NeoVim has a different $MYVIMRC and I use same vimrc for both,
-" hard-code ~/.vimrc here.
-nnoremap <Leader>ve :vsplit ~/.vimrc<CR>
+nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 
 " Easy doing some complex things
 if executable('ruby')
@@ -280,7 +277,7 @@ nnoremap q: :q
 " Autocmds {{{
 augroup MyAutoCmd
   autocmd!
-  autocmd BufWritePost .vimrc nested source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
   " autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
   autocmd BufNewFile,BufRead *.toml set filetype=toml
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
@@ -744,6 +741,21 @@ autocmd MyAutoCmd User targets#mappings#user call targets#mappings#extend({
 " Mappings {{{
 nmap <silent> <Leader>ucc <Plug>CopyCrosURLWithHash
 nmap <silent> <Leader>ucm <Plug>CopyCrosURL
+" }}}
+" }}}
+
+" nvim-treesitter {{{
+" Settings {{{
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+}
+EOF
 " }}}
 " }}}
 
