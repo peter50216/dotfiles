@@ -91,6 +91,7 @@ Plug 'sgeb/vim-diff-fold'
 Plug 'jyelloz/vim-dts-indent'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'https://github.com/kalcutter/vim-gn'
 " }}}
 
 call plug#end()
