@@ -23,7 +23,7 @@ fi
 
 # pyenv
 if [[ ! -d ~/.pyenv ]]; then
-  git clone git://github.com/yyuu/pyenv.git ~/.pyenv
+  git clone https://github.com/yyuu/pyenv.git ~/.pyenv
   git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
 fi
 
