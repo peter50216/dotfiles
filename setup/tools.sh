@@ -37,11 +37,11 @@ rubies=()
 pythons=()
 
 # TODO(Darkpi): Should we add rbenv/pyenv global to somewhere?
-LATEST_RUBY2=`~/.rbenv/bin/rbenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
-if ! ask_skip "Ruby $LATEST_RUBY2"; then
+LATEST_RUBY=`~/.rbenv/bin/rbenv install -l | awk '$1~/^[.0-9]+$/{print $1}' | tail -n 1`
+if ! ask_skip "Ruby $LATEST_RUBY"; then
   # Install latest ruby in rbenv!
-  cmds+=("Ruby $LATEST_RUBY2" "~/.rbenv/bin/rbenv install $LATEST_RUBY2")
-  rubies+=("$LATEST_RUBY2")
+  cmds+=("Ruby $LATEST_RUBY" "~/.rbenv/bin/rbenv install $LATEST_RUBY")
+  rubies+=("$LATEST_RUBY")
 fi
 
 LATEST_PYTHON2=`~/.pyenv/bin/pyenv install -l | awk '$1~/^2[.0-9]+$/{print $1}' | tail -n 1`
