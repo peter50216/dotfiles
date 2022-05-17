@@ -405,6 +405,7 @@ vmap \ <Leader>c<Space>
 
 " coc.nvim {{{
 " Settings {{{
+highlight CocUnusedHighlight ctermfg=250 ctermbg=237 guifg=#c5c8c6 guibg=#373b41
 " }}}
 " Mappings {{{
 inoremap <silent><expr> <TAB>
@@ -681,13 +682,14 @@ let g:pasta_disabled_filetypes = ['python', 'coffee', 'markdown', 'yaml', 'slim'
 " vim-autoformat {{{
 " Settings {{{
 let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
+let g:formatdef_eslint_d = '"eslint_d --fix --stdin --stdin-filename ".expand("%")." --fix-to-stdout"'
 " let g:formatdef_jsbeautify_json = '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
 let g:formatdef_jsbeautify_json = '"(cd ~/factory_things/json; bundle exec format.rb)"'
 let g:formatdef_npx_prettier = '"pnpx prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
 let g:formatters_javascript=['npx_prettier', 'prettier']
-let g:formatters_typescript=['npx_prettier', 'prettier']
+let g:formatters_typescript=['eslint_d', 'npx_prettier', 'prettier']
 let g:formatters_typescriptreact=['npx_prettier', 'prettier']
-let g:formatters_vue=['npx_prettier', 'prettier']
+let g:formatters_vue=['eslint_d', 'npx_prettier', 'prettier']
 let g:formatters_javascript=['clangformat']
 let g:formatters_html = ['prettier']
 let g:formatters_ruby = ['rubocop']
@@ -772,9 +774,7 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
-  },
-  indent = {
-    enable = true,
+    disable = { "ruby", "json" },
   },
 }
 EOF

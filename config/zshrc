@@ -25,7 +25,7 @@ fi
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh
-source ~/.dotfiles/zsh/ddb.sh
+# source ~/.dotfiles/zsh/ddb.sh
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
   source "$file"
