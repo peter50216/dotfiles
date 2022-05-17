@@ -405,7 +405,7 @@ vmap \ <Leader>c<Space>
 
 " coc.nvim {{{
 " Settings {{{
-highlight CocUnusedHighlight ctermfg=250 ctermbg=237 guifg=#c5c8c6 guibg=#373b41
+highlight CocUnusedHighlight ctermfg=248 ctermbg=NONE guifg=#A1A1A1 guibg=NONE
 " }}}
 " Mappings {{{
 inoremap <silent><expr> <TAB>
@@ -700,6 +700,9 @@ let g:autoformat_remove_trailing_spaces=0
 " Mappings {{{
 vnoremap <Leader>f :Autoformat<CR>
 nnoremap <Leader>f V:Autoformat<CR>
+" }}}
+" Autocmds {{{
+autocmd MyAutoCmd BufWritePre *.vue,*.ts :Autoformat
 " }}}
 " }}}
 
