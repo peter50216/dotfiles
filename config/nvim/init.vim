@@ -153,14 +153,6 @@ colorscheme everforest
 " }}}
 
 "--------------------------------------------------------------------
-" Colors {{{
-" For transparent background
-highlight Normal ctermbg=NONE guibg=NONE
-" hybrid MatchParen doesn't work well with terminal reverted cursor color :(
-highlight MatchParen ctermfg=60 ctermbg=234 guifg=#5F5F87 guibg=#1d1f21
-" }}}
-
-"--------------------------------------------------------------------
 " Abbreviations {{{
 iabbrev @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 " TODO(Darkpi): Abbreviations for frequent typos.
