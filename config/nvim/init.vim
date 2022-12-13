@@ -72,7 +72,7 @@ Plug '~/chromium/src/tools/vim/mojom'
 " }}}
 
 " {{{ Colorscheme
-Plug 'w0ng/vim-hybrid'
+Plug 'sainnhe/everforest'
 " }}}
 
 " To consider list {{{
@@ -91,6 +91,7 @@ Plug 'sgeb/vim-diff-fold'
 Plug 'jyelloz/vim-dts-indent'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 Plug 'https://github.com/kalcutter/vim-gn'
 " }}}
 
@@ -147,7 +148,8 @@ set virtualedit=block
 set visualbell t_vb=
 set wildmenu
 set wildignore=*.o,*.so,*.swp,*~,*.pyc
-colorscheme hybrid
+let g:everforest_transparent_background=1
+colorscheme everforest
 " }}}
 
 "--------------------------------------------------------------------
@@ -408,16 +410,19 @@ vmap \ <Leader>c<Space>
 highlight CocUnusedHighlight ctermfg=248 ctermbg=NONE guifg=#A1A1A1 guibg=NONE
 " }}}
 " Mappings {{{
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+lua <<EOS
+local keyset = vim.keymap.set
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+function _G.check_back_space()
+    local col = vim.fn.col('.') - 1
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+end
+
+local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+EOS
+
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
@@ -685,8 +690,8 @@ let g:formatdef_yapf = "'yapf --style=\"{based_on_style:chromium,indent_width:'.
 let g:formatdef_eslint_d = '"eslint_d --fix --stdin --stdin-filename ".expand("%")." --fix-to-stdout"'
 " let g:formatdef_jsbeautify_json = '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
 let g:formatdef_jsbeautify_json = '"(cd ~/factory_things/json; bundle exec format.rb)"'
-let g:formatdef_npx_prettier = '"pnpx prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
-let g:formatters_javascript=['npx_prettier', 'prettier']
+let g:formatdef_npx_prettier = '"pnpm prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
+let g:formatters_javascript=['eslint_d', 'npx_prettier', 'prettier']
 let g:formatters_typescript=['eslint_d', 'npx_prettier', 'prettier']
 let g:formatters_typescriptreact=['npx_prettier', 'prettier']
 let g:formatters_vue=['eslint_d', 'npx_prettier', 'prettier']
@@ -702,7 +707,7 @@ vnoremap <Leader>f :Autoformat<CR>
 nnoremap <Leader>f V:Autoformat<CR>
 " }}}
 " Autocmds {{{
-autocmd MyAutoCmd BufWritePre *.vue,*.ts :Autoformat
+autocmd MyAutoCmd BufWritePre *.vue,*.ts,*.cjs :Autoformat
 " }}}
 " }}}
 
