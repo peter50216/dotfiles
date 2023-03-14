@@ -5,98 +5,7 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
-"--------------------------------------------------------------------
-" Plugins {{{
-" Use vim-plug to manage.
-call plug#begin('~/.vim/plugged')
-
-" File navigation {{{
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-" Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-lua/plenary.nvim'
-" telescope.vim is somewhat slow QQ
-" Plug 'nvim-telescope/telescope.nvim'
-" }}}
-
-" Completions and diagnosis {{{
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
-" TODO(Darkpi): Check builtin lsp support
-" ref: https://blog.inkdrop.info/how-to-set-up-neovim-0-5-modern-plugins-lsp-treesitter-etc-542c3d9c9887
-" Plug 'neovim/nvim-lspconfig'
-" }}}
-
-" Fast formatting & moving around {{{
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/nerdcommenter'
-Plug 'sickill/vim-pasta'
-Plug 'mg979/vim-visual-multi'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-surround'
-Plug 'wellle/targets.vim'
-Plug 'Chiel92/vim-autoformat'
-Plug 'unblevable/quick-scope'
-" }}}
-
-" Buffers {{{
-Plug 'ton/vim-bufsurf'
-" }}}
-
-" Misc {{{
-" TODO(Darkpi): Consider defx.nvim?
-Plug 'Konfekt/FastFold'
-Plug 'mhinz/vim-signify'
-Plug 'jpalardy/vim-slime'
-Plug 'mbbill/undotree'
-Plug 'mhinz/vim-startify'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-repeat'
-Plug 'vim-scripts/restore_view.vim'
-Plug 'hackel/vis'  " For ruby shortcuts below
-Plug 'tpope/vim-fugitive'
-Plug 'chrisbra/vim-diff-enhanced'
-Plug 'peter50216/vim-plugin'
-if !has('nvim')
-  Plug 'drmikehenry/vim-fixkey'
-endif
-
-" TODO: rewrite this in a faster language (rust? Or maybe just accept
-" vimscript...) so the startup time can be faster.
-Plug 'peter50216/vim-simple-statusline'
-Plug '~/chromium/src/tools/vim/mojom'
-" }}}
-
-" {{{ Colorscheme
-Plug 'sainnhe/everforest'
-" }}}
-
-" To consider list {{{
-" Plug 'mtth/scratch.vim'
-" Plug 'nvim-telescope/telescope.nvim'
-" }}}
-
-" Language syntax/indent/compile/etc. {{{
-Plug 'vim-scripts/ifdef-highlighting'
-Plug 'gentoo/gentoo-syntax'
-Plug 'mattn/emmet-vim'
-" One pack for all!!!
-" Plug 'sheerun/vim-polyglot'
-Plug 'plasticboy/vim-markdown'
-Plug 'sgeb/vim-diff-fold'
-Plug 'jyelloz/vim-dts-indent'
-Plug 'tmux-plugins/vim-tmux'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
-Plug 'https://github.com/kalcutter/vim-gn'
-" }}}
-
-call plug#end()
-" }}}
+lua require('init')
 
 "--------------------------------------------------------------------
 " Vim settings {{{
@@ -114,9 +23,7 @@ set foldmethod=marker
 set hidden
 set hlsearch
 set ignorecase
-if has('nvim')
-  set inccommand=nosplit
-endif
+set inccommand=nosplit
 set incsearch
 set lazyredraw
 set list
@@ -136,9 +43,7 @@ set softtabstop=2
 set synmaxcol=200
 set t_Co=256
 set tabstop=2
-if has('nvim')
-  set termguicolors
-end
+set termguicolors
 set title
 set titleold=
 set ttimeoutlen=50
@@ -350,21 +255,6 @@ vmap <expr> <f28> XTermPasteBegin('c')
 cmap <f28> <nop>
 cmap <f29> <nop>
 " }}}
-
-" Lazy-loading slow-startup plugins {{{
-augroup LazyLoadGroup
-  autocmd!
-augroup END
-autocmd LazyLoadGroup CursorHold * call LoadPluginTrigger()
-autocmd LazyLoadGroup InsertEnter * call LoadPluginTrigger()
-
-function! LoadPluginTrigger()
-  " call plug#load('YouCompleteMe')
-  augroup LazyLoadGroup
-    autocmd!
-  augroup END
-endfunction
-" }}}
 " }}}
 
 "--------------------------------------------------------------------
@@ -382,18 +272,6 @@ nnoremap <Leader>n :NERDTreeFind<CR>:wincmd p<CR>
 " Close vim if the only window open is nerdtree
 autocmd MyAutoCmd BufEnter *
       \ if (winnr('$') == 1 && exists('b:NERDTreeType') && b:NERDTreeType == 'primary') | q | endif
-" }}}
-" }}}
-
-" NERDCommenter {{{
-" Settings {{{
-let g:NERDSpaceDelims=1
-let g:NERDUsePlaceHolders=0
-let g:NERDCustomDelimiters = { 'vue': { 'left': '//','right': '' } }
-" }}}
-" Mappings {{{
-nmap \ <Leader>c<Space>
-vmap \ <Leader>c<Space>
 " }}}
 " }}}
 
@@ -437,61 +315,6 @@ nmap <silent> <Leader>xn <Plug>(coc-diagnostic-next)
 nmap <silent> <Leader>xp <Plug>(coc-diagnostic-prev)
 " }}}
 " Autocmds {{{
-" }}}
-" }}}
-
-" YouCompleteMe {{{
-" Settings {{{
-let g:ycm_confirm_extra_conf=0
-let g:ycm_key_list_select_completion=['<TAB>']
-let g:ycm_key_list_previous_completion=['<S-TAB>']
-let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:ycm_max_diagnostics_to_display=0
-" }}}
-" Mappings {{{
-noremap <F5> :YcmForceCompileAndDiagnostics<CR>
-inoremap <F5> <ESC>:YcmForceCompileAndDiagnostics<CR>
-" }}}
-" Autocmds {{{
-autocmd MyAutoCmd BufWritePost * silent! YcmForceCompileAndDiagnostics
-" }}}
-" }}}
-
-" ale {{{
-" Settings {{{
-let g:ale_python_pylint_options='--rcfile=~/pylint.rc'
-let g:ale_linters = {
-      \ 'javascript': ['eslint', 'prettier'],
-      \ 'typescript': ['tslint'],
-      \ 'cpp': [],
-      \ 'c': [],
-      \ }
-highlight ALEWarning ctermbg=None
-" }}}
-" Autocmds {{{
-augroup AleRedrawStatus
-  autocmd!
-  autocmd User ALELintPre  redrawstatus!
-  autocmd User ALELintPost redrawstatus!
-augroup END
-" }}}
-" }}}
-
-" EasyMotion {{{
-" Settings {{{
-let g:EasyMotion_move_highlight=0
-let g:EasyMotion_smartcase=1
-" }}}
-" Mappings {{{
-map <Leader>m <Plug>(easymotion-prefix)
-map s <Plug>(easymotion-s2)
-
-" map / <Plug>(easymotion-sn)\v
-" omap / <Plug>(easymotion-tn)\v
-" map n <Plug>(easymotion-next)
-" map N <Plug>(easymotion-prev)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
 " }}}
 " }}}
 
@@ -557,7 +380,6 @@ highlight SignifySignDelete ctermfg=167 ctermbg=NONE guifg=#CC6666 guibg=NONE
 
 " fzf {{{
 " Settings {{{
-let g:fzf_command_prefix = 'FZF'
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'botright split',
@@ -700,20 +522,6 @@ nnoremap <Leader>f V:Autoformat<CR>
 " }}}
 " Autocmds {{{
 autocmd MyAutoCmd BufWritePre *.vue,*.ts,*.cjs :Autoformat
-" }}}
-" }}}
-
-" vim-visual-multi {{{
-" Settings {{{
-let g:VM_leader=','
-let g:VM_mouse_mappings=1
-" }}}
-" }}}
-
-" vim-multiple-cursors {{{
-" Settings {{{
-let g:multi_cursor_exit_from_visual_mode=0
-let g:multi_cursor_exit_from_insert_mode=0
 " }}}
 " }}}
 
