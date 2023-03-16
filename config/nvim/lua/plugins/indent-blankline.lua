@@ -12,6 +12,10 @@ return {
           vim.api.nvim_set_hl(0, "IndentBlanklineContextChar", {
             fg = "#64748b",
           })
+          vim.api.nvim_set_hl(0, "IndentBlanklineContextStart", {
+            sp = "#64748b",
+            underline = true,
+          })
         end,
       })
       require("indent_blankline").setup {
