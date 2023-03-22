@@ -1,6 +1,7 @@
 return {
   {
     "Lokaltog/vim-easymotion",
+    enabled = false,
     init = function()
       vim.keymap.set(
         "",
