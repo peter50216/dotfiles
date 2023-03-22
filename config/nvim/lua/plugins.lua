@@ -38,4 +38,13 @@ return {
   { "nvim-treesitter/playground" },
   { "https://github.com/kalcutter/vim-gn" },
   { "dstein64/vim-startuptime" },
+
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").setup {}
+      require("leap").add_default_mappings()
+    end,
+  },
+  { "ggandor/flit.nvim", config = true },
 }
