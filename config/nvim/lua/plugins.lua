@@ -14,7 +14,6 @@ return {
   { "tpope/vim-surround" },
 
   -- TODO(Darkpi): Consider defx.nvim?
-  { "Xuyuanp/nerdtree-git-plugin" },
   { "tpope/vim-abolish" },
   { "tpope/vim-repeat" },
   { "vim-scripts/restore_view.vim" },
@@ -38,13 +37,4 @@ return {
   { "nvim-treesitter/playground" },
   { "https://github.com/kalcutter/vim-gn" },
   { "dstein64/vim-startuptime" },
-
-  {
-    "ggandor/leap.nvim",
-    config = function()
-      require("leap").setup {}
-      require("leap").add_default_mappings()
-    end,
-  },
-  { "ggandor/flit.nvim", config = true },
 }
