@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 --------------------------------------------------------------------
 -- Lazy.nvim {{{
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
