@@ -11,15 +11,17 @@ return {
 
   {
     "AndrewRadev/splitjoin.vim",
-    cond = true,
+    cond = vim.g.vscode,
   },
   {
     "tpope/vim-endwise",
     cond = true,
   },
   {
-    "tpope/vim-surround",
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
     cond = true,
+    config = true,
   },
 
   -- TODO(Darkpi): Consider defx.nvim?
@@ -46,4 +48,10 @@ return {
   { "nvim-treesitter/playground" },
   { "https://github.com/kalcutter/vim-gn" },
   { "dstein64/vim-startuptime" },
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    opts = {
+      useDefaultKeymaps = true,
+    },
+  },
 }
