@@ -3,13 +3,13 @@ return {
     "Chiel92/vim-autoformat",
     config = function()
       vim.g.formatdef_yapf =
-        "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
+      "'yapf --style=\"{based_on_style:chromium,indent_width:'.&shiftwidth.(&textwidth ? ',column_limit:'.&textwidth : '').',ALLOW_MULTILINE_LAMBDAS: true, I18N_FUNCTION_CALL: func_not__exist}\" -l '.a:firstline.'-'.a:lastline"
       vim.g.formatdef_eslint_d =
-        '"eslint_d --fix --stdin --stdin-filename ".expand("%")." --fix-to-stdout"'
+      '"eslint_d --fix --stdin --stdin-filename ".expand("%")." --fix-to-stdout"'
       vim.g.formatdef_jsbeautify_json =
-        '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
+      '"js-beautify -b expand,preserve-inline -i -".(&expandtab ? "s ".shiftwidth() : "t")'
       vim.g.formatdef_npx_prettier =
-        '"pnpm prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
+      '"pnpm prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
       vim.g.formatters_javascript = { "eslint_d", "npx_prettier", "prettier" }
       vim.g.formatters_typescript = { "eslint_d", "npx_prettier", "prettier" }
       vim.g.formatters_typescriptreact = { "npx_prettier", "prettier" }
@@ -41,16 +41,6 @@ return {
         pattern = { "*.vue", "*.ts", "*.cjs", "*.lua" },
         command = ":Autoformat",
       })
-      -- autocmd MyAutoCmd BufWritePre *.vue,*.ts,*.cjs :Autoformat
     end,
   },
 }
-
--- " Settings {{{
--- " }}}
--- " Mappings {{{
--- vnoremap <Leader>f :Autoformat<CR>
--- nnoremap <Leader>f V:Autoformat<CR>
--- " }}}
--- " Autocmds {{{
--- " }}}
