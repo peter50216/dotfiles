@@ -12,5 +12,6 @@ return {
         { silent = true, desc = "Toggle line comment" }
       )
     end,
+    cond = true,
   },
 }

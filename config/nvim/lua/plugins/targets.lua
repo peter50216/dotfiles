@@ -13,6 +13,6 @@ return {
         ]]):gsub("\n", ""),
       })
     end,
+    cond = true,
   },
-  -- autocmd MyAutoCmd User targets#mappings#user
 }

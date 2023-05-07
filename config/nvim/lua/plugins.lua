@@ -9,9 +9,18 @@ return {
     end,
   },
 
-  { "AndrewRadev/splitjoin.vim" },
-  { "tpope/vim-endwise" },
-  { "tpope/vim-surround" },
+  {
+    "AndrewRadev/splitjoin.vim",
+    cond = true,
+  },
+  {
+    "tpope/vim-endwise",
+    cond = true,
+  },
+  {
+    "tpope/vim-surround",
+    cond = true,
+  },
 
   -- TODO(Darkpi): Consider defx.nvim?
   { "tpope/vim-abolish" },

@@ -1,6 +1,8 @@
 " vim: set fmr={{{,}}} fdls=0 fdm=marker:
 " peter50216's vimrc.
 
+language en_US
+
 lua require('init')
 
 "--------------------------------------------------------------------
@@ -84,17 +86,30 @@ vnoremap 0 ^
 vnoremap ^ 0
 
 " Esc is sooo far away :D
-inoremap jk <Esc>
+if exists('g:vscode')
+  " TODO(Darkpi): Consider https://github.com/vscode-neovim/vscode-neovim#composite-escape-keys
+else
+  inoremap jk <Esc>
+end
 
 " Close buffer without affecting window layout
 nnoremap <Leader>q :bp\|bd #<CR>
 
 " Quick exit
-nnoremap Q :qa<CR>
+if exists('g:vscode')
+  nnoremap Q <Cmd>call VSCodeCall('workbench.action.closeActiveEditor')<CR>
+else
+  nnoremap Q :qa<CR>
+end
 
 " Quick load/save
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :e<CR>
+if exists('g:vscode')
+  nnoremap <Leader>w <Cmd>call VSCodeCall('workbench.action.files.save')<CR>
+  " TODO(Darkpi): reload current file?
+else
+  nnoremap <Leader>w :w<CR>
+  nnoremap <Leader>e :e<CR>
+end
 
 " Copy/paste using system clipboard
 noremap <Leader>y "+y

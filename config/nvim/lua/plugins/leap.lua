@@ -18,6 +18,11 @@ return {
         desc = "Leap backward to",
       },
     },
+    cond = true,
   },
-  { "ggandor/flit.nvim", config = true },
+  {
+    "ggandor/flit.nvim",
+    config = true,
+    cond = true,
+  },
 }

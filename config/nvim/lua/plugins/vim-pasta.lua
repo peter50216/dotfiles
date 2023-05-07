@@ -13,5 +13,6 @@ return {
         "gitsendemail",
       }
     end,
+    cond = true,
   },
 }
