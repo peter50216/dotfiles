@@ -17,7 +17,7 @@ return {
           'rg --no-heading --vimgrep '.
           '--colors path:style:bold --colors path:fg:0x81,0xa2,0xbe '.
           '--colors line:style:bold --colors line:fg:black '.
-          '--colors match:fg:0x8a,0xe2,0x34 --color=always '.
+          '--colors match:fg:0x8a,0xe2,0x34 --color=always -- '.
           shellescape(<q-args>), 1,
           <bang>0 ? fzf#vim#with_preview('up:60%')
                   : fzf#vim#with_preview('right:50%:hidden', '?'),
@@ -46,15 +46,10 @@ return {
         silent = true,
         desc = "#fzf Search symbol in current folder",
       })
-      vim.keymap.set(
-        "n",
-        "<Leader>h",
-        ":FZFBLines <C-R><C-W><CR>",
-        {
-          silent = true,
-          desc = "#fzf Search symbol in current buffer",
-        }
-      )
+      vim.keymap.set("n", "<Leader>h", ":FZFBLines <C-R><C-W><CR>", {
+        silent = true,
+        desc = "#fzf Search symbol in current buffer",
+      })
     end,
   },
   {
