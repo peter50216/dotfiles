@@ -10,3 +10,4 @@ local.tmp
 upstream.tmp
 .vim
 goma_fetch.*
+.watchman-*

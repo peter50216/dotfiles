@@ -54,4 +54,15 @@ return {
       useDefaultKeymaps = true,
     },
   },
+  { "RaafatTurki/hex.nvim", config = true },
+  {
+    "klen/nvim-config-local",
+    main = "config-local",
+    opts = {
+      config_files = { ".lvimrc" },
+      lookup_parents = true,
+      autocommands_create = true,
+      commands_create = true,
+    },
+  },
 }

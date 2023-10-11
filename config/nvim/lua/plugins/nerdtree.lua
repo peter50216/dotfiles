@@ -36,5 +36,13 @@ return {
       },
     },
   },
-  { "Xuyuanp/nerdtree-git-plugin" },
+  {
+    "Xuyuanp/nerdtree-git-plugin",
+    config = function()
+      vim.g.NERDTreeGitStatusIndicatorMapCustom = {
+        Modified = "*",
+        Untracked = "#",
+      }
+    end,
+  },
 }

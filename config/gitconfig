@@ -6,6 +6,7 @@
   abbrev = 12
   commitGraph = true
   pager = delta
+  untrackedCache = true
 [color]
   ui = true
 [diff]
