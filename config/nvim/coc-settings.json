@@ -3,5 +3,6 @@
   "rust-analyzer.inlayHints.typeHints": false,
   "tsserver.trace.server": "verbose",
   "suggest.noselect": true,
-  "sumneko-lua.enableNvimLuaDev": true
+  "sumneko-lua.enableNvimLuaDev": true,
+  "diagnostic.warningSign": "!"
 }
