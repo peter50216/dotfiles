@@ -10,3 +10,5 @@ alias gcp="git cherry-pick"
 
 alias .j='just --justfile ~/.user.justfile --working-directory .'
 alias fd='noglob fd'
+
+alias vi='nvim'
