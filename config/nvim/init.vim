@@ -23,6 +23,7 @@ set hlsearch
 set ignorecase
 set inccommand=nosplit
 set incsearch
+set iskeyword+=-
 set lazyredraw
 set list
 set mouse=a
