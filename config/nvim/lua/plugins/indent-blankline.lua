@@ -6,10 +6,10 @@ return {
       local hooks = require "ibl.hooks"
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", {
-          fg = "#101810",
+          fg = "#182818",
         })
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", {
-          fg = "#101020",
+          fg = "#181830",
         })
       end)
       require("ibl").setup {
