@@ -11,7 +11,7 @@
   "hex.nvim": { "branch": "master", "commit": "dc51e5d67fc994380b7c7a518b6b625cde4b3062" },
   "ifdef-highlighting": { "branch": "master", "commit": "dbdb2e2116ab4e0c73ca51008c950ac0d807e709" },
   "indent-blankline.nvim": { "branch": "master", "commit": "046e2cf04e08ece927bacbfb87c5b35c0b636546" },
-  "lazy.nvim": { "branch": "main", "commit": "e42fccc3cda70266e0841c5126de2c23e8982800" },
+  "lazy.nvim": { "branch": "main", "commit": "96584866b9c5e998cbae300594d0ccfd0c464627" },
   "leap.nvim": { "branch": "main", "commit": "b6ae80f8fc9993638608fc1a51c6ab0eeb12618c" },
   "nerdcommenter": { "branch": "master", "commit": "c52b6e731c2b558bc164419d4c369fcc45f0be51" },
   "nerdtree": { "branch": "master", "commit": "79f6f912f4e8d1442948e743592bf10e678d0e33" },

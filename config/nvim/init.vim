@@ -1,7 +1,7 @@
 " vim: set fmr={{{,}}} fdls=0 fdm=marker:
 " peter50216's vimrc.
 
-language en_US
+language en_US.UTF8
 
 lua require('init')
 
