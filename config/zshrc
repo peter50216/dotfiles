@@ -1,5 +1,7 @@
 zmodload zsh/zprof
 
+source ~/.dotfiles/zsh/env.zsh
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -26,11 +28,9 @@ if [[ -n "${terminfo[knp]}" ]]; then
 fi
 
 source ~/.dotfiles/zsh/alias.zsh
-source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 source ~/.dotfiles/zsh/mise.zsh
 source ~/.dotfiles/zsh/zoxide.zsh
-# source ~/.dotfiles/zsh/ddb.sh
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
   source "$file"

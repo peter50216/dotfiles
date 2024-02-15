@@ -56,7 +56,7 @@ fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
-# Fix for ubunt slowness
+# Fix for ubuntu slowness
 export skip_global_compinit=1
 
 export PATH="$HOME/.cargo/bin:$PATH"

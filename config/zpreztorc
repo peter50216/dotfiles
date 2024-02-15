@@ -16,7 +16,6 @@ zstyle ':prezto:load' pmodule \
   'editor' \
   'git' \
   'history' \
-  'rsync' \
   'spectrum' \
   'terminal' \
   'utility' \
