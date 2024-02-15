@@ -20,15 +20,15 @@ fi
 cmds=()
 
 if ! ask_skip "Ruby"; then
-  cmds+=("Ruby" "~/bin/common/rtx install ruby; ~/bin/common/rtx global --pin ruby@latest")
+  cmds+=("Ruby" "~/bin/common/mise install ruby; ~/bin/common/mise global --pin ruby@latest")
 fi
 
 if ! ask_skip "Python"; then
-  cmds+=("Python" "~/bin/common/rtx install python; ~/bin/common/rtx global --pin python@latest")
+  cmds+=("Python" "~/bin/common/mise install python; ~/bin/common/mise global --pin python@latest")
 fi
 
 if ! ask_skip "Node"; then
-  cmds+=("Node" "~/bin/common/rtx install node; ~/bin/common/rtx global --pin node@latest")
+  cmds+=("Node" "~/bin/common/mise install node; ~/bin/common/mise global --pin node@latest")
 fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
