@@ -8,6 +8,7 @@ fi
 setopt magic_equal_subst
 setopt CLOBBER            # Don't care about overwrite existing file with > and >>.
                           # unset by modules/directory in prezto
+setopt inc_append_history
 unsetopt share_history    # Don't share history in multiple simutaneous zsh.
                           # set by modules/history in prezto
 HISTSIZE=100000
@@ -28,6 +29,7 @@ source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/env.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 source ~/.dotfiles/zsh/mise.zsh
+source ~/.dotfiles/zsh/zoxide.zsh
 # source ~/.dotfiles/zsh/ddb.sh
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
