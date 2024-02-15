@@ -17,18 +17,19 @@ if [[ -n "$TMUX" ]]; then
   exit 1
 fi
 
+MISE="$HOME/dotfiles/bin/$(uname -m)/mise"
 cmds=()
 
 if ! ask_skip "Ruby"; then
-  cmds+=("Ruby" "mise install ruby; mise global --pin ruby@latest")
+  cmds+=("Ruby" "$MISE install ruby; $MISE global --pin ruby@latest")
 fi
 
 if ! ask_skip "Python"; then
-  cmds+=("Python" "mise install python; mise global --pin python@latest")
+  cmds+=("Python" "$MISE install python; $MISE global --pin python@latest")
 fi
 
 if ! ask_skip "Node"; then
-  cmds+=("Node" "mise install node; mise global --pin node@latest")
+  cmds+=("Node" "$MISE install node; $MISE global --pin node@latest")
 fi
 
 if [[ ${#cmds[@]} -ne 0 ]]; then
