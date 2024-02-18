@@ -1,3 +1,8 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+
 - shell:
   -
     command: git submodule update --init --recursive
@@ -22,19 +27,16 @@
 # prezto
     ~/.zprezto: modules/prezto
 # vim
-    ~/.local/share/nvim/site/autoload/plug.vim:
-      create: true
-      path: modules/vim-plug/plug.vim
+    ~/.local/share/nvim/site/autoload/plug.vim: modules/vim-plug/plug.vim
 # nvim
-    ~/.config/nvim:
-      create: true
-      path: config/nvim
+    ~/.config/nvim: config/nvim
 # fzf
     ~/.fzf: modules/fzf
+# nix
+    ~/.config/nix/nix.conf: config/nix.conf
+    ~/.config/home-manager/common: config/home-manager/common
 # binary
-    ~/bin/common:
-      create: true
-      path: bin/
+    ~/bin/common: bin/
 
 - shell:
   -
@@ -51,6 +53,4 @@
     description: Installing fzf
 
 - link:
-    ~/bin/tmux-mem-cpu-load:
-      create: true
-      path: modules/tmux-mem-cpu-load/tmux-mem-cpu-load
+    ~/bin/tmux-mem-cpu-load: modules/tmux-mem-cpu-load/tmux-mem-cpu-load

@@ -11,6 +11,7 @@ return {
       vim.g.formatdef_npx_prettier =
       '"pnpm prettier --stdin-filepath ".expand("%:p").(&textwidth ? " --print-width ".&textwidth : "")." --tab-width=".shiftwidth()'
       vim.g.formatdef_usort = '"usort format -"'
+      vim.g.formatdef_alejandra = '"alejandra --quiet -"'
       vim.g.formatters_javascript = {
         "eslint_d",
         "npx_prettier",
@@ -27,6 +28,7 @@ return {
       vim.g.formatters_html = { "prettier" }
       vim.g.formatters_ruby = { "rubocop" }
       vim.g.formatters_python = { "black", "usort" }
+      vim.g.formatters_nix = { "alejandra" }
       vim.g.run_all_formatters_python = 1
       vim.g.autoformat_autoindent = 0
       vim.g.autoformat_retab = 0
@@ -49,7 +51,7 @@ return {
 
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = au_id,
-        pattern = { "*.vue", "*.ts", "*.cjs", "*.lua", "*.mjs", "*.mts", "*.py" },
+        pattern = { "*.vue", "*.ts", "*.cjs", "*.lua", "*.mjs", "*.mts", "*.py", "*.nix" },
         command = ":Autoformat",
       })
     end,

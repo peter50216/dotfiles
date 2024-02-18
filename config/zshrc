@@ -31,6 +31,7 @@ source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 source ~/.dotfiles/zsh/mise.zsh
 source ~/.dotfiles/zsh/zoxide.zsh
+source ~/.dotfiles/zsh/home-manager.zsh
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
   source "$file"
