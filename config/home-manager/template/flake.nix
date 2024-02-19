@@ -29,10 +29,7 @@
         # the path to your home.nix.
         modules = [
           ./home.nix
-          ./common/base.nix
-          ./common/packages.nix
-          ./common/env.nix
-          ./common/file.nix
+          ./common
         ];
 
         extraSpecialArgs = {
