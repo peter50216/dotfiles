@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [[ ! -f ~/.dotfiles/.setup ]]; then
   echo -e '\e[1;33mFirst time setup! Make sure we have everything installed...\e[m'
