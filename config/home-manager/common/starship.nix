@@ -8,7 +8,7 @@
         "vimcmd_symbol" = "[❮](green)";
       };
       "cmd_duration" = {
-        format = "[$duration]($style)";
+        format = "[$duration]($style) ";
         min_time = 500;
       };
       directory = {
@@ -27,7 +27,7 @@
       "git_status" = {
         conflicted = "​";
         deleted = "​";
-        format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed) ]($style)";
+        format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed )]($style)";
         modified = "​";
         renamed = "​";
         staged = "​";
