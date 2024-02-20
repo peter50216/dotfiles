@@ -7,7 +7,6 @@ return {
     opts = {
       highlight = {
         enable = true,
-        disable = { "ruby", "json" },
       },
     },
   },

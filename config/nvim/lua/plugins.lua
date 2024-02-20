@@ -65,4 +65,5 @@ return {
       commands_create = true,
     },
   },
+  { "isobit/vim-caddyfile" },
 }

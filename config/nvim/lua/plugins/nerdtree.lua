@@ -42,6 +42,8 @@ return {
       vim.g.NERDTreeGitStatusIndicatorMapCustom = {
         Modified = "*",
         Untracked = "#",
+        Staged = "+",
+        Dirty = "x",
       }
     end,
   },
