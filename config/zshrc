@@ -27,12 +27,19 @@ if [[ -n "${terminfo[knp]}" ]]; then
   bindkey "${terminfo[knp]}" forward-word
 fi
 
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files'
+
 source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 source ~/.dotfiles/zsh/mise.zsh
 source ~/.dotfiles/zsh/zoxide.zsh
 source ~/.dotfiles/zsh/home-manager.zsh
 eval "$(starship init zsh)"
+eval "$(atuin init zsh)"
 
 for file in ~/.dotfiles/zsh/functions/*.zsh; do
   source "$file"
@@ -41,9 +48,6 @@ done
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
 fi
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files'
 
 # From: https://hackerfall.com/story/how-to-boost-your-vim-productivity
 fancy-ctrl-z () {
