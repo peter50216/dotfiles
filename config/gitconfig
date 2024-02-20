@@ -13,14 +13,6 @@
   tool = nvim -d
 [push]
   default = current
-[alias]
-  ci = commit
-  st = status -sb
-  br = branch
-  co = checkout
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-[http]
-  cookiefile = /usr/local/google/home/pihsun/.gitcookies
 [pretty]
   fixes = Fixes: %h (\"%s\")
 [include]
