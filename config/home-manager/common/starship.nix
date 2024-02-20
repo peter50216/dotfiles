@@ -22,7 +22,7 @@
         style = "purple";
       };
       "git_commit" = {
-        format = "[\\($hash$tag\\)]($style)";
+        format = "[\\($hash$tag\\)]($style) ";
         style = "purple";
       };
       "git_state" = {
@@ -31,7 +31,7 @@
       };
       "git_status" = {
         # git status is too slow T_T
-        # TODO: Use the gitstatusd workaround as here:
+        # gitstatusd workaround here is also slow on chromium T_T
         # https://github.com/starship/starship/issues/4305#issuecomment-1244916055
         disabled = true;
         conflicted = "​";
