@@ -54,6 +54,9 @@
       gcloud = {
         disabled = true;
       };
+      python = {
+        detect_extensions = [];
+      };
 
       # No Nerd Fonts
       erlang = {
