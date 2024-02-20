@@ -31,6 +31,7 @@
   "vim-abolish": { "branch": "master", "commit": "dcbfe065297d31823561ba787f51056c147aa682" },
   "vim-autoformat": { "branch": "master", "commit": "38a01acb7471d276ecf5970ab4fd58bfebb9ea06" },
   "vim-bufsurf": { "branch": "master", "commit": "e6dbc7ad66c7e436e5eb20d304464e378bd7f28c" },
+  "vim-caddyfile": { "branch": "master", "commit": "24fe0720551883e407cb70ae1d7c03f162d1d5a0" },
   "vim-diff-enhanced": { "branch": "master", "commit": "c6d4404251206fbb21ef6524b8a24d859097e689" },
   "vim-diff-fold": { "branch": "master", "commit": "48b4505c1b6f14ceb4e4be732aad337147ef36cd" },
   "vim-dts-indent": { "branch": "master", "commit": "8e5819a6d223433ce6dde9b62ddbc86afc18cd2a" },
