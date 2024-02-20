@@ -42,6 +42,13 @@ in {
     # '')
   ];
 
+  programs.atuin = {
+    enable = true;
+    settings = {
+      filter_mode_shell_up_key_binding = "directory";
+    };
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
