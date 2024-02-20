@@ -22,6 +22,7 @@ in {
     htop
     jq
     just
+    mise
     neovim
     ripgrep
     zoxide
