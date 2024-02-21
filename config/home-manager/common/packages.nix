@@ -46,6 +46,7 @@ in {
     enable = true;
     settings = {
       filter_mode_shell_up_key_binding = "directory";
+      enter_accept = true;
     };
   };
 
