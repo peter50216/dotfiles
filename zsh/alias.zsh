@@ -16,7 +16,7 @@ alias fd='noglob fd'
 alias vi='nvim'
 alias ls='eza'
 
-alias catp='bat -P'
+alias catp='bat -pp'
 alias cat='bat'
 alias cd='z'
 
