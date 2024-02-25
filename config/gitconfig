@@ -33,3 +33,5 @@
   file-modified-label = "modified:"
   plus-style = syntax "#002000"
   minus-style = syntax "#280000"
+[init]
+  defaultBranch = main

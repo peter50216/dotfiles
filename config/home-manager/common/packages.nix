@@ -14,12 +14,15 @@ in {
   # completion file.
   home.packages = with pkgs; [
     bat
+    broot
     btop
     cheat
     delta
+    dust
     eza
     fd
     htop
+    hyperfine
     jq
     just
     mise
