@@ -12,8 +12,9 @@
         min_time = 500;
       };
       directory = {
-        truncation_length = 5;
+        truncation_length = 0;
         before_repo_root_style = "blue";
+        repo_root_style = "bright-blue";
         style = "bold bright-blue";
         truncate_to_repo = false;
       };
