@@ -4,6 +4,6 @@
     ./env.nix
     ./file.nix
     ./packages.nix
-    ./starship.nix
+    # ./starship.nix
   ];
 }
