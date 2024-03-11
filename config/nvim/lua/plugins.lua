@@ -66,4 +66,5 @@ return {
     },
   },
   { "isobit/vim-caddyfile" },
+  { "vmchale/just-vim" },
 }

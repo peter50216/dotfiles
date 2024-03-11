@@ -62,8 +62,6 @@ iabbrev @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 
 "--------------------------------------------------------------------
 " Custom keybinding {{{
-let mapleader="\<Space>"
-let maplocalleader="\<Space>"
 set pastetoggle=<F2>
 
 " One less shift!
