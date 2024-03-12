@@ -19,7 +19,7 @@ in {
     cheat
     delta
     difftastic
-    dust
+    dua
     eza
     fd
     htop
