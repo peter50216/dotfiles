@@ -10,6 +10,11 @@ alias gcp="git cherry-pick"
 
 alias gbl="git branch -v --sort=-committerdate"
 
+alias gwdd='GIT_EXTERNAL_DIFF=difft gwd --ext-diff'
+alias gidd='GIT_EXTERNAL_DIFF=difft gid --ext-diff'
+alias gsdd='GIT_EXTERNAL_DIFF=difft gsd --ext-diff'
+alias gldd='GIT_EXTERNAL_DIFF=difft gld --ext-diff'
+
 alias .j='just --justfile ~/.user.justfile --working-directory .'
 alias fd='noglob fd'
 
