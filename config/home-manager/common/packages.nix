@@ -18,6 +18,7 @@ in {
     btop
     cheat
     delta
+    difftastic
     dust
     eza
     fd
