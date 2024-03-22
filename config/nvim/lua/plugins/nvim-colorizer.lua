@@ -1,12 +1,20 @@
 return {
   {
-    "norcalli/nvim-colorizer.lua",
+    "NvChad/nvim-colorizer.lua",
     init = function()
       vim.opt.termguicolors = true
     end,
     opts = {
-      "*",
-      css = { css = true },
+      filetypes = {
+        "*",
+        css = {
+          css = true,
+          RRGGBBAA = true,
+        },
+      },
+      user_default_options = {
+        mode = "background",
+      },
     },
   },
 }
