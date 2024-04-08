@@ -1,33 +1,36 @@
 return {
   {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require('lspconfig')
+      local lspconfig = require("lspconfig")
       local servers = {
         -- TODO: mason
         -- pnpm i -g vscode-langservers-extracted
-        'eslint',
+        "eslint",
         -- pnpm i -g @vue/language-server
-        'volar',
+        "volar",
       }
       for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup {
+        lspconfig[lsp].setup({
           capabilities = capabilities,
-        }
+        })
       end
       -- pnpm i -g typescript-language-server
-      lspconfig.tsserver.setup {
+      lspconfig.tsserver.setup({
         capabilities = capabilities,
         init_options = {
           plugins = {
             {
               name = "@vue/typescript-plugin",
-              location = string.format("%s/global/5/node_modules/@vue/typescript-plugin", os.getenv("PNPM_HOME")),
-              languages = {"javascript", "typescript", "vue"},
+              location = string.format(
+                "%s/global/5/node_modules/@vue/typescript-plugin",
+                os.getenv("PNPM_HOME")
+              ),
+              languages = { "javascript", "typescript", "vue" },
             },
           },
         },
@@ -36,7 +39,7 @@ return {
           "typescript",
           "vue",
         },
-      }
+      })
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})
       vim.keymap.set(
@@ -61,16 +64,16 @@ return {
       vim.api.nvim_create_autocmd("CursorHold", {
         group = au_id,
         callback = function()
-          vim.diagnostic.open_float({"cursor", focusable = false})
+          vim.diagnostic.open_float({ "cursor", focusable = false })
         end,
         desc = "Open floating diagnostic under cursor on CursorHold",
       })
 
-      vim.api.nvim_create_autocmd('LspAttach', {
+      vim.api.nvim_create_autocmd("LspAttach", {
         group = au_id,
         callback = function(ev)
           -- Enable completion triggered by <c-x><c-o>
-          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -79,7 +82,7 @@ return {
             return { buffer = ev.buf, silent = true, desc = desc }
           end
           vim.keymap.set(
-            {"n", "v"},
+            { "n", "v" },
             "<Leader>xa",
             vim.lsp.buf.code_action,
             build_opts("Code action")
@@ -108,12 +111,7 @@ return {
             vim.lsp.buf.implementation,
             build_opts("Go to implementation")
           )
-          vim.keymap.set(
-            'n',
-            'K',
-            vim.lsp.buf.hover,
-            build_opts("Show doc")
-          )
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, build_opts("Show doc"))
           vim.keymap.set(
             "n",
             "<Leader>xq",
@@ -122,6 +120,6 @@ return {
           )
         end,
       })
-    end
+    end,
   },
 }

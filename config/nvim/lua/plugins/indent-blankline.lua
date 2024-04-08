@@ -3,7 +3,7 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     config = function(_)
-      local hooks = require "ibl.hooks"
+      local hooks = require("ibl.hooks")
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", {
           fg = "#182818",
@@ -12,7 +12,7 @@ return {
           fg = "#181830",
         })
       end)
-      require("ibl").setup {
+      require("ibl").setup({
         scope = {
           enabled = false,
         },
@@ -33,7 +33,7 @@ return {
             "",
           },
         },
-      }
+      })
     end,
   },
 }
