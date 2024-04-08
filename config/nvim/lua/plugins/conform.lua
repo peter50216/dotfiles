@@ -24,6 +24,7 @@ return {
         typescript = { "eslint_d" },
         vue = { "eslint_d" },
         nix = { "alejandra" },
+        json = { "prettier" },
       },
       formatters = {
         stylua = function()
