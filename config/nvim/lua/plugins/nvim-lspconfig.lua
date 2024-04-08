@@ -11,14 +11,32 @@ return {
         -- TODO: mason
         -- pnpm i -g vscode-langservers-extracted
         'eslint',
-        -- pnpm i -g typescript-language-server
-        'tsserver'
+        -- pnpm i -g @vue/language-server
+        'volar',
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup {
           capabilities = capabilities,
         }
       end
+      -- pnpm i -g typescript-language-server
+      lspconfig.tsserver.setup {
+        capabilities = capabilities,
+        init_options = {
+          plugins = {
+            {
+              name = "@vue/typescript-plugin",
+              location = string.format("%s/global/5/node_modules/@vue/typescript-plugin", os.getenv("PNPM_HOME")),
+              languages = {"javascript", "typescript", "vue"},
+            },
+          },
+        },
+        filetypes = {
+          "javascript",
+          "typescript",
+          "vue",
+        },
+      }
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})
       vim.keymap.set(
@@ -102,10 +120,6 @@ return {
             vim.lsp.buf.references,
             build_opts("Go to references")
           )
-          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-          vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
-          end, opts)
         end,
       })
     end
