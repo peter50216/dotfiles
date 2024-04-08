@@ -2,7 +2,7 @@ return {
   {
     "ggandor/leap.nvim",
     config = function()
-      require("leap").setup {}
+      require("leap").setup({})
     end,
     keys = {
       {

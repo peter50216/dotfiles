@@ -14,6 +14,8 @@ return {
         desc = "Copy URL of current (CrOS) file from gerrit",
       })
     end,
-    cond = function() vim.fn.has('macunix') end,
+    cond = function()
+      vim.fn.has("macunix")
+    end,
   },
 }
