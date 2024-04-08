@@ -46,9 +46,6 @@
     stdout: true
     stderr: true
   -
-    command: cd modules/tmux-mem-cpu-load && cmake . && make
-    description: Building tmux-mem-cpu-load
-  -
     command: ~/.fzf/install --all
     description: Installing fzf
 
