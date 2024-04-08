@@ -2,6 +2,7 @@
   config,
   pkgs,
   specialArgs,
+  inputs,
   ...
 }: let
   inherit (specialArgs) system username homeDirectory;
@@ -30,7 +31,9 @@ in {
     mise
     neovim
     ripgrep
+    tmux
     zoxide
+    zsh
     # TODO(Darkpi): mise, probably want to move that to nix too???
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -45,6 +48,7 @@ in {
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    (pkgs.callPackage ./tmux-mem-cpu-load.nix {})
   ];
 
   programs.atuin = {
