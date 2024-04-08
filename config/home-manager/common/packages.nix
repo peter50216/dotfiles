@@ -22,6 +22,7 @@ in {
     dua
     eza
     fd
+    git
     htop
     hyperfine
     jq

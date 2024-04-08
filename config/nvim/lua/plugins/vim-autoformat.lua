@@ -23,7 +23,7 @@ return {
         "prettier",
       }
       vim.g.formatters_typescriptreact = { "npx_prettier", "prettier" }
-      vim.g.formatters_vue = { "eslint_d", "npx_prettier", "prettier" }
+      vim.g.formatters_vue = { "eslint_d" }
       vim.g.formatters_javascript = { "clangformat" }
       vim.g.formatters_html = { "prettier" }
       vim.g.formatters_ruby = { "rubocop" }
