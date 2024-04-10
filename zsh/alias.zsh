@@ -37,3 +37,4 @@ alias rsync-synchronize="${_rsync_cmd} --update --delete"
 unset _rsync_cmd
 
 alias hm-switch='home-manager switch --impure; rehash'
+alias br='broot'

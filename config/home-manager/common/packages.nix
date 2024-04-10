@@ -32,6 +32,7 @@ in {
     neovim
     ripgrep
     tmux
+    sd
     zoxide
     zsh
     # TODO(Darkpi): mise, probably want to move that to nix too???
