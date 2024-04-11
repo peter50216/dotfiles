@@ -13,6 +13,7 @@ return {
         "eslint",
         -- pnpm i -g @vue/language-server
         "volar",
+        "clangd",
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
