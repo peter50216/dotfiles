@@ -34,6 +34,12 @@ return {
               languages = { "javascript", "typescript", "vue" },
             },
           },
+          tsserver = {
+            fallbackPath = string.format(
+              "%s/global/5/node_modules/typescript/lib",
+              os.getenv("PNPM_HOME")
+            ),
+          },
         },
         filetypes = {
           "javascript",
