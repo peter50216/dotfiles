@@ -1,6 +1,11 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp",
+      { url = "https://codeberg.org/FelipeLema/cmp-async-path.git" },
+    },
     opts = function()
       local cmp = require("cmp")
       return {
@@ -28,9 +33,13 @@ return {
             end
           end, { "i", "s" }),
         }),
-        sources = {
+        sources = cmp.config.sources({
           { name = "nvim_lsp" },
-        },
+        }, {
+          { name = "buffer" },
+        }, {
+          { name = "async_path" },
+        }),
       }
     end,
   },
