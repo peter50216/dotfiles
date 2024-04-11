@@ -5,7 +5,7 @@ return {
     priority = 1000,
     config = function()
       vim.g.everforest_transparent_background = 1
-      vim.cmd [[colorscheme everforest]]
+      vim.cmd([[colorscheme everforest]])
     end,
   },
 
@@ -48,12 +48,12 @@ return {
   { "nvim-treesitter/playground" },
   { "https://github.com/kalcutter/vim-gn" },
   { "dstein64/vim-startuptime" },
-  {
-    "chrisgrieser/nvim-various-textobjs",
-    opts = {
-      useDefaultKeymaps = true,
-    },
-  },
+  -- {
+  -- "chrisgrieser/nvim-various-textobjs",
+  -- opts = {
+  -- useDefaultKeymaps = true,
+  -- },
+  -- },
   { "RaafatTurki/hex.nvim", config = true },
   {
     "klen/nvim-config-local",
