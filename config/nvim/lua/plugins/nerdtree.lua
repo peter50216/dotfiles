@@ -1,6 +1,7 @@
 return {
   {
     "scrooloose/nerdtree",
+    enabled = false,
     config = function()
       vim.g.NERDTreeWinSize = 24
       vim.g.NERDTreeIgnore = {
