@@ -3,6 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      { "folke/neodev.nvim", config = true },
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -20,6 +21,16 @@ return {
           capabilities = capabilities,
         })
       end
+
+      lspconfig.lua_ls.setup({
+        settings = {
+          Lua = {
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      })
       -- pnpm i -g typescript-language-server
       lspconfig.tsserver.setup({
         capabilities = capabilities,
@@ -53,13 +64,13 @@ return {
         "n",
         "<Leader>xp",
         vim.diagnostic.goto_prev,
-        { silent = true, desc = "Go to next diagnostic" }
+        { silent = true, desc = "Go to previous diagnostic" }
       )
       vim.keymap.set(
         "n",
         "<Leader>xn",
         vim.diagnostic.goto_next,
-        { silent = true, desc = "Go to previous diagnostic" }
+        { silent = true, desc = "Go to next diagnostic" }
       )
 
       vim.diagnostic.config({
@@ -87,9 +98,6 @@ return {
           -- Enable completion triggered by <c-x><c-o>
           vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-          -- Buffer local mappings.
-          -- See `:help vim.lsp.*` for documentation on any of the below functions
-          local opts = { buffer = ev.buf, silent = true }
           local build_opts = function(desc)
             return { buffer = ev.buf, silent = true, desc = desc }
           end
@@ -101,35 +109,11 @@ return {
           )
           vim.keymap.set(
             "n",
-            "<Leader>xd",
-            vim.lsp.buf.definition,
-            build_opts("Go to definition")
-          )
-          vim.keymap.set(
-            "n",
-            "<Leader>xt",
-            "<Plug>(coc-type-definition)",
-            build_opts("Go to type definition")
-          )
-          vim.keymap.set(
-            "n",
             "<Leader>xr",
             vim.lsp.buf.rename,
             build_opts("Rename current symbol")
           )
-          vim.keymap.set(
-            "n",
-            "<Leader>xi",
-            vim.lsp.buf.implementation,
-            build_opts("Go to implementation")
-          )
           vim.keymap.set("n", "K", vim.lsp.buf.hover, build_opts("Show doc"))
-          vim.keymap.set(
-            "n",
-            "<Leader>xq",
-            vim.lsp.buf.references,
-            build_opts("Go to references")
-          )
         end,
       })
     end,
