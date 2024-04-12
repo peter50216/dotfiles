@@ -8,6 +8,9 @@ return {
       highlight = {
         enable = true,
       },
+      endwise = {
+        enable = true,
+      },
     },
   },
 }

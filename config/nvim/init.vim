@@ -23,7 +23,6 @@ set hlsearch
 set ignorecase
 set inccommand=nosplit
 set incsearch
-set iskeyword+=-
 set lazyredraw
 set list
 set mouse=a
@@ -126,26 +125,11 @@ nnoremap <CR> za
 nnoremap + <C-a>
 nnoremap - <C-x>
 
-" Fast edit & reload vimrc
-nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
-
 " Easy doing some complex things
 if executable('ruby')
   vnoremap <Leader>rr :B !ruby 2>&1<CR>
   vnoremap <Leader>re :B !ruby -e 'print eval($stdin.read)' 2>&1<CR>
 endif
-
-" Splits
-" Maximize current split
-" nnoremap <Leader>wm <C-w>_<C-w><Bar>
-" Resize all split
-" nnoremap <Leader>wr <C-w>=
-" Fast split
-nnoremap _ :split<CR><C-w>j
-nnoremap <Bar> :vsplit<CR><C-w>l
-
-" Reindent all code, while preserving cursor location
-nnoremap <Leader>= mqHmwgg=G`wzt`q
 
 " Toggle colorcolumn
 function! g:ToggleColorColumn()

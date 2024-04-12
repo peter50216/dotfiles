@@ -1,6 +1,7 @@
 return {
   {
     "junegunn/fzf.vim",
+    enabled = false,
     init = function()
       vim.g.fzf_command_prefix = "FZF"
     end,
