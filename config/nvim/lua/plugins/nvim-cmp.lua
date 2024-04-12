@@ -5,10 +5,22 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
       { url = "https://codeberg.org/FelipeLema/cmp-async-path.git" },
+      {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp",
+      },
+      "saadparwaiz1/cmp_luasnip",
     },
     opts = function()
       local cmp = require("cmp")
       return {
+
+        snippet = {
+          expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+          end,
+        },
         mapping = cmp.mapping.preset.insert({
           -- ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
           -- ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
