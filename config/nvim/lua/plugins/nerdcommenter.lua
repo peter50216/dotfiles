@@ -1,6 +1,7 @@
 return {
   {
     "scrooloose/nerdcommenter",
+    enabled = false,
     config = function()
       vim.g.NERDSpaceDelims = 1
       vim.g.NERDUsePlaceHolders = 0
