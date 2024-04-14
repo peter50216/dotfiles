@@ -67,4 +67,5 @@ return {
   },
   { "isobit/vim-caddyfile" },
   { "vmchale/just-vim" },
+  { "edgedb/edgedb-vim" },
 }
