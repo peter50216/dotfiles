@@ -14,6 +14,7 @@ return {
         "eslint",
         -- pnpm i -g @vue/language-server
         "volar",
+        -- system clangd
         "clangd",
       }
       for _, lsp in ipairs(servers) do
@@ -27,6 +28,20 @@ return {
           Lua = {
             telemetry = {
               enable = false,
+            },
+          },
+        },
+      })
+      -- pnpm i -g vscode-langservers-extracted
+      lspconfig.jsonls.setup({
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = {
+              {
+                fileMatch = { "package.json" },
+                url = "https://json.schemastore.org/package.json",
+              },
             },
           },
         },
