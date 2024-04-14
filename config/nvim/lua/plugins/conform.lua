@@ -29,25 +29,14 @@ return {
 
       local formatters_by_ft = {
         cpp = { "clang-format" },
+        css = { "prettier", "stylelint" },
         lua = { "stylua" },
         javascript = jsts,
         typescript = jsts,
-        vue = { "eslint_d" },
+        vue = { "eslint_d", "stylelint" },
         nix = { "alejandra" },
         json = { "prettier" },
       }
-
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        group = au_id,
-        callback = function(args)
-          local original = vim.notify
-          vim.notify = function(msg, level, opts)
-            original(msg, vim.log.levels.WARN, opts)
-          end
-          module.format({ buf = args.buf })
-        end,
-      })
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
@@ -59,6 +48,7 @@ return {
         end,
       })
 
+      local slow_format_filetypes = {}
       module.setup({
         formatters_by_ft = formatters_by_ft,
         formatters = {
@@ -79,7 +69,42 @@ return {
               ESLINT_USE_FLAT_CONFIG = "true",
             },
           },
+          stylelint = function()
+            return {
+              command = require("conform.util").find_executable({
+                "./node_modules/.bin/stylelint",
+              }, "stylelint"),
+              prepend_args = function()
+                return { "--stdin-filename", vim.fn.expand("%:p") }
+              end,
+            }
+          end,
         },
+
+        format_on_save = function(bufnr)
+          if slow_format_filetypes[vim.bo[bufnr].filetype] then
+            return
+          end
+          local original = vim.notify
+          local function on_format(err)
+            if err and err:match("timeout$") then
+              slow_format_filetypes[vim.bo[bufnr].filetype] = true
+            end
+            vim.notify = original
+          end
+          vim.notify = function(msg, level, opts)
+            original(msg, vim.log.levels.WARN, opts)
+          end
+
+          return { timeout_ms = 200 }, on_format
+        end,
+
+        format_after_save = function(bufnr)
+          if not slow_format_filetypes[vim.bo[bufnr].filetype] then
+            return
+          end
+          return {}
+        end,
       })
     end,
   },
