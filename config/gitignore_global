@@ -11,3 +11,4 @@ upstream.tmp
 .vim
 goma_fetch.*
 .watchman-*
+.nvim.lua

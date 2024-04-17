@@ -16,23 +16,17 @@ return {
     },
     config = function()
       local module = require("conform")
+      local util = require("conform.util")
+
       local au_id =
         vim.api.nvim_create_augroup("autocmd_conform", { clear = true })
-
-      local jsts = function(bufnr)
-        if string.find(vim.api.nvim_buf_get_name(bufnr), "/chromium/src/") then
-          return { "clang-format" }
-        else
-          return { "eslint_d" }
-        end
-      end
 
       local formatters_by_ft = {
         cpp = { "clang-format" },
         css = { "prettier", "stylelint" },
         lua = { "stylua" },
-        javascript = jsts,
-        typescript = jsts,
+        javascript = { "eslint_d" },
+        typescript = { "eslint_d" },
         vue = { "eslint_d", "stylelint" },
         nix = { "alejandra" },
         json = { "prettier" },
@@ -79,6 +73,26 @@ return {
               end,
             }
           end,
+          ["clang-format"] = {
+            args = function(self, ctx)
+              local filename = string.gsub(ctx.filename, "%.[cm]js$", ".js")
+              return { "-assume-filename", filename }
+            end,
+            range_args = function(self, ctx)
+              local filename = string.gsub(ctx.filename, "%.[cm]js$", ".js")
+              local start_offset, end_offset =
+                util.get_offsets_from_range(ctx.buf, ctx.range)
+              local length = end_offset - start_offset
+              return {
+                "-assume-filename",
+                filename,
+                "--offset",
+                tostring(start_offset),
+                "--length",
+                tostring(length),
+              }
+            end,
+          },
         },
 
         format_on_save = function(bufnr)
