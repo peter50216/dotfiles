@@ -24,6 +24,7 @@ return {
       end
 
       lspconfig.lua_ls.setup({
+        capabilities = capabilities,
         settings = {
           Lua = {
             telemetry = {

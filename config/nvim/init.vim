@@ -14,6 +14,7 @@ set completeopt=menuone
 set confirm
 set encoding=utf8
 set expandtab
+set exrc
 set fillchars=vert:\|
 set fileencoding=utf8
 set fileencodings=utf8,iso-8859-1,big5,cp950
@@ -29,6 +30,7 @@ set mouse=a
 set number
 set ruler
 set scrolloff=5
+set secure
 set sessionoptions-=curdir
 set noshiftround
 set shiftwidth=2
