@@ -15,6 +15,7 @@ return {
           require("lint").try_lint()
         end,
       })
+      -- https://github.com/mfussenegger/nvim-lint/pull/518
       module.linters.stylelint.stream = "stderr"
     end,
   },

@@ -16,6 +16,8 @@ return {
         "volar",
         -- system clangd
         "clangd",
+        -- pnpm i -g pyright
+        "pyright",
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
