@@ -30,6 +30,7 @@ return {
         vue = { "eslint_d", "stylelint" },
         nix = { "alejandra" },
         json = { "prettier" },
+        python = { "black" },
       }
 
       vim.api.nvim_create_autocmd("FileType", {
