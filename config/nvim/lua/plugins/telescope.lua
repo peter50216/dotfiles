@@ -94,6 +94,9 @@ return {
             horizontal = { width = 0.9 },
           },
           vimgrep_arguments = vimgrep_arguments,
+          path_display = {
+            "truncate",
+          },
         },
         pickers = {
           current_buffer_fuzzy_find = {
