@@ -8,8 +8,8 @@ with pkgs;
     version = "1.0.0";
     src = fetchgit {
       url = "https://github.com/peter50216/ripgrep_replace.git";
-      sha256 = "sha256-XXUBilB0ixry/lfpEVqMGcRmgLtCAUq7aGSUVtHIybI=";
-      rev = "68ab346ebc5b52d38a32a09aecb4d1e2cc844145";
+      sha256 = "sha256-IaDYYDXhscOP7tHJdtl4ZZgwTO/Cnpjl5XdJKOnX1Ls=";
+      rev = "74ff509623bc58aed0835a9ebb19dd4bcd70e32a";
     };
     installPhase = ''
       mkdir -p $out/bin
