@@ -50,6 +50,7 @@ in {
     #   echo "Hello, ${config.home.username}!"
     # '')
     (pkgs.callPackage ./tmux-mem-cpu-load.nix {})
+    (pkgs.callPackage ./rgr.nix {})
   ];
 
   programs.atuin = {
