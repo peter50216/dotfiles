@@ -97,6 +97,7 @@ return {
           path_display = {
             "truncate",
           },
+          scroll_strategy = "limit",
         },
         pickers = {
           current_buffer_fuzzy_find = {
