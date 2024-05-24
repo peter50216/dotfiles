@@ -5,8 +5,10 @@ alias rb='ruby'
 alias py='python'
 alias reboot='echo "no"'
 
+alias grr="GIT_SEQUENCE_EDITOR=: git rebase --interactive --autosquash"
 alias glr="git reflog --format='%C(auto)%h %<(9)%gd %C(blue)%ci%C(reset) %s'"
 alias gcp="git cherry-pick"
+alias gcff="git commit --fixup"
 
 alias gbl="git branch -v --sort=-committerdate"
 

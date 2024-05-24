@@ -45,6 +45,10 @@ return {
                 fileMatch = { "package.json" },
                 url = "https://json.schemastore.org/package.json",
               },
+              {
+                fileMatch = { "tsconfig.json" },
+                url = "https://json.schemastore.org/tsconfig.json",
+              },
             },
           },
         },
@@ -71,6 +75,16 @@ return {
           },
         },
         filetypes = {
+          "javascript",
+          "typescript",
+          "vue",
+        },
+      })
+      -- pnpm i -g css-variables-language-server
+      lspconfig.css_variables.setup({
+        capabilities = capabilities,
+        filetypes = {
+          "css",
           "javascript",
           "typescript",
           "vue",

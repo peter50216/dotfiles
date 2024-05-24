@@ -5,6 +5,7 @@
   commitGraph = true
   pager = delta
   untrackedCache = true
+  fsmonitor = true
 [color]
   ui = true
 [push]
@@ -31,3 +32,5 @@
   minus-style = syntax "#280000"
 [init]
   defaultBranch = main
+[rebase]
+  autoSquash = true
