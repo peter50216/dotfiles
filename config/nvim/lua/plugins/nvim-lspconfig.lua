@@ -18,6 +18,8 @@ return {
         "clangd",
         -- pnpm i -g pyright
         "pyright",
+        -- go install golang.org/x/tools/gopls@latest
+        "gopls",
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
@@ -81,15 +83,15 @@ return {
         },
       })
       -- pnpm i -g css-variables-language-server
-      lspconfig.css_variables.setup({
-        capabilities = capabilities,
-        filetypes = {
-          "css",
-          "javascript",
-          "typescript",
-          "vue",
-        },
-      })
+      -- lspconfig.css_variables.setup({
+      --   capabilities = capabilities,
+      --   filetypes = {
+      --     "css",
+      --     "javascript",
+      --     "typescript",
+      --     "vue",
+      --   },
+      -- })
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})
       vim.keymap.set(
