@@ -29,6 +29,7 @@ require("lazy").setup("plugins", {
   defaults = {
     cond = not vim.g.vscode,
   },
+  concurrency = 8,
 })
 -- }}}
 
