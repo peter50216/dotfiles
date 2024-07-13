@@ -15,7 +15,6 @@ return {
     opts = function()
       local cmp = require("cmp")
       return {
-
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
@@ -28,7 +27,6 @@ return {
           -- ['<C-Space>'] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
           }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
