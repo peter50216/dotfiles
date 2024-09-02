@@ -115,32 +115,8 @@ return {
           },
         },
 
-        format_on_save = function(bufnr)
-          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-            return
-          end
-          if slow_format_filetypes[vim.bo[bufnr].filetype] then
-            return
-          end
-          local original = vim.notify
-          local function on_format(err)
-            if err and err:match("timeout$") then
-              slow_format_filetypes[vim.bo[bufnr].filetype] = true
-            end
-            vim.notify = original
-          end
-          vim.notify = function(msg, level, opts)
-            original(msg, vim.log.levels.WARN, opts)
-          end
-
-          return { timeout_ms = 200 }, on_format
-        end,
-
         format_after_save = function(bufnr)
           if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-            return
-          end
-          if not slow_format_filetypes[vim.bo[bufnr].filetype] then
             return
           end
           return {}
