@@ -22,6 +22,7 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
+  'history-substring-search' \
   'autosuggestions'
   # 'ssh' \
 # IMPORTANT: Do not change order of last six
@@ -40,3 +41,6 @@ zstyle ':prezto:module:prompt' theme 'pure'
 
 # Solve completion takes too long.
 zstyle ':completion:*' users pihsun root
+
+# Makes "gws" much faster
+zstyle ':prezto:module:git:status:ignore' submodules 'dirty'
