@@ -17,14 +17,10 @@ in {
   home.file = {
     # git
     ".gitignore_global".source = ./external/gitignore_global;
-    #
     # # vim
     # ".local/share/nvim/site/autoload/plug.vim".source = mkDotfileSymlink "modules/vim-plug/plug.vim";
     #
     # # nvim
     # ".config/nvim".source = mkDotfileSymlink "config/nvim";
-    #
-    # # binary
-    # "bin/common".source = mkDotfileSymlink "bin";
   };
 }

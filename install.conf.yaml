@@ -12,15 +12,10 @@
 - clean: ['~']
 
 - link:
-# git
-    # ~/.gitconfig: config/gitconfig
-    # ~/.gitignore_global: config/gitignore_global
 # vim
     ~/.local/share/nvim/site/autoload/plug.vim: modules/vim-plug/plug.vim
 # nvim
     ~/.config/nvim: config/nvim
-# binary
-    ~/bin/common: bin/
 
 - shell:
   -
@@ -29,9 +24,3 @@
     stdin: true
     stdout: true
     stderr: true
-  -
-    command: ~/.fzf/install --all
-    description: Installing fzf
-
-- link:
-    ~/bin/tmux-mem-cpu-load: modules/tmux-mem-cpu-load/tmux-mem-cpu-load
