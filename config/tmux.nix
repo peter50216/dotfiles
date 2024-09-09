@@ -5,6 +5,7 @@
 
   programs.tmux = {
     enable = true;
+    escapeTime = 0;
     shortcut = "a";
     shell = "${pkgs.zsh}/bin/zsh";
     terminal = "screen-256color";

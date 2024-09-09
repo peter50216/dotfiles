@@ -27,6 +27,7 @@
     LANG = "en_US.UTF-8";
     # Fix for ubuntu slowness
     skip_global_compinit = 1;
+    HOME_MANAGER_CONFIG = "${config.home.homeDirectory}/dotfiles/home.nix";
   };
 
   home.sessionPath = [
