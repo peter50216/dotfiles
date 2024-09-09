@@ -1,21 +1,9 @@
-zmodload zsh/zprof
-
-source ~/.dotfiles/zsh/env.zsh
-
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
 setopt magic_equal_subst
 setopt CLOBBER            # Don't care about overwrite existing file with > and >>.
                           # unset by modules/directory in prezto
 setopt inc_append_history
 unsetopt share_history    # Don't share history in multiple simutaneous zsh.
                           # set by modules/history in prezto
-HISTSIZE=100000
-SAVEHIST=100000
-
 
 # No Ctrl+S freezing in vim.
 stty -ixon
@@ -25,27 +13,6 @@ if [[ -n "${terminfo[kpp]}" ]]; then
 fi
 if [[ -n "${terminfo[knp]}" ]]; then
   bindkey "${terminfo[knp]}" forward-word
-fi
-
-export FZF_CTRL_T_OPTS="
-  --preview 'bat -n --color=always {}'
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files'
-
-# source ~/.dotfiles/zsh/alias.zsh
-source ~/.dotfiles/zsh/lazy.zsh
-source ~/.dotfiles/zsh/mise.zsh
-source ~/.dotfiles/zsh/zoxide.zsh
-source ~/.dotfiles/zsh/home-manager.zsh
-# eval "$(starship init zsh)"
-
-for file in ~/.dotfiles/zsh/functions/*.zsh; do
-  source "$file"
-done
-
-if [[ -f ~/.zshrc_local ]]; then
-  source ~/.zshrc_local
 fi
 
 # From: https://hackerfall.com/story/how-to-boost-your-vim-productivity
@@ -60,4 +27,9 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
-export COLORTERM=truecolor
+
+# TODO(Darkpi): Consider remove this when all local config moves to nix
+# too.
+if [[ -f ~/.zshrc_local ]]; then
+  source ~/.zshrc_local
+fi

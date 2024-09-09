@@ -1,11 +1,7 @@
 {
-  config,
-  pkgs,
-  specialArgs,
-  ...
-}: let
-  inherit (specialArgs) system username homeDirectory;
-in {
+  username,
+  homeDirectory,
+}: {...}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
@@ -20,4 +16,14 @@ in {
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
+
+  # Specify your home configuration modules here, for example,
+  # the path to your home.nix.
+  imports = [
+    ./env.nix
+    ./file.nix
+    ./packages.nix
+    ./zsh
+    ./extra.nix
+  ];
 }

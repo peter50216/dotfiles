@@ -32,9 +32,6 @@
     ~/.config/nvim: config/nvim
 # fzf
     ~/.fzf: modules/fzf
-# nix
-    ~/.config/nix/nix.conf: config/nix.conf
-    ~/.config/home-manager/common: config/home-manager/common
 # binary
     ~/bin/common: bin/
 
