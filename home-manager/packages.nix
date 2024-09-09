@@ -30,6 +30,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     (pkgs.callPackage ./packages/rgr.nix {})
+    (pkgs.callPackage ./packages/unarchive.nix {})
   ];
 
   programs.fzf.enable = true;
