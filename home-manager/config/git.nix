@@ -1,29 +1,11 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.delta];
-
   programs.git = {
     enable = true;
 
-    extraConfig = {
-      core = {
-        editor = "nvim";
-        excludesfile = "~/.gitignore_global";
-        abbrev = 12;
-        commitGraph = true;
-        pager = "delta";
-        untrackedCache = true;
-        fsmonitor = true;
-      };
+    delta = {
+      enable = true;
 
-      color.ui = true;
-
-      push.default = "current";
-
-      pretty.fixes = "Fixes: %h (\"%s\")";
-
-      include.path = "~/.gitconfig_local";
-
-      delta = {
+      options = {
         features = "line-numbers";
         syntax-theme = "Monokai Extended";
         file-style = "221";
@@ -38,6 +20,25 @@
         plus-style = "syntax \"#002000\"";
         minus-style = "syntax \"#280000\"";
       };
+    };
+
+    extraConfig = {
+      core = {
+        editor = "nvim";
+        excludesfile = "~/.gitignore_global";
+        abbrev = 12;
+        commitGraph = true;
+        untrackedCache = true;
+        fsmonitor = true;
+      };
+
+      color.ui = true;
+
+      push.default = "current";
+
+      pretty.fixes = "Fixes: %h (\"%s\")";
+
+      include.path = "~/.gitconfig_local";
 
       init.defaultBranch = "main";
 
