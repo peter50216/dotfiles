@@ -32,5 +32,5 @@ fi
 if ! command -v home-manager >/dev/null; then
   nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
   nix-channel --update
-  nix-shell '<home-manager>' -A home-manager --run "home-manager init --switch --no-flake -f ./home.nix"
+  nix-shell -p 'home-manager' --run "home-manager init --switch --no-flake ."
 fi
