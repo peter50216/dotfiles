@@ -25,7 +25,7 @@ if [ ! -f ~/.config/nix/ ]; then
 fi
 
 if ! command -v nix >/dev/null; then
-  sh <(curl -L https://nixos.org/nix/install) --daemon --yes --daemon-user-count 11
+  curl -sSf -L https://install.lix.systems/lix | sh -s -- install --no-confirm --nix-build-user-count 11
   source /etc/profile.d/nix.sh
 fi
 
