@@ -4,7 +4,6 @@ if ! sudo -l >/dev/null 2>&1; then
 fi
 if ! command -v git >/dev/null 2>&1; then
   echo $'\e[1;33mgit not installed, installing...\e[m'
-  sudo apt-get update
   sudo apt-get -y install git
 fi
 git clone --filter=blob:none https://github.com/peter50216/dotfiles ~/dotfiles
