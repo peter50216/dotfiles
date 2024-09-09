@@ -3,6 +3,7 @@
   pkgs,
 }:
 stdenv.mkDerivation {
+  # TODO: Add dependency to rg
   pname = "rgr";
   version = "1.0.0";
   src = pkgs.fetchgit {

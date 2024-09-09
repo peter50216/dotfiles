@@ -33,7 +33,7 @@
       rsync-move = "${rsync_cmd} --remove-source-files";
       rsync-update = "${rsync_cmd} --update";
       rsync-synchronize = "${rsync_cmd} --update --delete";
-      hm-switch = "home-manager switch -f ~/dotfiles/home-manager/home.nix; rehash";
+      hm-switch = "home-manager switch -f ~/dotfiles/home.nix; rehash";
       hm-gc = "nix-collect-garbage --delete-old";
     };
   };

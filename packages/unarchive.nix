@@ -3,6 +3,7 @@
   bash,
 }:
 stdenv.mkDerivation {
+  # TODO: Use writeShellApplication instead for dependencies.
   name = "unarchive";
   version = "1.0.0";
 

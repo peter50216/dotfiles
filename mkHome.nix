@@ -26,5 +26,6 @@
     ./config
     ./zsh
     ./local.nix
+    ./setup.nix
   ];
 }
