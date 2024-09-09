@@ -12,26 +12,13 @@
 - clean: ['~']
 
 - link:
-    ~/.dotfiles: ''
 # git
-    ~/.gitconfig: config/gitconfig
-    ~/.gitignore_global: config/gitignore_global
-# tmux
-    ~/.tmux.conf: config/tmux.conf
-# zsh
-    ~/.zlogin: config/zlogin
-    ~/.zpreztorc: config/zpreztorc
-    ~/.zprofile: config/zprofile
-    ~/.zshenv: config/zshenv
-    ~/.zshrc: config/zshrc
-# prezto
-    ~/.zprezto: modules/prezto
+    # ~/.gitconfig: config/gitconfig
+    # ~/.gitignore_global: config/gitignore_global
 # vim
     ~/.local/share/nvim/site/autoload/plug.vim: modules/vim-plug/plug.vim
 # nvim
     ~/.config/nvim: config/nvim
-# fzf
-    ~/.fzf: modules/fzf
 # binary
     ~/bin/common: bin/
 
