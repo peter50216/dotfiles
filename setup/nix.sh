@@ -8,4 +8,4 @@ if ! command -v nix >/dev/null; then
   source /etc/profile.d/nix.sh
 fi
 
-nix run home-manager/master -- init --switch --impure
+nix run home-manager/master -- init --switch -f ~/dotfiles/home-manager/home.nix

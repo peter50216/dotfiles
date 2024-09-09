@@ -28,12 +28,9 @@ in {
     hyperfine
     jq
     just
-    mise
     neovim
-    ripgrep
     tmux
     sd
-    zoxide
     zsh
     # TODO(Darkpi): mise, probably want to move that to nix too???
 
@@ -52,6 +49,14 @@ in {
     (pkgs.callPackage ./packages/tmux-mem-cpu-load.nix {})
     (pkgs.callPackage ./packages/rgr.nix {})
   ];
+
+  programs.fzf.enable = true;
+
+  programs.mise.enable = true;
+
+  programs.ripgrep.enable = true;
+
+  programs.zoxide.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

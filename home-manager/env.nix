@@ -21,6 +21,12 @@
   #
   home.sessionVariables = {
     DO_NOT_TRACK = 1;
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    PAGER = "less";
+    LANG = "en_US.UTF-8";
+    # Fix for ubuntu slowness
+    skip_global_compinit = 1;
   };
 
   home.sessionPath = [
