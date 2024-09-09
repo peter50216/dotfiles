@@ -56,6 +56,15 @@ in {
 
   programs.ripgrep.enable = true;
 
+  programs.tmux = {
+    enable = true;
+    shortcut = "a";
+    shell = "${pkgs.zsh}/bin/zsh";
+    terminal = "screen-256color";
+    extraConfig = builtins.readFile ./tmux.conf;
+    sensibleOnTop = true;
+  };
+
   programs.zoxide.enable = true;
 
   # Let Home Manager install and manage itself.
