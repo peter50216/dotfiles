@@ -31,6 +31,6 @@
 
   home.sessionPath = [
     "$HOME/bin"
-    "$HOME/bin/common"
+    "$HOME/dotfiles/bin"
   ];
 }
