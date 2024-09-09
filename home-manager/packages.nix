@@ -61,7 +61,7 @@ in {
     shortcut = "a";
     shell = "${pkgs.zsh}/bin/zsh";
     terminal = "screen-256color";
-    extraConfig = builtins.readFile ./tmux.conf;
+    extraConfig = builtins.readFile ./config/tmux.conf;
     sensibleOnTop = true;
   };
 
