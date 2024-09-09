@@ -23,7 +23,8 @@
     ./env.nix
     ./file.nix
     ./packages.nix
+    ./config
     ./zsh
-    ./extra.nix
+    ./local.nix
   ];
 }
