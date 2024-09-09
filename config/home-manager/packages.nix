@@ -49,8 +49,8 @@ in {
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    (pkgs.callPackage ./tmux-mem-cpu-load.nix {})
-    (pkgs.callPackage ./rgr.nix {})
+    (pkgs.callPackage ./packages/tmux-mem-cpu-load.nix {})
+    (pkgs.callPackage ./packages/rgr.nix {})
   ];
 
   # Let Home Manager install and manage itself.
