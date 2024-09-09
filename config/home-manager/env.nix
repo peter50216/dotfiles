@@ -20,5 +20,11 @@
   #  /etc/profiles/per-user/peter/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
+    DO_NOT_TRACK = 1;
   };
+
+  home.sessionPath = [
+    "$HOME/bin"
+    "$HOME/bin/common"
+  ];
 }

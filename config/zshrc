@@ -33,7 +33,7 @@ export FZF_CTRL_T_OPTS="
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files'
 
-source ~/.dotfiles/zsh/alias.zsh
+# source ~/.dotfiles/zsh/alias.zsh
 source ~/.dotfiles/zsh/lazy.zsh
 source ~/.dotfiles/zsh/mise.zsh
 source ~/.dotfiles/zsh/zoxide.zsh

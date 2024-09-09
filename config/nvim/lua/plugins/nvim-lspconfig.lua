@@ -20,6 +20,8 @@ return {
         "pyright",
         -- go install golang.org/x/tools/gopls@latest
         "gopls",
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_lsp
+        "ruby_lsp",
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({

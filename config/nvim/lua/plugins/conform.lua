@@ -31,6 +31,8 @@ return {
         nix = { "alejandra" },
         json = { "prettier" },
         python = { "yapf" },
+        ruby = { "standardrb" },
+        eruby = { "erb_format" },
       }
 
       vim.api.nvim_create_autocmd("FileType", {
