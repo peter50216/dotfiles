@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   mkDotfileSymlink = path:
@@ -14,5 +15,7 @@ in {
     ".gitignore_global".source = ./external/gitignore_global;
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
+    # Remove the zlogout from prezto.
+    ".zlogout".text = lib.mkOverride 10 "";
   };
 }
