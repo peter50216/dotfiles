@@ -33,6 +33,8 @@ return {
         python = { "yapf" },
         ruby = { "standardrb" },
         eruby = { "erb_format" },
+        sh = { "shfmt" },
+        bash = { "shfmt" },
       }
 
       vim.api.nvim_create_autocmd("FileType", {
