@@ -12,3 +12,4 @@ upstream.tmp
 goma_fetch.*
 .watchman-*
 .nvim.lua
+.direnv

@@ -22,6 +22,8 @@ return {
         "gopls",
         -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_lsp
         "ruby_lsp",
+        -- https://github.com/oxalica/nil
+        "nil_ls",
       }
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
