@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   programs.zsh = {
     shellAliases = let
       rsync_cmd = "rsync --verbose --progress --human-readable --compress --archive --hard-links --one-file-system --acls --xattrs";
@@ -33,7 +29,6 @@
       rsync-move = "${rsync_cmd} --remove-source-files";
       rsync-update = "${rsync_cmd} --update";
       rsync-synchronize = "${rsync_cmd} --update --delete";
-      hm-switch = "home-manager switch; rehash";
       hm-gc = "nix-collect-garbage --delete-old";
     };
   };

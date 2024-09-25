@@ -9,8 +9,9 @@
       hyperfine
       just
       neovim
-      ruby
+      npins
       python3
+      ruby
       (pkgs.callPackage ./packages/rgr.nix {})
       (pkgs.callPackage ./packages/unarchive.nix {})
     ]

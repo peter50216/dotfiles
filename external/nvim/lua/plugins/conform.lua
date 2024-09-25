@@ -35,6 +35,7 @@ return {
         eruby = { "erb_format" },
         sh = { "shfmt" },
         bash = { "shfmt" },
+        zsh = { "shfmt" },
       }
 
       vim.api.nvim_create_autocmd("FileType", {

@@ -1,3 +1,7 @@
+function pipis() {
+  pip install $1 && pip freeze | grep $1 >>requirements.txt
+}
+
 # copied from oh-my-zsh spectrum plugin
 ZSH_SPECTRUM_TEXT=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
 
@@ -13,4 +17,8 @@ function spectrum_bls() {
   for code in {0..255}; do
     print -P -- "$code: %{$BG[$code]%}$ZSH_SPECTRUM_TEXT%{$FX[none]%}"
   done
+}
+
+function hm-switch() {
+  nix-build $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash
 }

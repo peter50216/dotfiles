@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   home.activation = {
     runSetup = lib.hm.dag.entryAfter ["writeBoundary"] ''
       if [[ -f "$HOME/.setup-done" ]]; then
