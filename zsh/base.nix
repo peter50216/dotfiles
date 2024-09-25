@@ -8,8 +8,7 @@
 
     # TODO(Darkpi): Some way to simplify this?
     initExtra = ''
-      ${builtins.readFile ./functions/spectrum_ls.zsh}
-      ${builtins.readFile ./functions/pipis.zsh}
+      ${builtins.readFile ./functions.zsh}
       ${builtins.readFile ./init.zsh}
     '';
 

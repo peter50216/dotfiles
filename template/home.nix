@@ -1,7 +1,4 @@
-let
-  mkHome = import ./mkHome.nix;
-in
-  mkHome {
-    username = "USERNAME";
-    homeDirectory = "HOME_DIRECTORY";
-  }
+import ./mkHome.nix {
+  username = "USERNAME";
+  homeDirectory = "HOME_DIRECTORY";
+}

@@ -12,7 +12,7 @@ fi
 
 # Generate default per-host config
 if [ ! -f ./home.nix ]; then
-  sed "s#USERNAME#$USER#g; s#HOME_DIRECTORY#$HOME#g" ./template/home.nix > ./home.nix
+  sed "s#USERNAME#$USER#g; s#HOME_DIRECTORY#$HOME#g" ./template/home.nix >./home.nix
 fi
 if [ ! -f ./local.nix ]; then
   cp ./template/local.nix ./local.nix
@@ -21,7 +21,7 @@ fi
 # Enable nix features
 if [ ! -f ~/.config/nix/ ]; then
   mkdir -p ~/.config/nix/
-  echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+  echo "experimental-features = nix-command flakes" >~/.config/nix/nix.conf
 fi
 
 if ! command -v nix >/dev/null; then
@@ -30,7 +30,5 @@ if ! command -v nix >/dev/null; then
 fi
 
 if ! command -v home-manager >/dev/null; then
-  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-  nix-channel --update
-  nix-shell -p 'home-manager' --run "home-manager init --switch --no-flake ."
+  nix-build $HOME/dotfiles && $HOME/dotfiles/result/bin/switch
 fi
