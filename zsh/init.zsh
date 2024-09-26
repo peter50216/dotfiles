@@ -1,9 +1,9 @@
 setopt magic_equal_subst
-setopt CLOBBER            # Don't care about overwrite existing file with > and >>.
-                          # unset by modules/directory in prezto
+setopt CLOBBER # Don't care about overwrite existing file with > and >>.
+# unset by modules/directory in prezto
 setopt inc_append_history
-unsetopt share_history    # Don't share history in multiple simutaneous zsh.
-                          # set by modules/history in prezto
+unsetopt share_history # Don't share history in multiple simutaneous zsh.
+# set by modules/history in prezto
 
 # No Ctrl+S freezing in vim.
 stty -ixon
@@ -16,7 +16,7 @@ if [[ -n "${terminfo[knp]}" ]]; then
 fi
 
 # From: https://hackerfall.com/story/how-to-boost-your-vim-productivity
-fancy-ctrl-z () {
+fancy-ctrl-z() {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
     zle accept-line
@@ -33,3 +33,7 @@ bindkey '^Z' fancy-ctrl-z
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
 fi
+
+fpath=(/usr/share/zsh/vendor-completions $fpath)
+autoload -Uz compinit
+compinit
