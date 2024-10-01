@@ -12,5 +12,6 @@
     terminal = "screen-256color";
     extraConfig = builtins.readFile ../external/tmux.conf;
     sensibleOnTop = true;
+    historyLimit = 30000;
   };
 }
