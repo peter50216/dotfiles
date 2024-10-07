@@ -20,5 +20,5 @@ function spectrum_bls() {
 }
 
 function hm-switch() {
-  nix-build $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash
+  nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash
 }
