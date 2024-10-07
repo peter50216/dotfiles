@@ -1,23 +1,18 @@
 {pkgs, ...}: {
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs;
-    [
-      cheat
-      dua
-      gnumake
-      hyperfine
-      just
-      neovim
-      npins
-      python3
-      ruby
-      (pkgs.callPackage ./packages/rgr.nix {})
-      (pkgs.callPackage ./packages/unarchive.nix {})
-    ]
-    ++ (with rubyPackages; [
-      pry
-    ]);
+  home.packages = with pkgs; [
+    cheat
+    dua
+    gnumake
+    hyperfine
+    just
+    neovim
+    npins
+    usage
+    (pkgs.callPackage ./packages/rgr.nix {})
+    (pkgs.callPackage ./packages/unarchive.nix {})
+  ];
 
   programs = {
     bat.enable = true;
@@ -32,7 +27,16 @@
     fzf.enable = true;
     htop.enable = true;
     jq.enable = true;
-    # mise.enable = true;
+    mise = {
+      enable = true;
+      globalConfig = {
+        tools = {
+          node = "22.9";
+          python = "3.12";
+          ruby = "3.3";
+        };
+      };
+    };
     ripgrep.enable = true;
     zoxide.enable = true;
 
