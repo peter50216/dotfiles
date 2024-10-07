@@ -60,7 +60,7 @@ return {
         },
       })
       -- pnpm i -g typescript-language-server
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         capabilities = capabilities,
         init_options = {
           plugins = {
