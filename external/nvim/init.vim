@@ -142,7 +142,7 @@ function! g:ToggleColorColumn()
   endif
 endfunction
 
-nnoremap <silent> <leader>tc :call g:ToggleColorColumn()<CR>
+" nnoremap <silent> <leader>tc :call g:ToggleColorColumn()<CR>
 
 " Insert newline without entering insert mode
 nnoremap <C-J> i<CR><Esc>k$

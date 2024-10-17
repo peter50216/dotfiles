@@ -4,7 +4,9 @@
 in
   pkgs.mkShell {
     packages = with pkgs; [
-      nil
       alejandra
+      lua-language-server
+      nil
+      stylua
     ];
   }
