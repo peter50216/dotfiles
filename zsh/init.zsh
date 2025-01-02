@@ -33,7 +33,3 @@ bindkey '^Z' fancy-ctrl-z
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
 fi
-
-fpath=(/usr/share/zsh/vendor-completions $fpath)
-autoload -Uz compinit
-compinit

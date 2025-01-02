@@ -8,15 +8,15 @@
         "repo": "home-manager"
       },
       "branch": "master",
-      "revision": "bc623830e619cef86a2d3750625ffe4e24ea7e64",
-      "url": "https://github.com/nix-community/home-manager/archive/bc623830e619cef86a2d3750625ffe4e24ea7e64.tar.gz",
-      "hash": "1j5hgnd24aw3i1nxi28rbgprlcln6y4a4b00qb0azabk3rabgpi9"
+      "revision": "5f6aa268e419d053c3d5025da740e390b12ac936",
+      "url": "https://github.com/nix-community/home-manager/archive/5f6aa268e419d053c3d5025da740e390b12ac936.tar.gz",
+      "hash": "0y013xvh8238d5nan8zsakdrsq0d0948vqp0s94cd1y4b4nf1g8b"
     },
     "nixpkgs": {
       "type": "Channel",
       "name": "nixpkgs-unstable",
-      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-24.11pre689910.c8a17040be4a/nixexprs.tar.xz",
-      "hash": "016wny862qh4mvb28xmi6gkw25ly3a95qja3k0d0xwza40ha4dsw"
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.05pre730508.69b9a8c860bd/nixexprs.tar.xz",
+      "hash": "0sdq390gkkda3pgmbj986f4h2mcyy1hl8x49gz2fdrd2bz1ryv92"
     }
   },
   "version": 3
