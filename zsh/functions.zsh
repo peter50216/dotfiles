@@ -22,3 +22,20 @@ function spectrum_bls() {
 function hm-switch() {
   nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash
 }
+
+function npins-shell() {
+  if (( $# < 1 )); then
+    echo "$0 package-name [extra-args]"
+  fi
+  pkg="$1"; shift
+  nix-shell -E "let npins = import ~/dotfiles/npins; pkgs = import npins.nixpkgs {}; in pkgs.mkShell { packages = [pkgs.$pkg]; }" "$@"
+}
+
+function npins-run() {
+  if (( $# < 1 )); then
+    echo "$0 package-name [run-command]"
+  fi
+  pkg="$1"; shift
+  cmd="${1:-$pkg}"
+  npins-shell "$pkg" --run "$cmd"
+}
