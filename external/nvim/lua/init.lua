@@ -44,5 +44,5 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 if vim.g.vscode then
-  require("vscode")
+  require("my.vscode")
 end
