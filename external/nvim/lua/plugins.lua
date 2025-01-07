@@ -5,10 +5,9 @@ return {
     priority = 1000,
     config = function()
       vim.g.everforest_transparent_background = 1
-      vim.cmd([[colorscheme everforest]])
+      vim.cmd.colorscheme("everforest")
     end,
   },
-
   {
     "AndrewRadev/splitjoin.vim",
     cond = vim.g.vscode,

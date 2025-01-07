@@ -12,6 +12,17 @@
       "url": "https://github.com/nix-community/home-manager/archive/5f6aa268e419d053c3d5025da740e390b12ac936.tar.gz",
       "hash": "0y013xvh8238d5nan8zsakdrsq0d0948vqp0s94cd1y4b4nf1g8b"
     },
+    "nixGL": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "https://github.com/nix-community/nixGL.git"
+      },
+      "branch": "main",
+      "revision": "310f8e49a149e4c9ea52f1adf70cdc768ec53f8a",
+      "url": null,
+      "hash": "1crnbv3mdx83xjwl2j63rwwl9qfgi2f1lr53zzjlby5lh50xjz4n"
+    },
     "nixpkgs": {
       "type": "Channel",
       "name": "nixpkgs-unstable",

@@ -1,4 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  specialArgs,
+  ...
+}: {
+  nixGL = {
+    packages = specialArgs.nixGL;
+    defaultWrapper = "mesa";
+    installScripts = ["mesa"];
+  };
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
