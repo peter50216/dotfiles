@@ -37,7 +37,7 @@ return {
   -- TODO: rewrite this in a faster language (rust? Or maybe just accept
   -- vimscript...) so the startup time can be faster.
   { "peter50216/vim-simple-statusline" },
-  { dir = "~/chromium/src/tools/vim/mojom" },
+  -- { dir = "~/chromium/src/tools/vim/mojom" },
 
   { "vim-scripts/ifdef-highlighting" },
   { "gentoo/gentoo-syntax" },
