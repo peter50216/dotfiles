@@ -17,6 +17,7 @@ return {
         },
       },
     },
+    event = "VeryLazy",
     keys = {
       {
         "Z",
