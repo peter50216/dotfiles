@@ -9,6 +9,7 @@ return {
       module.linters_by_ft = {
         vue = { "stylelint" },
         css = { "stylelint" },
+        ruby = { "standardrb" },
       }
 
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufRead" }, {
