@@ -13,3 +13,4 @@ goma_fetch.*
 .watchman-*
 .nvim.lua
 .direnv
+.aider*
