@@ -53,6 +53,12 @@ return {
         mode = "n",
         desc = "Go to last buffer",
       },
+      {
+        "<Leader>q",
+        "<Cmd>BufferClose<CR>",
+        mode = "n",
+        desc = "Close current buffer",
+      },
     },
   },
 }
