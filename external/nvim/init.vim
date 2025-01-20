@@ -92,9 +92,6 @@ else
   inoremap jk <Esc>
 end
 
-" Close buffer without affecting window layout
-nnoremap <Leader>q :bp\|bd #<CR>
-
 " Quick exit
 if exists('g:vscode')
   nnoremap Q <Cmd>call VSCodeCall('workbench.action.closeActiveEditor')<CR>
