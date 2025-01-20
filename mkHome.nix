@@ -1,6 +1,7 @@
 {
   username,
   homeDirectory,
+  extraImports ? [],
 }: {
   config,
   lib,
@@ -23,13 +24,15 @@
 
   # Specify your home configuration modules here, for example,
   # the path to your home.nix.
-  imports = [
-    ./env.nix
-    ./file.nix
-    ./packages.nix
-    ./config
-    ./zsh
-    ./local.nix
-    ./setup.nix
-  ];
+  imports =
+    [
+      ./env.nix
+      ./file.nix
+      ./packages.nix
+      ./config
+      ./zsh
+      ./local.nix
+      ./setup.nix
+    ]
+    ++ extraImports;
 }
