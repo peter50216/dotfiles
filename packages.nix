@@ -8,6 +8,7 @@
     hyperfine
     just
     neovim
+    nil
     npins
     usage
     (pkgs.callPackage ./packages/rgr.nix {})
