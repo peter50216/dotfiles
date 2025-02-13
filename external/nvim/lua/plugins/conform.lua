@@ -93,9 +93,6 @@ return {
               command = require("conform.util").find_executable({
                 "./node_modules/.bin/stylelint",
               }, "stylelint"),
-              prepend_args = function()
-                return { "--stdin-filename", vim.fn.expand("%:p") }
-              end,
             }
           end,
           ["clang-format"] = {

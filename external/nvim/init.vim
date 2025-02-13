@@ -147,6 +147,9 @@ nnoremap <C-J> i<CR><Esc>k$
 " Don't show me that stupid window :D
 nnoremap q: :q
 
+" ESC in terminal mode should exit terminal
+tnoremap <Esc> <C-\><C-n>
+
 " }}}
 
 "--------------------------------------------------------------------

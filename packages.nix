@@ -36,6 +36,9 @@
           python = "3.12";
           ruby = "3.3";
         };
+        settings = {
+          experimental = true;
+        };
       };
     };
     ripgrep.enable = true;
