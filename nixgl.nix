@@ -1,4 +1,4 @@
-{specialArgs}: {
+{specialArgs, ...}: {
   nixGL = {
     packages = specialArgs.nixGL;
     defaultWrapper = "mesa";
