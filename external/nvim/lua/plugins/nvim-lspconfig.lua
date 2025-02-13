@@ -2,100 +2,88 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
+      "saghen/blink.cmp",
       { "folke/neodev.nvim", opts = { snippet = false } },
     },
-    config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
-      local servers = {
-        -- TODO: mason
+    opts = {
+      servers = {
         -- pnpm i -g vscode-langservers-extracted
-        "eslint",
+        eslint = {},
         -- pnpm i -g @vue/language-server
-        "volar",
+        volar = {},
         -- system clangd
-        "clangd",
+        clangd = {},
         -- pnpm i -g pyright
-        "pyright",
+        pyright = {},
         -- go install golang.org/x/tools/gopls@latest
-        "gopls",
+        gopls = {},
         -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_lsp
-        "ruby_lsp",
+        ruby_lsp = {},
         -- https://github.com/oxalica/nil
-        "nil_ls",
-      }
-      for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup({
-          capabilities = capabilities,
-        })
-      end
-
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
-      })
-      -- pnpm i -g vscode-langservers-extracted
-      lspconfig.jsonls.setup({
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = {
-              {
-                fileMatch = { "package.json" },
-                url = "https://json.schemastore.org/package.json",
-              },
-              {
-                fileMatch = { "tsconfig.json" },
-                url = "https://json.schemastore.org/tsconfig.json",
+        nil_ls = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              telemetry = {
+                enable = false,
               },
             },
           },
         },
-      })
-      -- pnpm i -g typescript-language-server
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        init_options = {
-          plugins = {
-            {
-              name = "@vue/typescript-plugin",
-              location = string.format(
-                "%s/global/5/node_modules/@vue/typescript-plugin",
+        -- pnpm i -g vscode-langservers-extracted
+        jsonls = {
+          settings = {
+            json = {
+              schemas = {
+                {
+                  fileMatch = { "package.json" },
+                  url = "https://json.schemastore.org/package.json",
+                },
+                {
+                  fileMatch = { "tsconfig.json" },
+                  url = "https://json.schemastore.org/tsconfig.json",
+                },
+              },
+            },
+          },
+        },
+        -- pnpm i -g typescript-language-server
+        ts_ls = {
+          init_options = {
+            plugins = {
+              {
+                name = "@vue/typescript-plugin",
+                location = string.format(
+                  "%s/global/5/node_modules/@vue/typescript-plugin",
+                  os.getenv("PNPM_HOME")
+                ),
+                languages = { "javascript", "typescript", "vue" },
+              },
+            },
+            tsserver = {
+              fallbackPath = string.format(
+                "%s/global/5/node_modules/typescript/lib",
                 os.getenv("PNPM_HOME")
               ),
-              languages = { "javascript", "typescript", "vue" },
             },
           },
-          tsserver = {
-            fallbackPath = string.format(
-              "%s/global/5/node_modules/typescript/lib",
-              os.getenv("PNPM_HOME")
-            ),
+          filetypes = {
+            "javascript",
+            "typescript",
+            "vue",
           },
         },
-        filetypes = {
-          "javascript",
-          "typescript",
-          "vue",
-        },
-      })
-      -- pnpm i -g css-variables-language-server
-      -- lspconfig.css_variables.setup({
-      --   capabilities = capabilities,
-      --   filetypes = {
-      --     "css",
-      --     "javascript",
-      --     "typescript",
-      --     "vue",
-      --   },
-      -- })
+      },
+    },
+    config = function(_, opts)
+      local lspconfig = require("lspconfig")
+      for server, config in pairs(opts.servers) do
+        -- passing config.capabilities to blink.cmp merges with the capabilities in your
+        -- `opts[server].capabilities, if you've defined it
+        config.capabilities =
+          require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        lspconfig[server].setup(config)
+      end
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})
       vim.keymap.set(
