@@ -14,3 +14,4 @@ goma_fetch.*
 .nvim.lua
 .direnv
 .aider*
+mise.local.toml
