@@ -3,7 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "saghen/blink.cmp",
-      { "folke/neodev.nvim", opts = { snippet = false } },
     },
     opts = {
       servers = {
