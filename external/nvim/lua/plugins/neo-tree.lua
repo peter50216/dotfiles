@@ -7,6 +7,11 @@ return {
       "MunifTanjim/nui.nvim",
     },
     opts = {
+      filesystem = {
+        follow_current_file = {
+          enabled = true,
+        },
+      },
       close_if_last_window = true,
       default_component_configs = {
         indent = {
