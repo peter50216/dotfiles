@@ -24,18 +24,21 @@ function hm-switch() {
 }
 
 function npins-shell() {
-  if (( $# < 1 )); then
+  if (($# < 1)); then
     echo "$0 package-name [extra-args]"
   fi
-  pkg="$1"; shift
-  nix-shell -E "let npins = import ~/dotfiles/npins; pkgs = import npins.nixpkgs {}; in pkgs.mkShell { packages = [pkgs.$pkg]; }" "$@"
+  pkg="$1"
+  shift
+  # For some reason we still need to use this to avoid re-fetching the nixpkgs on each invocation...
+  nix-shell -I "nixpkgs=$(jq -r .pins.nixpkgs.url $HOME/dotfiles/npins/sources.json)" -E "let npins = import ~/dotfiles/npins; pkgs = import npins.nixpkgs {}; in pkgs.mkShell { packages = [pkgs.$pkg]; }" "$@"
 }
 
 function npins-run() {
-  if (( $# < 1 )); then
+  if (($# < 1)); then
     echo "$0 package-name [run-command]"
   fi
-  pkg="$1"; shift
+  pkg="$1"
+  shift
   cmd="${1:-$pkg}"
   npins-shell "$pkg" --run "$cmd"
 }
