@@ -22,6 +22,10 @@
       };
     };
 
+    userName = "";
+
+    userEmail = "";
+
     extraConfig = {
       core = {
         editor = "nvim";
@@ -37,8 +41,6 @@
       push.default = "current";
 
       pretty.fixes = "Fixes: %h (\"%s\")";
-
-      include.path = "~/.gitconfig_local";
 
       init.defaultBranch = "main";
 

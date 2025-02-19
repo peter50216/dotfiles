@@ -6,11 +6,11 @@
       else
         verboseEcho "Running one-time setup..."
 
-        if [ ! -f ~/.gitconfig_local ]; then
+        if [ ! -f ~/.gitconfig ]; then
           if grep -q GOOGLE /etc/lsb-release 2>/dev/null; then
-            run cp ~/dotfiles/external/gitconfig_defaults/google ~/.gitconfig_local
+            run cp ~/dotfiles/external/gitconfig_defaults/google ~/.gitconfig
           else
-            run cp ~/dotfiles/external/gitconfig_defaults/public ~/.gitconfig_local
+            run cp ~/dotfiles/external/gitconfig_defaults/public ~/.gitconfig
           fi
         fi
 
