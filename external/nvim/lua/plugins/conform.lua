@@ -30,6 +30,7 @@ return {
         vue = { "eslint_d", "stylelint" },
         nix = { "alejandra" },
         json = { "prettier" },
+        html = { "prettier" },
         python = { "yapf" },
         ruby = { "syntax_tree", "standardrb" },
         eruby = { "erb_format" },
@@ -67,7 +68,6 @@ return {
         desc = "Re-enable autoformat-on-save",
       })
 
-      local slow_format_filetypes = {}
       module.setup({
         formatters_by_ft = formatters_by_ft,
         formatters = {
@@ -87,6 +87,7 @@ return {
             env = {
               ESLINT_USE_FLAT_CONFIG = "true",
             },
+            require_cwd = true,
           },
           stylelint = function()
             return {

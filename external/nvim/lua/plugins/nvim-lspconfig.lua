@@ -18,6 +18,7 @@ return {
         gopls = {},
         -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_lsp
         ruby_lsp = {},
+        sorbet = {},
         -- https://github.com/oxalica/nil
         nil_ls = {},
         lua_ls = {
@@ -139,6 +140,11 @@ return {
             build_opts("Rename current symbol")
           )
           vim.keymap.set("n", "K", vim.lsp.buf.hover, build_opts("Show doc"))
+
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client and vim.bo[ev.buf].filetype == "ruby" then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
         end,
       })
     end,
