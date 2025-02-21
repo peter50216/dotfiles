@@ -12,11 +12,11 @@
 )
 (
  (call
-   receiver: (constant) @let.receiver
-   method: (identifier) @let.method
-   arguments: (argument_list (_) (_) @let.type)
+   receiver: (constant) @assert.receiver
+   method: (identifier) @assert.method
+   arguments: (argument_list (_) (_)? @assert.type)
  )
- (#eq? @let.receiver "T")
- (#eq? @let.method "let")
+ (#eq? @assert.receiver "T")
+ (#any-of? @assert.method "let" "cast" "assert_type!" "bind" "must")
  (#set! "priority" 150)
 )
