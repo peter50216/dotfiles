@@ -4,6 +4,9 @@ return {
     build = ":TSUpdate",
     main = "nvim-treesitter.configs",
     lazy = false,
+    dependencies = {
+      { "RRethy/nvim-treesitter-endwise" },
+    },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
       -- Set up custom highlights for sig
@@ -19,7 +22,7 @@ return {
         additional_vim_regex_highlighting = false,
       },
       endwise = {
-        enable = true,
+        enable = false,
       },
     },
   },

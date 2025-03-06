@@ -11,7 +11,7 @@ in {
   # plain files is through 'home.file'.
   home.file = {
     # git
-    ".gitignore_global".source = ./external/gitignore_global;
+    ".config/git/ignore".source = ./external/gitignore_global;
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
     # Remove the zlogout from prezto.
