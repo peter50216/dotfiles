@@ -48,7 +48,8 @@
 
       diff = {
         algorithm = "histogram";
-        colorMoved = "plain";
+        colorMoved = "dimmed-zebra";
+        colorMovedWS = "allow-indentation-change";
         mnemonicPrefix = true;
         renames = true;
       };
