@@ -43,6 +43,12 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.filetype.add({
+  pattern = {
+    [".*/.*%.html%.erb"] = "html.eruby",
+  },
+})
+
 if vim.g.vscode then
   require("my.vscode")
 end

@@ -33,7 +33,7 @@ return {
         html = { "prettier" },
         python = { "yapf" },
         ruby = { "syntax_tree", "standardrb" },
-        eruby = { "erb_format" },
+        ["html.eruby"] = { "erb_format" },
         sh = { "shfmt" },
         bash = { "shfmt" },
         zsh = { "shfmt" },
