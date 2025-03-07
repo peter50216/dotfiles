@@ -33,7 +33,7 @@ return {
         html = { "prettier" },
         python = { "yapf" },
         ruby = { "syntax_tree", "standardrb" },
-        ["html.eruby"] = { "erb_format" },
+        eruby = { "erb_format" },
         sh = { "shfmt" },
         bash = { "shfmt" },
         zsh = { "shfmt" },
@@ -71,6 +71,12 @@ return {
       module.setup({
         formatters_by_ft = formatters_by_ft,
         formatters = {
+          erb_format = {
+            -- Only run on .html.erb files, not all .erb files
+            condition = function(_, ctx)
+              return ctx.filename:match("%.html%.erb$")
+            end,
+          },
           stylua = function()
             return {
               prepend_args = {
