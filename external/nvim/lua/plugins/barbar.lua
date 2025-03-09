@@ -3,6 +3,7 @@ vim.g.barbar_auto_setup = false
 return {
   {
     "romgrk/barbar.nvim",
+    enabled = false,
     opts = {
       auto_hide = 1,
       icons = {
