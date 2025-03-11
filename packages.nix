@@ -11,6 +11,7 @@
     nil
     npins
     usage
+    unixtools.xxd
     (pkgs.callPackage ./packages/rgr.nix {})
     (pkgs.callPackage ./packages/unarchive.nix {})
   ];
