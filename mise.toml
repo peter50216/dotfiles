@@ -1,4 +1,4 @@
 [tools]
 lua-language-server = "latest"
 stylua = "latest"
-"ubi:kamadorueda/alejandra" = "latest"
+"ubi:kamadorueda/alejandra" = { version = "latest", matching = "musl" }
