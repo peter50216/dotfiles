@@ -36,8 +36,6 @@
 
       color.ui = true;
 
-      column.ui = "auto";
-
       core = {
         abbrev = 12;
         commitGraph = true;
