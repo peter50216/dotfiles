@@ -75,6 +75,7 @@ return {
             -- Only run on .html.erb files, not all .erb files
             condition = function(_, ctx)
               return ctx.filename:match("%.html%.erb$")
+                or ctx.filename:match("%.turbo_stream%.erb$")
             end,
           },
           stylua = function()
