@@ -17,7 +17,6 @@
       gidd = "GIT_EXTERNAL_DIFF=difft gid --ext-diff";
       gsdd = "GIT_EXTERNAL_DIFF=difft gsd --ext-diff";
       gldd = "GIT_EXTERNAL_DIFF=difft gld --ext-diff";
-      ".j" = "just --justfile ~/.user.justfile --working-directory .";
       fd = "noglob fd";
       vi = "nvim";
       ls = "eza";
@@ -30,6 +29,7 @@
       rsync-update = "${rsync_cmd} --update";
       rsync-synchronize = "${rsync_cmd} --update --delete";
       hm-gc = "nix-collect-garbage --delete-old";
+      "," = "mise run";
     };
   };
 }
