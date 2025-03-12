@@ -169,8 +169,8 @@ augroup END
 " Save your swp files to a less annoying place than the current directory.
 " If you have .vim-swap in the current directory, it'll use that.
 " Otherwise it saves it to ~/.local/share/nvim/swap, ~/tmp or .
-if isdirectory($HOME . '/.local/share/nvim/swap') == -1
-  :silent !mkdir -p ~/.local/share/nvim/swap >/dev/null 1>&1
+if isdirectory($HOME . '/.local/share/nvim/swap') == 0
+  :silent !mkdir -p ~/.local/share/nvim/swap >/dev/null 2>&1
 endif
 set directory=./.vim-swap//
 set directory+=~/.local/share/nvim/swap//
