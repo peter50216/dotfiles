@@ -10,6 +10,8 @@ return {
         vue = { "stylelint" },
         css = { "stylelint" },
         ruby = { "standardrb" },
+        sh = { "shellcheck" },
+        zsh = { "shellcheck" },
       }
 
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufRead" }, {

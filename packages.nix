@@ -10,6 +10,7 @@
     neovim
     nil
     npins
+    shellcheck
     usage
     unixtools.xxd
     (pkgs.callPackage ./packages/rgr.nix {})
