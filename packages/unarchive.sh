@@ -94,6 +94,22 @@ unarchive_tar() {
   tar -xvf "$1" -C "$2"
 }
 
+unarchive_zst() {
+  local input_file="$1"
+  local output_folder="$2"
+
+  local base_name_with_ext
+  base_name_with_ext=$(basename "$input_file")
+
+  # Remove the .zst extension to get the target filename (e.g., my_archive.txt)
+  output_filename="${base_name_with_ext%.zst}"
+
+  # Construct the full output path
+  local output_path="$output_folder/$output_filename"
+
+  zstd -d "$input_file" -o "$output_path"
+}
+
 unarchive() {
   local archive_orig_path="$1"
   if [[ ! -f "${archive_orig_path}" ]]; then
@@ -136,6 +152,9 @@ unarchive() {
       ;;
     *.7z)
       archive_type=7z
+      ;;
+    *.zst)
+      archive_type=zst
       ;;
     *)
       die "Unknown archive: ${archive_orig_path}"
