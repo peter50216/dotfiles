@@ -9,7 +9,13 @@ return {
         -- pnpm i -g vscode-langservers-extracted
         eslint = {},
         -- pnpm i -g @vue/language-server
-        volar = {},
+        volar = {
+          init_options = {
+            vue = {
+              hybridMode = true,
+            },
+          },
+        },
         -- system clangd
         clangd = {},
         -- pnpm i -g pyright
@@ -22,6 +28,7 @@ return {
             client.server_capabilities.semanticTokensProvider = nil
           end,
         },
+        standardrb = {},
         sorbet = {},
         -- https://github.com/oxalica/nil
         nil_ls = {},
@@ -61,7 +68,7 @@ return {
                   "%s/global/5/node_modules/@vue/typescript-plugin",
                   os.getenv("PNPM_HOME")
                 ),
-                languages = { "javascript", "typescript", "vue" },
+                languages = { "vue" },
               },
             },
             tsserver = {
@@ -74,6 +81,7 @@ return {
           filetypes = {
             "javascript",
             "typescript",
+            "typescriptreact",
             "vue",
           },
         },

@@ -9,7 +9,7 @@ return {
       module.linters_by_ft = {
         vue = { "stylelint" },
         css = { "stylelint" },
-        ruby = { "standardrb" },
+        -- ruby = { "standardrb" },
         sh = { "shellcheck" },
         zsh = { "shellcheck" },
       }

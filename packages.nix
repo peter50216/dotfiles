@@ -5,6 +5,7 @@
     cheat
     dua
     gnumake
+    git-lfs
     hyperfine
     just
     neovim
@@ -34,9 +35,10 @@
       enable = true;
       globalConfig = {
         tools = {
-          node = "22.9";
+          node = "22";
           python = "3.12";
-          ruby = "3.3";
+          ruby = "3.4";
+          jujutsu = "0.31";
         };
         settings = {
           experimental = true;
