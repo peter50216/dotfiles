@@ -15,6 +15,6 @@ in {
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
     # Remove the zlogout from prezto.
-    ".zlogout".text = lib.mkOverride 10 "";
+    # ".zlogout".text = lib.mkOverride 10 "";
   };
 }

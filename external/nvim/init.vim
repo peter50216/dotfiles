@@ -63,8 +63,6 @@ iabbrev @@ Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
 
 "--------------------------------------------------------------------
 " Custom keybinding {{{
-set pastetoggle=<F2>
-
 " One less shift!
 vnoremap ; :
 nnoremap ; :

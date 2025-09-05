@@ -9,17 +9,19 @@ return {
         -- pnpm i -g vscode-langservers-extracted
         eslint = {},
         -- pnpm i -g @vue/language-server
-        volar = {
-          init_options = {
-            vue = {
-              hybridMode = true,
-            },
-          },
-        },
+        -- volar is deprecated.
+        -- TODO: Add vue_ls back
+        -- volar = {
+        --   init_options = {
+        --     vue = {
+        --       hybridMode = true,
+        --     },
+        --   },
+        -- },
         -- system clangd
         clangd = {},
-        -- pnpm i -g pyright
-        pyright = {},
+        -- uv tool install ty@latest
+        ty = {},
         -- go install golang.org/x/tools/gopls@latest
         gopls = {},
         -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruby_lsp
@@ -88,13 +90,14 @@ return {
       },
     },
     config = function(_, opts)
-      local lspconfig = require("lspconfig")
+      -- local lspconfig = require("lspconfig")
       for server, config in pairs(opts.servers) do
         -- passing config.capabilities to blink.cmp merges with the capabilities in your
         -- `opts[server].capabilities, if you've defined it
         config.capabilities =
           require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        lspconfig[server].setup(config)
+        vim.lsp.enable(server)
+        vim.lsp.config(server, config)
       end
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})
