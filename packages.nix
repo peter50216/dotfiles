@@ -39,9 +39,13 @@
           python = "3.12";
           ruby = "3.4";
           # jujutsu = "0.31";
+          cosign = "latest";
+          slsa-verifier = "latest";
+          bun = "1.2";
         };
         settings = {
           experimental = true;
+          npm.bun = true;
         };
       };
     };
