@@ -15,3 +15,4 @@ goma_fetch.*
 .direnv
 .aider*
 mise.local.toml
+.claude/settings.local.json

@@ -22,7 +22,6 @@
       ls = "eza";
       catp = "bat -pp";
       cat = "bat";
-      cd = "z";
       br = "broot";
       rsync-copy = rsync_cmd;
       rsync-move = "${rsync_cmd} --remove-source-files";

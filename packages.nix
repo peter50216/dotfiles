@@ -51,7 +51,13 @@
       };
     };
     ripgrep.enable = true;
-    zoxide.enable = true;
+    zoxide = {
+      enable = true;
+      # Disable zsh integration and doing it manually in init.zsh, to
+      # workaround a Claude Code issue:
+      # https://github.com/anthropics/claude-code/issues/2632
+      enableZshIntegration = false;
+    };
 
     # Let Home Manager install and manage itself.
     home-manager.enable = true;

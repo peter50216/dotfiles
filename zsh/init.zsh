@@ -28,6 +28,12 @@ fancy-ctrl-z() {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+# Workaround for https://github.com/anthropics/claude-code/issues/2632
+# Disable zoxide when running under Claude Code to avoid shell function conflicts
+if command -v zoxide &>/dev/null && [[ "$CLAUDECODE" != "1" ]]; then
+  eval "$(zoxide init --cmd cd zsh)"
+fi
+
 # TODO(Darkpi): Consider remove this when all local config moves to nix
 # too.
 if [[ -f ~/.zshrc_local ]]; then
