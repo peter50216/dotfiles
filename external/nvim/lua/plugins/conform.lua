@@ -32,7 +32,7 @@ return {
         nix = { "alejandra" },
         json = { "prettier" },
         html = { "prettier" },
-        python = { "yapf" },
+        python = { "ruff_format" },
         ruby = { "syntax_tree", "standardrb" },
         eruby = { "erb_format" },
         sh = { "shfmt" },

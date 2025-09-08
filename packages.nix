@@ -46,6 +46,7 @@
         settings = {
           experimental = true;
           npm.bun = true;
+          idiomatic_version_file_enable_tools = ["python" "ruby"];
         };
       };
     };
