@@ -1,6 +1,15 @@
-{...}: {
+{pkgs, ...}: let
+  # Wrap prezto package to override zlogout with empty file
+  preztoWithoutZlogout = pkgs.runCommand "zsh-prezto-no-zlogout" {} ''
+    mkdir -p $out
+    cp -rs --no-preserve=mode ${pkgs.zsh-prezto}/* $out/
+    rm $out/share/zsh-prezto/runcoms/zlogout
+    echo "" > $out/share/zsh-prezto/runcoms/zlogout
+  '';
+in {
   programs.zsh.prezto = {
     enable = true;
+    package = preztoWithoutZlogout;
 
     # IMPORTANT: Do not change order of last six
     #   (utility, completion, prompt, syntax-highlighting,

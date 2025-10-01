@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{config, ...}: let
   mkDotfileSymlink = path:
     config.lib.file.mkOutOfStoreSymlink
     (builtins.toString (config.home.homeDirectory + "/dotfiles/${path}"));
@@ -15,6 +11,5 @@ in {
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
     # Remove the zlogout from prezto.
-    # ".zlogout".text = lib.mkOverride 10 "";
   };
 }
