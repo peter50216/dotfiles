@@ -38,7 +38,7 @@
           node = "22";
           python = "3.12";
           ruby = "3.4";
-          jujutsu = "0.31";
+          # jujutsu = "0.31";
         };
         settings = {
           experimental = true;

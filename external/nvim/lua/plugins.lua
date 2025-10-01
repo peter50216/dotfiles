@@ -53,7 +53,7 @@ return {
   -- useDefaultKeymaps = true,
   -- },
   -- },
-  { "RaafatTurki/hex.nvim", config = true },
+  -- { "RaafatTurki/hex.nvim", config = true },
   {
     "klen/nvim-config-local",
     main = "config-local",
