@@ -16,8 +16,9 @@
     "nixGL": {
       "type": "Git",
       "repository": {
-        "type": "Git",
-        "url": "https://github.com/nix-community/nixGL.git"
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "nixGL"
       },
       "branch": "main",
       "submodules": false,
