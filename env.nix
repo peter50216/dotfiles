@@ -25,7 +25,7 @@
     HOME_MANAGER_CONFIG = "${config.home.homeDirectory}/dotfiles/home.nix";
     # This won't work in the mise config, since mise parse that config later
     # than it tries to load the parent folders...
-    MISE_IGNORED_CONFIG_PATHS = "google/src";
+    MISE_IGNORED_CONFIG_PATHS = "/google/src";
   };
 
   home.sessionPath = [
