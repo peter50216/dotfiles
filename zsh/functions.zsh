@@ -42,3 +42,9 @@ function npins-run() {
   cmd="${1:-$pkg}"
   npins-shell "$pkg" --run "$cmd"
 }
+
+function osc52() {
+  local data
+  data=$(base64 | tr -d '\n')
+  printf "\033]52;c;%s\a" "$data"
+}

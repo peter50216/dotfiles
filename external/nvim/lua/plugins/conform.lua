@@ -27,7 +27,7 @@ return {
         lua = { "stylua" },
         javascript = { "prettier" },
         typescript = { "prettier" },
-        typescriptreact = { "eslint_d" },
+        typescriptreact = { "prettier" },
         vue = { "eslint_d", "stylelint" },
         nix = { "alejandra" },
         json = { "prettier" },
