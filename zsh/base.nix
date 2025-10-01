@@ -3,7 +3,7 @@
     enable = true;
 
     # TODO(Darkpi): Some way to simplify this?
-    initExtra = ''
+    initContent = ''
       ${builtins.readFile ./functions.zsh}
       ${builtins.readFile ./init.zsh}
     '';
