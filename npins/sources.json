@@ -8,9 +8,10 @@
         "repo": "home-manager"
       },
       "branch": "master",
-      "revision": "f56bf065f9abedc7bc15e1f2454aa5c8edabaacf",
-      "url": "https://github.com/nix-community/home-manager/archive/f56bf065f9abedc7bc15e1f2454aa5c8edabaacf.tar.gz",
-      "hash": "0r6skg17si9x8spfkcp9jafvrxjlwmh1pli7hyzgjwkdbqd4rqvb"
+      "submodules": false,
+      "revision": "5a21f4819ee1be645f46d6b255d49f4271ef6723",
+      "url": "https://github.com/nix-community/home-manager/archive/5a21f4819ee1be645f46d6b255d49f4271ef6723.tar.gz",
+      "hash": "1k9rnxmjv9k6wam3iqn3wi4fk8si1g6ml3gff9k041na8cykhp8v"
     },
     "nixGL": {
       "type": "Git",
@@ -19,6 +20,7 @@
         "url": "https://github.com/nix-community/nixGL.git"
       },
       "branch": "main",
+      "submodules": false,
       "revision": "a8e1ce7d49a149ed70df676785b07f63288f53c5",
       "url": null,
       "hash": "010n26nhha1l64m7m08rzrfhyixfr8japn3vzbn80dj092wwggrr"
@@ -26,9 +28,9 @@
     "nixpkgs": {
       "type": "Channel",
       "name": "nixpkgs-unstable",
-      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre855922.c6a788f552b7/nixexprs.tar.xz",
-      "hash": "0p9aa19hw2xlr5d951yr7z6gdbwqmnff2m2pj5bysirnr8fq1apn"
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre868532.647e5c14cbd5/nixexprs.tar.xz",
+      "hash": "0i6mgl7pm7y4ydrrll7szmv8hhxb3cyny8x1g1a8sp3g5wl3yd9g"
     }
   },
-  "version": 3
+  "version": 5
 }
