@@ -29,6 +29,7 @@
       rsync-synchronize = "${rsync_cmd} --update --delete";
       hm-gc = "nix-collect-garbage --delete-old";
       "," = "mise run";
+      j = "jj";
     };
   };
 }
