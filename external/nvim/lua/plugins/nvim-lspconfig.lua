@@ -1,3 +1,15 @@
+local vue_language_server_path = string.format(
+  "%s/.bun/install/global/node_modules/@vue/typescript-plugin",
+  os.getenv("HOME")
+)
+local tsserver_filetypes =
+  { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+local vue_plugin = {
+  name = "@vue/typescript-plugin",
+  location = vue_language_server_path,
+  languages = { "vue" },
+  configNamespace = "typescript",
+}
 return {
   {
     "neovim/nvim-lspconfig",
@@ -6,18 +18,38 @@ return {
     },
     opts = {
       servers = {
-        -- pnpm i -g vscode-langservers-extracted
+        -- bun i -g vscode-langservers-extracted
         eslint = {},
-        -- pnpm i -g @vue/language-server
-        -- volar is deprecated.
-        -- TODO: Add vue_ls back
-        -- volar = {
+        -- bun i -g @vue/language-server typescript
+        vue_ls = {},
+        -- bun i -g typescript-language-server
+        -- ts_ls = {
         --   init_options = {
-        --     vue = {
-        --       hybridMode = true,
+        --     plugins = {
+        --       vue_plugin,
+        --     },
+        --     tsserver = {
+        --       fallbackPath = string.format(
+        --         "%s/.bun/install/global/node_modules/typescript/lib",
+        --         os.getenv("HOME")
+        --       ),
         --     },
         --   },
+        --   filetypes = tsserver_filetypes,
         -- },
+        -- bun i -g @vtsls/language-server
+        vtsls = {
+          settings = {
+            vtsls = {
+              tsserver = {
+                globalPlugins = {
+                  vue_plugin,
+                },
+              },
+            },
+          },
+          filetypes = tsserver_filetypes,
+        },
         -- system clangd
         clangd = {},
         -- uv tool install ty@latest
@@ -43,7 +75,7 @@ return {
             },
           },
         },
-        -- pnpm i -g vscode-langservers-extracted
+        -- bun i -g vscode-langservers-extracted
         jsonls = {
           settings = {
             json = {
@@ -60,33 +92,6 @@ return {
             },
           },
         },
-        -- pnpm i -g typescript-language-server
-        ts_ls = {
-          init_options = {
-            plugins = {
-              {
-                name = "@vue/typescript-plugin",
-                location = string.format(
-                  "%s/global/5/node_modules/@vue/typescript-plugin",
-                  os.getenv("PNPM_HOME")
-                ),
-                languages = { "vue" },
-              },
-            },
-            tsserver = {
-              fallbackPath = string.format(
-                "%s/global/5/node_modules/typescript/lib",
-                os.getenv("PNPM_HOME")
-              ),
-            },
-          },
-          filetypes = {
-            "javascript",
-            "typescript",
-            "typescriptreact",
-            "vue",
-          },
-        },
       },
     },
     config = function(_, opts)
@@ -96,8 +101,8 @@ return {
         -- `opts[server].capabilities, if you've defined it
         config.capabilities =
           require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        vim.lsp.enable(server)
         vim.lsp.config(server, config)
+        vim.lsp.enable(server)
       end
 
       local au_id = vim.api.nvim_create_augroup("autocmd_lspconfig", {})

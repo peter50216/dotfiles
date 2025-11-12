@@ -7,8 +7,8 @@ return {
         vim.api.nvim_create_augroup("autocmd_lint", { clear = true })
 
       module.linters_by_ft = {
-        vue = { "stylelint" },
-        css = { "stylelint" },
+        -- vue = { "stylelint" },
+        -- css = { "stylelint" },
         -- ruby = { "standardrb" },
         sh = { "shellcheck" },
         zsh = { "shellcheck" },
