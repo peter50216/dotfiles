@@ -14,7 +14,7 @@ stdenv.mkDerivation {
     clang
     cmake
   ];
-  configPhase = "cmake .";
+  configurePhase = "cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 .";
   buildPhase = "make -j $NIX_BUILD_CORES";
   installPhase = ''
     mkdir -p $out/bin
