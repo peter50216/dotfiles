@@ -28,7 +28,7 @@ return {
         javascript = { "prettier" },
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
-        vue = { "eslint_d", "stylelint" },
+        vue = { "eslint_d" },
         nix = { "alejandra" },
         json = { "prettier" },
         html = { "prettier" },
