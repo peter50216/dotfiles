@@ -41,6 +41,8 @@
           cosign = "latest";
           slsa-verifier = "latest";
           bun = "1.2";
+          rust = "latest";
+          "cargo:mergiraf" = "latest";
         };
         settings = {
           experimental = true;
