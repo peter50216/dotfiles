@@ -45,6 +45,7 @@ return {
                 globalPlugins = {
                   vue_plugin,
                 },
+                maxTsServerMemory = 8192,
               },
             },
           },

@@ -68,4 +68,5 @@ return {
   { "vmchale/just-vim" },
   { "edgedb/edgedb-vim" },
   { "wsdjeg/vim-fetch" },
+  { "elixir-editors/vim-elixir" },
 }

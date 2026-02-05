@@ -14,6 +14,7 @@
     shellcheck
     usage
     unixtools.xxd
+    bubblewrap
     (pkgs.callPackage ./packages/rgr.nix {})
     (pkgs.callPackage ./packages/unarchive.nix {})
   ];
