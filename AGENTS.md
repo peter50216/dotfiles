@@ -1,120 +1,102 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents working in this repository.
 
-## Development Commands
+## Workflow
 
-### Home Manager Operations
+- Use `jj` for repo operations. Prefer `jj status`, `jj diff`, `jj log`, `jj show`, and `jj commit`.
+- A `.git/` directory is present for tool compatibility, but repo-local history management is done with Jujutsu.
+- Avoid editing generated outputs like `result/` or generated pin code like `npins/default.nix` unless the task is explicitly to regenerate them.
+
+## Common Commands
+
 ```bash
-# Apply configuration changes (preferred method)
+# Show working copy state
+jj status
+
+# Check Nix syntax
+nix-instantiate --parse default.nix
+
+# Build the Home Manager activation package
+nix-build
+
+# Apply the current configuration
 hm-switch
 
-# Alternative: Use home-manager directly (if available in PATH)
-home-manager switch
+# Update pinned sources
+npins update
+
+# Run a temporary package shell from pinned nixpkgs
+npins-shell package-name
+npins-run package-name
 ```
 
-### Initial Setup
+## Bootstrap Flow
+
 ```bash
-# Fresh installation (runs fetch.sh -> install.sh -> home-manager setup)
+# Fresh install
 bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/fetch.sh)
 
-# Manual setup after cloning
+# After cloning manually
 ./setup/install.sh
 ```
 
-### Nix Operations
+- `setup/fetch.sh` checks for sudo, installs `git` if needed, clones the repo with `--filter=blob:none`, rewrites the push remote to SSH, and runs `./setup/install.sh`.
+- `setup/install.sh` ensures `xz` is installed, creates `home.nix` and `local.nix` from `template/` when missing, enables `nix-command flakes`, installs Lix if `nix` is absent, and builds/applies the Home Manager activation when `home-manager` is not yet installed.
+
+## Repo Layout
+
+- `home.nix`: user-specific entry point. In a fresh install it is generated from `template/home.nix`.
+- `mkHome.nix`: shared module graph. Imports `env.nix`, `file.nix`, `packages.nix`, `config/`, `zsh/`, `local.nix`, and `setup.nix`.
+- `default.nix`: evaluates Home Manager from `npins/` and builds a `switch` shell application that activates the config.
+- `env.nix`: session environment variables and PATH additions.
+- `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink.
+- `packages.nix`: shared packages and program config. This is where the main `mise` runtime tool versions live.
+- `local.nix`: host-local package additions and overrides. The current file also adds `jujutsu = "0.33"` to `mise`.
+- `setup.nix`: one-time activation that seeds `~/.gitconfig` from `external/gitconfig_defaults/{google,public}` and writes `~/.setup-done`.
+- `config/`: Home Manager modules for `git` and `tmux`.
+- `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
+- `packages/`: custom derivations such as `rgr`, `unarchive`, and `tmux-mem-cpu-load`.
+- `external/`: raw config assets such as tmux config, git defaults, gitignore, and Neovim config.
+- `template/`: starter `home.nix` and `local.nix` files used during bootstrap.
+
+## Tooling Notes
+
+- Shared runtime versions are declared through Home Manager `programs.mise.globalConfig.tools`, mainly in `packages.nix` and `local.nix`.
+- Current shared toolchain includes Node.js 22, Python 3.12, Ruby 3.4, Bun 1.2, Rust, and Jujutsu 0.33 via `mise`.
+- `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and `alejandra`.
+- `stylua.toml` defines Lua formatting for the Neovim config.
+- `npins/default.nix` is generated code. Update pins through `npins update`, not by hand.
+
+## Neovim
+
+- `external/nvim/init.vim` contains the base Vim settings and loads `lua/init.lua`.
+- `external/nvim/lua/init.lua` bootstraps `lazy.nvim` and loads plugin specs.
+- Plugin specs are split between `external/nvim/lua/plugins.lua` and 28 per-plugin files under `external/nvim/lua/plugins/`.
+- VSCode-specific Neovim behavior lives in `external/nvim/lua/my/vscode.lua`.
+- Because `file.nix` links the whole directory out of store, edits under `external/nvim/` are reflected directly in `~/.config/nvim` once the link exists.
+
+## Shell Notes
+
+- `hm-switch` is defined in `zsh/functions.zsh` and runs `nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash`.
+- `npins-shell` and `npins-run` are custom helpers implemented in `zsh/functions.zsh`.
+- `zsh/init.zsh` disables zoxide integration when `CLAUDECODE=1` to work around Claude Code shell conflicts.
+- Optional per-machine shell customizations are sourced from `~/.zshrc_local` and `~/.zprofile_local` when present.
+
+## Editing Guidance
+
+- Put shared package/config changes in `packages.nix`; keep machine-specific additions in `local.nix`.
+- Add Home Manager-managed files through `file.nix` or the relevant module instead of ad hoc shell setup.
+- Prefer editing `config/git.nix` or `config/tmux.nix` over mutating the raw generated files in `$HOME`.
+- `nixgl.nix` exists in the repo, but it is not currently imported by `mkHome.nix`; verify the wiring before changing it.
+- `result/` is a build output symlink and should not be edited manually.
+
+## Verification
+
+For configuration changes, use the smallest relevant check first and then build/apply as needed:
+
 ```bash
-# Update package sources
-npins update
-
-# Build configuration without applying
-nix-build
-
-# Check nix configuration syntax
 nix-instantiate --parse default.nix
-
-# Run package temporarily
-npins-run package-name
-
-# Open shell with package available
-npins-shell package-name
-```
-
-### Version Control
-This repository uses **Jujutsu (jj)** for version control instead of git. While git configurations are set up for general system use, repository development uses jj commands:
-
-```bash
-# Common jj operations
-jj status           # Show working copy status
-jj commit           # Commit changes
-jj show             # Show current change
-jj log              # View commit history
-```
-
-## Architecture Overview
-
-### Configuration Structure
-- **`home.nix`**: Main home-manager entry point that imports `mkHome.nix` with user-specific parameters
-- **`mkHome.nix`**: Core home-manager configuration template that imports all modules
-- **`default.nix`**: Nix builder script that creates a `switch` command for applying configurations
-
-### Module Organization
-- **`packages.nix`**: Package installations and program configurations (bat, fzf, mise, etc.)
-- **`env.nix`**: Environment variables and session paths
-- **`file.nix`**: Dotfile symlinking and file management
-- **`config/`**: Application-specific configurations (git, tmux)
-- **`zsh/`**: Shell configuration split into base, aliases, and prezto setup
-- **`local.nix`**: Host-specific package and configuration overrides
-
-### External Configurations
-- **`external/nvim/`**: Neovim configuration using lazy.nvim plugin manager with Lua
-  - Uses `init.vim` for basic vim settings and `lua/init.lua` for plugin setup
-  - 32 Lua plugin files in `lua/plugins/` directory
-  - Configured for both standalone nvim and VSCode integration
-
-### Development Tools Setup
-- **Language Runtimes**: Node.js 22, Python 3.12, Ruby 3.4, Jujutsu 0.31 via `mise`
-- **Version Control**: Git configured for general use, but repository development uses Jujutsu (jj)
-- **Shell**: ZSH with Prezto framework and custom functions (`hm-switch`, `npins-shell`, `npins-run`)
-- **Editor**: Neovim with extensive Lua plugin ecosystem
-
-### Package Management
-- **Custom Packages**: `packages/` contains custom Nix expressions (rgr.nix, tmux-mem-cpu-load.nix, unarchive.nix)
-- **Source Management**: `npins` for managing external Nix sources
-- **Dependency Pinning**: Uses npins instead of channels for reproducible builds
-
-### Host Customization
-- Template system in `template/` for generating per-host configs
-- `local.nix` allows per-host package additions without modifying main configuration
-- Setup system automatically detects Google vs public environments for git config
-
-## Key Files to Modify
-
-### Adding New Packages
-- **System packages**: Add to `packages.nix` or `local.nix` (for host-specific)
-- **Custom packages**: Create new .nix file in `packages/` directory
-
-### Configuration Changes
-- **Shell customization**: Modify files in `zsh/` directory
-- **Application configs**: Add to appropriate module in `config/`
-- **Neovim plugins**: Add to `external/nvim/lua/plugins/`
-
-### Environment Setup
-- **Environment variables**: Edit `env.nix`
-- **Per-host settings**: Modify `local.nix`
-- **Dotfile links**: Update `file.nix`
-
-## Testing Configuration Changes
-
-Always test configuration changes before committing:
-
-```bash
-# Build to check for syntax errors
 nix-build
-
-# Apply changes
 hm-switch
-
-# Verify programs work as expected
-home-manager generations  # View generation history
 ```
