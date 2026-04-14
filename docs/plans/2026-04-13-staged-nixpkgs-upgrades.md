@@ -109,19 +109,19 @@ Expected: exit status `0`.
 
 **Step 1: Write the failing test**
 
-Run: `rg -n 'nix-upgrade-(begin|stage|unstage|status|finish|abort)' zsh/functions.zsh`
+Run: `rg -n 'hm-upgrade-(begin|stage|unstage|status|finish|abort)' zsh/functions.zsh`
 Expected: no matches because the helpers do not exist yet.
 
 **Step 2: Write the minimal implementation**
 
 Add shell functions:
 
-- `nix-upgrade-begin`
-- `nix-upgrade-stage`
-- `nix-upgrade-unstage`
-- `nix-upgrade-status`
-- `nix-upgrade-finish`
-- `nix-upgrade-abort`
+- `hm-upgrade-begin`
+- `hm-upgrade-stage`
+- `hm-upgrade-unstage`
+- `hm-upgrade-status`
+- `hm-upgrade-finish`
+- `hm-upgrade-abort`
 
 Implementation requirements:
 
@@ -130,12 +130,12 @@ Implementation requirements:
 - use `jq` to compare and copy pin objects inside `npins/sources.json`
 - keep staged package names sorted and unique
 - print actionable status output rather than raw JSON
-- make `nix-upgrade-abort` reset `nixpkgs-next` back to `nixpkgs` and clear the
+- make `hm-upgrade-abort` reset `nixpkgs-next` back to `nixpkgs` and clear the
   staged package list so the reminder stops
 
 **Step 3: Run the test to verify the helpers exist**
 
-Run: `rg -n 'nix-upgrade-(begin|stage|unstage|status|finish|abort)' zsh/functions.zsh`
+Run: `rg -n 'hm-upgrade-(begin|stage|unstage|status|finish|abort)' zsh/functions.zsh`
 Expected: matching function definitions.
 
 ### Task 4: Add once-per-day staged-upgrade reminder
@@ -145,7 +145,7 @@ Expected: matching function definitions.
 
 **Step 1: Write the failing test**
 
-Run: `rg -n 'nix-upgrade-status|staged-packages|\\.cache/dotfiles' zsh/init.zsh`
+Run: `rg -n 'hm-upgrade-status|staged-packages|\\.cache/dotfiles' zsh/init.zsh`
 Expected: no matches because no reminder exists yet.
 
 **Step 2: Write the minimal implementation**
@@ -158,11 +158,11 @@ Add an interactive-shell reminder that:
 - prints the reminder only if it has not already been shown today
 - suppresses output when no upgrade cycle is in progress
 
-The reminder should mention `nix-upgrade-status` as the next action.
+The reminder should mention `hm-upgrade-status` as the next action.
 
 **Step 3: Run the test to verify the reminder logic exists**
 
-Run: `rg -n 'nix-upgrade-status|staged-packages|\\.cache/dotfiles' zsh/init.zsh`
+Run: `rg -n 'hm-upgrade-status|staged-packages|\\.cache/dotfiles' zsh/init.zsh`
 Expected: matching lines.
 
 ### Task 5: Update package-management documentation
@@ -172,7 +172,7 @@ Expected: matching lines.
 
 **Step 1: Write the failing test**
 
-Run: `rg -n 'nixpkgs-next|staged upgrade|nix-upgrade-' AGENTS.md`
+Run: `rg -n 'nixpkgs-next|staged upgrade|hm-upgrade-' AGENTS.md`
 Expected: no matches because the staged-upgrade workflow is undocumented.
 
 **Step 2: Write the minimal implementation**
@@ -188,7 +188,7 @@ Document:
 
 **Step 3: Run the test to verify the docs mention the new workflow**
 
-Run: `rg -n 'nixpkgs-next|staged upgrade|nix-upgrade-' AGENTS.md`
+Run: `rg -n 'nixpkgs-next|staged upgrade|hm-upgrade-' AGENTS.md`
 Expected: matching lines.
 
 ### Task 6: Run final verification
@@ -208,12 +208,12 @@ Expected: successful build.
 
 **Step 3: Exercise helper status command**
 
-Run: `zsh -lc 'source zsh/functions.zsh; nix-upgrade-status'`
+Run: `zsh -lc 'source zsh/functions.zsh; hm-upgrade-status'`
 Expected: readable output describing main pin, next pin, and staged packages.
 
 **Step 4: Exercise stage and unstage helpers**
 
-Run: `zsh -lc 'source zsh/functions.zsh; nix-upgrade-stage mise; nix-upgrade-unstage mise'`
+Run: `zsh -lc 'source zsh/functions.zsh; hm-upgrade-stage mise; hm-upgrade-unstage mise'`
 Expected: the staged package list updates cleanly and ends back at `[]`.
 
 **Step 5: Optional apply**

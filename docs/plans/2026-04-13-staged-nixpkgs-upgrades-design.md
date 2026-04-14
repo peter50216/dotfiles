@@ -70,18 +70,18 @@ only on the subset of Home Manager modules that expose a `package` option.
 
 Add shell helpers for the staged-upgrade lifecycle:
 
-- `nix-upgrade-begin`
+- `hm-upgrade-begin`
   - updates `nixpkgs-next` to the newest upstream revision
-- `nix-upgrade-stage <pkg>`
+- `hm-upgrade-stage <pkg>`
   - adds a package attribute name to `upgrade/staged-packages.json`
-- `nix-upgrade-unstage <pkg>`
+- `hm-upgrade-unstage <pkg>`
   - removes a package from the staged list
-- `nix-upgrade-status`
+- `hm-upgrade-status`
   - shows the main pin, next pin, and currently staged packages
-- `nix-upgrade-finish`
+- `hm-upgrade-finish`
   - copies the `nixpkgs-next` pin state onto `nixpkgs`
   - clears the staged package list
-- `nix-upgrade-abort`
+- `hm-upgrade-abort`
   - resets `nixpkgs-next` back to `nixpkgs`
   - clears the staged package list
 
@@ -103,7 +103,7 @@ The reminder should:
 - run from interactive zsh startup
 - print at most once per day
 - summarize the main/next divergence and staged package list
-- point the user toward `nix-upgrade-status`
+- point the user toward `hm-upgrade-status`
 
 The reminder state can be cached under `~/.cache/dotfiles/`.
 

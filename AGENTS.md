@@ -27,12 +27,12 @@ hm-switch
 npins update
 
 # Start a staged nixpkgs upgrade cycle
-nix-upgrade-begin
-nix-upgrade-status
-nix-upgrade-stage package-attr
-nix-upgrade-unstage package-attr
-nix-upgrade-finish
-nix-upgrade-abort
+hm-upgrade-begin
+hm-upgrade-status
+hm-upgrade-stage package-attr
+hm-upgrade-unstage package-attr
+hm-upgrade-finish
+hm-upgrade-abort
 
 # Run a temporary package shell from pinned nixpkgs
 npins-shell package-name
@@ -77,7 +77,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `stylua.toml` defines Lua formatting for the Neovim config.
 - `npins/default.nix` is generated code. Update pins through `npins update`, not by hand.
 - The repo now tracks both `nixpkgs` and `nixpkgs-next`. `nixpkgs` stays the default package source, while staged package names listed in `upgrade/staged-packages.json` are overlaid from `nixpkgs-next`.
-- `nix-upgrade-begin` updates `nixpkgs-next`, `nix-upgrade-stage` and `nix-upgrade-unstage` control the staged package list, `nix-upgrade-finish` promotes `nixpkgs-next` into `nixpkgs`, and `nix-upgrade-abort` resets `nixpkgs-next` back to `nixpkgs`.
+- `hm-upgrade-begin` updates `nixpkgs-next`, `hm-upgrade-stage` and `hm-upgrade-unstage` control the staged package list, `hm-upgrade-finish` promotes `nixpkgs-next` into `nixpkgs`, and `hm-upgrade-abort` resets `nixpkgs-next` back to `nixpkgs`.
 
 ## Neovim
 

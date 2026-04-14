@@ -49,34 +49,34 @@ function _dotfiles_sync_pin() {
   _dotfiles_update_json_file "$(_dotfiles_sources_file)" --arg dst_pin "$dst_pin" --arg src_pin "$src_pin" '.pins[$dst_pin] = .pins[$src_pin]'
 }
 
-function nix-upgrade-begin() {
+function hm-upgrade-begin() {
   npins update nixpkgs-next || return $?
-  nix-upgrade-status
+  hm-upgrade-status
 }
 
-function nix-upgrade-stage() {
+function hm-upgrade-stage() {
   if (($# != 1)); then
-    echo "usage: nix-upgrade-stage package-attr"
+    echo "usage: hm-upgrade-stage package-attr"
     return 1
   fi
 
   local pkg="$1"
   _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" --arg pkg "$pkg" '(. + [$pkg]) | sort | unique'
-  nix-upgrade-status
+  hm-upgrade-status
 }
 
-function nix-upgrade-unstage() {
+function hm-upgrade-unstage() {
   if (($# != 1)); then
-    echo "usage: nix-upgrade-unstage package-attr"
+    echo "usage: hm-upgrade-unstage package-attr"
     return 1
   fi
 
   local pkg="$1"
   _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" --arg pkg "$pkg" 'map(select(. != $pkg))'
-  nix-upgrade-status
+  hm-upgrade-status
 }
 
-function nix-upgrade-status() {
+function hm-upgrade-status() {
   local sources_file staged_file main_url next_url staged_summary
   sources_file="$(_dotfiles_sources_file)"
   staged_file="$(_dotfiles_staged_packages_file)"
@@ -95,16 +95,16 @@ function nix-upgrade-status() {
   echo "staged packages: $staged_summary"
 }
 
-function nix-upgrade-finish() {
+function hm-upgrade-finish() {
   _dotfiles_sync_pin nixpkgs nixpkgs-next
   _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" '.[:0]'
-  nix-upgrade-status
+  hm-upgrade-status
 }
 
-function nix-upgrade-abort() {
+function hm-upgrade-abort() {
   _dotfiles_sync_pin nixpkgs-next nixpkgs
   _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" '.[:0]'
-  nix-upgrade-status
+  hm-upgrade-status
 }
 
 function npins-shell() {

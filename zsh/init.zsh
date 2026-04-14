@@ -34,7 +34,7 @@ if command -v zoxide &>/dev/null && [[ "$CLAUDECODE" != "1" ]]; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
 
-function _dotfiles_nix_upgrade_maybe_remind() {
+function _dotfiles_hm_upgrade_maybe_remind() {
   command -v jq &>/dev/null || return
 
   local repo_root="$HOME/dotfiles"
@@ -48,7 +48,7 @@ function _dotfiles_nix_upgrade_maybe_remind() {
   fi
 
   local cache_dir="$HOME/.cache/dotfiles"
-  local stamp_file="$cache_dir/nix-upgrade-reminder-date"
+  local stamp_file="$cache_dir/hm-upgrade-reminder-date"
   local today staged_summary
   today="$(date +%F)"
 
@@ -63,10 +63,10 @@ function _dotfiles_nix_upgrade_maybe_remind() {
   print
   print "nixpkgs staged upgrade in progress:"
   print "  staged packages: $staged_summary"
-  print "  run: nix-upgrade-status"
+  print "  run: hm-upgrade-status"
 }
 
-_dotfiles_nix_upgrade_maybe_remind
+_dotfiles_hm_upgrade_maybe_remind
 
 # TODO(Darkpi): Consider remove this when all local config moves to nix
 # too.
