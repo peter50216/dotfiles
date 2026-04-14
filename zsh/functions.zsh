@@ -40,7 +40,7 @@ function _dotfiles_update_json_file() {
   shift
   local tmp_file
   tmp_file="$(_dotfiles_tmp_json)"
-  jq "$@" "$file" >"$tmp_file" && mv "$tmp_file" "$file"
+  jq "$@" "$file" >"$tmp_file" && command mv -f -- "$tmp_file" "$file"
 }
 
 function _dotfiles_sync_pin() {

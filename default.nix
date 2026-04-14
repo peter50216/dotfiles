@@ -19,7 +19,13 @@
   },
   nixGL ? import sources.nixGL {inherit pkgs;},
 }: let
-  configuration = import ./home.nix;
+  configuration = {lib, ...}: {
+    imports = [./home.nix];
+
+    # Home Manager rebuilds _module.args.pkgs from pkgsPath/config.nixpkgs
+    # unless we force the package set we already constructed here.
+    _module.args.pkgs = lib.mkForce pkgs;
+  };
   hm = import "${sources.home-manager}/modules" {
     inherit pkgs configuration;
     extraSpecialArgs = {inherit nixGL;};

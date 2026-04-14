@@ -28,6 +28,7 @@
     jq.enable = true;
     mise = {
       enable = true;
+      package = pkgs.mise;
     };
     ripgrep.enable = true;
     zoxide = {
