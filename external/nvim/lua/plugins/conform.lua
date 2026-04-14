@@ -21,14 +21,91 @@ return {
       local au_id =
         vim.api.nvim_create_augroup("autocmd_conform", { clear = true })
 
+      local eslint_config_files = {
+        "eslint.config.js",
+        "eslint.config.cjs",
+        "eslint.config.mjs",
+        "eslint.config.ts",
+        ".eslintrc",
+        ".eslintrc.js",
+        ".eslintrc.cjs",
+        ".eslintrc.json",
+        ".eslintrc.yaml",
+        ".eslintrc.yml",
+      }
+
+      local function as_formatter_list(value)
+        if value == nil then
+          return nil
+        end
+        if type(value) == "string" then
+          return { value }
+        end
+        return value
+      end
+
+      local function get_project_formatter_override(filetype)
+        local overrides = vim.g.conform_ft_overrides or {}
+        local override = overrides[filetype]
+        if override ~= nil then
+          return as_formatter_list(override)
+        end
+
+        -- Project-local .nvim.lua can set one formatter for the JS/Vue family.
+        if
+          filetype == "javascript"
+          or filetype == "typescript"
+          or filetype == "typescriptreact"
+          or filetype == "vue"
+        then
+          return as_formatter_list(vim.g.conform_web_formatter)
+        end
+      end
+
+      local function has_eslint_config(bufnr)
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        if filename == "" then
+          return false
+        end
+        return vim.fs.find(eslint_config_files, {
+          path = vim.fs.dirname(filename),
+          upward = true,
+          stop = vim.loop.os_homedir(),
+        })[1] ~= nil
+      end
+
+      local function web_formatters(filetype)
+        return function(bufnr)
+          local override = get_project_formatter_override(filetype)
+          if override ~= nil then
+            return override
+          end
+          if has_eslint_config(bufnr) then
+            return { "eslint_d" }
+          end
+          return { "prettier" }
+        end
+      end
+
+      local function css_formatters(bufnr)
+        local override = get_project_formatter_override("css")
+        if override ~= nil then
+          return override
+        end
+        if module.get_formatter_info("stylelint", bufnr).available then
+          return { "prettier", "stylelint" }
+        end
+        return { "prettier" }
+      end
+
       local formatters_by_ft = {
         cpp = { "clang-format" },
-        css = { "prettier", "stylelint" },
+        css = css_formatters,
         lua = { "stylua" },
-        javascript = { "eslint_d" },
-        typescript = { "eslint_d" },
-        typescriptreact = { "prettier" },
-        vue = { "eslint_d" },
+        javascript = web_formatters("javascript"),
+        typescript = web_formatters("typescript"),
+        typescriptreact = web_formatters("typescriptreact"),
+        vue = web_formatters("vue"),
         nix = { "alejandra" },
         json = { "prettier" },
         html = { "prettier" },
