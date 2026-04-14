@@ -26,6 +26,14 @@ hm-switch
 # Update pinned sources
 npins update
 
+# Start a staged nixpkgs upgrade cycle
+nix-upgrade-begin
+nix-upgrade-status
+nix-upgrade-stage package-attr
+nix-upgrade-unstage package-attr
+nix-upgrade-finish
+nix-upgrade-abort
+
 # Run a temporary package shell from pinned nixpkgs
 npins-shell package-name
 npins-run package-name
@@ -59,6 +67,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `packages/`: custom derivations such as `rgr`, `unarchive`, and `tmux-mem-cpu-load`.
 - `external/`: raw config assets such as tmux config, git defaults, gitignore, and Neovim config.
 - `template/`: starter `home.nix`, `local.nix`, and `mise-config.toml` files used during bootstrap.
+- `upgrade/staged-packages.json`: top-level Nixpkgs attribute names currently sourced from `nixpkgs-next` during a staged package upgrade.
 
 ## Tooling Notes
 
@@ -67,6 +76,8 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and `alejandra`.
 - `stylua.toml` defines Lua formatting for the Neovim config.
 - `npins/default.nix` is generated code. Update pins through `npins update`, not by hand.
+- The repo now tracks both `nixpkgs` and `nixpkgs-next`. `nixpkgs` stays the default package source, while staged package names listed in `upgrade/staged-packages.json` are overlaid from `nixpkgs-next`.
+- `nix-upgrade-begin` updates `nixpkgs-next`, `nix-upgrade-stage` and `nix-upgrade-unstage` control the staged package list, `nix-upgrade-finish` promotes `nixpkgs-next` into `nixpkgs`, and `nix-upgrade-abort` resets `nixpkgs-next` back to `nixpkgs`.
 
 ## Neovim
 
@@ -80,6 +91,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 
 - `hm-switch` is defined in `zsh/functions.zsh` and runs `nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash`.
 - `npins-shell` and `npins-run` are custom helpers implemented in `zsh/functions.zsh`.
+- `zsh/init.zsh` prints a once-per-day reminder when `nixpkgs` and `nixpkgs-next` diverge or when `upgrade/staged-packages.json` is non-empty.
 - `zsh/init.zsh` disables zoxide integration when `CLAUDECODE=1` to work around Claude Code shell conflicts.
 - Optional per-machine shell customizations are sourced from `~/.zshrc_local` and `~/.zprofile_local` when present.
 

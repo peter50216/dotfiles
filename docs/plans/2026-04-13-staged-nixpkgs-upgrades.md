@@ -10,6 +10,35 @@
 
 ---
 
+### Task 0: Upgrade repo `npins` metadata format
+
+**Files:**
+- Modify: `npins/default.nix`
+- Modify: `npins/sources.json`
+
+**Step 1: Write the failing test**
+
+Run: `npins update nixpkgs`
+Expected: failure complaining that the current `sources.json` format version is
+too old for the installed `npins` CLI.
+
+**Step 2: Write the minimal implementation**
+
+Run:
+
+```bash
+npins upgrade
+```
+
+This regenerates `npins/default.nix` and upgrades `npins/sources.json` to the
+current format version expected by the CLI.
+
+**Step 3: Run the verification**
+
+Run: `jq '.version' npins/sources.json`
+Expected: the lockfile format version is current enough for `npins` commands to
+operate.
+
 ### Task 1: Add repo state for staged upgrades
 
 **Files:**
@@ -101,6 +130,8 @@ Implementation requirements:
 - use `jq` to compare and copy pin objects inside `npins/sources.json`
 - keep staged package names sorted and unique
 - print actionable status output rather than raw JSON
+- make `nix-upgrade-abort` reset `nixpkgs-next` back to `nixpkgs` and clear the
+  staged package list so the reminder stops
 
 **Step 3: Run the test to verify the helpers exist**
 

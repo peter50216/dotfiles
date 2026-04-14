@@ -32,6 +32,8 @@ selected packages from "next" onto the main package set.
 
 ### Repository State
 
+- `npins` metadata is first upgraded to a current lockfile format so the
+  installed `npins` CLI can operate on the repo again.
 - `nixpkgs` remains the current main pin.
 - `nixpkgs-next` is added as a second pin that tracks the same upstream channel
   independently.
@@ -80,7 +82,8 @@ Add shell helpers for the staged-upgrade lifecycle:
   - copies the `nixpkgs-next` pin state onto `nixpkgs`
   - clears the staged package list
 - `nix-upgrade-abort`
-  - clears the staged package list without promoting `nixpkgs-next`
+  - resets `nixpkgs-next` back to `nixpkgs`
+  - clears the staged package list
 
 The helpers are convenience wrappers around `npins` and small JSON edits. They
 do not replace Home Manager activation; the user still runs `hm-switch` when

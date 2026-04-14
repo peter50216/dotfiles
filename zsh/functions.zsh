@@ -23,6 +23,90 @@ function hm-switch() {
   nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash
 }
 
+function _dotfiles_sources_file() {
+  echo "$HOME/dotfiles/npins/sources.json"
+}
+
+function _dotfiles_staged_packages_file() {
+  echo "$HOME/dotfiles/upgrade/staged-packages.json"
+}
+
+function _dotfiles_tmp_json() {
+  mktemp "${TMPDIR:-/tmp}/dotfiles-json.XXXXXX"
+}
+
+function _dotfiles_update_json_file() {
+  local file="$1"
+  shift
+  local tmp_file
+  tmp_file="$(_dotfiles_tmp_json)"
+  jq "$@" "$file" >"$tmp_file" && mv "$tmp_file" "$file"
+}
+
+function _dotfiles_sync_pin() {
+  local dst_pin="$1"
+  local src_pin="$2"
+  _dotfiles_update_json_file "$(_dotfiles_sources_file)" --arg dst_pin "$dst_pin" --arg src_pin "$src_pin" '.pins[$dst_pin] = .pins[$src_pin]'
+}
+
+function nix-upgrade-begin() {
+  npins update nixpkgs-next || return $?
+  nix-upgrade-status
+}
+
+function nix-upgrade-stage() {
+  if (($# != 1)); then
+    echo "usage: nix-upgrade-stage package-attr"
+    return 1
+  fi
+
+  local pkg="$1"
+  _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" --arg pkg "$pkg" '(. + [$pkg]) | sort | unique'
+  nix-upgrade-status
+}
+
+function nix-upgrade-unstage() {
+  if (($# != 1)); then
+    echo "usage: nix-upgrade-unstage package-attr"
+    return 1
+  fi
+
+  local pkg="$1"
+  _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" --arg pkg "$pkg" 'map(select(. != $pkg))'
+  nix-upgrade-status
+}
+
+function nix-upgrade-status() {
+  local sources_file staged_file main_url next_url staged_summary
+  sources_file="$(_dotfiles_sources_file)"
+  staged_file="$(_dotfiles_staged_packages_file)"
+
+  main_url="$(jq -r '.pins.nixpkgs.url' "$sources_file")"
+  next_url="$(jq -r '.pins["nixpkgs-next"].url' "$sources_file")"
+  staged_summary="$(jq -r 'if length == 0 then "(none)" else join(", ") end' "$staged_file")"
+
+  echo "nixpkgs main: $main_url"
+  echo "nixpkgs next: $next_url"
+  if jq -e '.pins.nixpkgs == .pins["nixpkgs-next"]' "$sources_file" >/dev/null; then
+    echo "pin state: synced"
+  else
+    echo "pin state: diverged"
+  fi
+  echo "staged packages: $staged_summary"
+}
+
+function nix-upgrade-finish() {
+  _dotfiles_sync_pin nixpkgs nixpkgs-next
+  _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" '.[:0]'
+  nix-upgrade-status
+}
+
+function nix-upgrade-abort() {
+  _dotfiles_sync_pin nixpkgs-next nixpkgs
+  _dotfiles_update_json_file "$(_dotfiles_staged_packages_file)" '.[:0]'
+  nix-upgrade-status
+}
+
 function npins-shell() {
   if (($# < 1)); then
     echo "$0 package-name [extra-args]"
