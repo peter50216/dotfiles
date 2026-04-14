@@ -28,23 +28,6 @@
     jq.enable = true;
     mise = {
       enable = true;
-      globalConfig = {
-        tools = {
-          node = "22";
-          python = "3.12";
-          ruby = "3.4";
-          cosign = "latest";
-          slsa-verifier = "latest";
-          bun = "1.2";
-          rust = "latest";
-          "cargo:mergiraf" = "latest";
-        };
-        settings = {
-          experimental = true;
-          npm.bun = true;
-          idiomatic_version_file_enable_tools = ["python" "ruby"];
-        };
-      };
     };
     ripgrep.enable = true;
     zoxide = {

@@ -2,15 +2,15 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Replace Home Manager-owned global `mise` config with a seed-once template so new machines get repo defaults while each machine can later add global `mise` tools independently.
+**Goal:** Replace Home Manager-owned global `mise` config with a seed-once settings template so new machines get shared `mise` settings while each machine can later add global `mise` tools independently.
 
-**Architecture:** Keep `mise` installation declarative, but move global `mise` defaults into a plain template file stored in the repo. Extend the existing one-time setup flow to copy that template into `~/.config/mise/config.toml` only when the live file does not already exist.
+**Architecture:** Keep `mise` installation declarative, but move shared `mise` settings into a plain template file stored in the repo. Extend the existing one-time setup flow to copy that template into `~/.config/mise/config.toml` only when the live file does not already exist, and add a one-time migration that converts the old Home Manager-managed `mise` symlink into a normal user-owned file on existing systems.
 
 **Tech Stack:** Nix, Home Manager, shell activation script, mise TOML config
 
 ---
 
-### Task 1: Add the repo-owned `mise` template
+### Task 1: Add the repo-owned `mise` settings template
 
 **Files:**
 - Create: `template/mise-config.toml`
@@ -22,26 +22,17 @@
 Run: `test -f template/mise-config.toml`
 Expected: exit status `1` because the template file does not exist yet.
 
-**Step 2: Create the template with the current shared defaults**
+**Step 2: Create the template with the shared settings defaults**
 
-Copy the existing Home Manager-managed values into `template/mise-config.toml`:
+Copy the shared settings values into `template/mise-config.toml`:
 
 ```toml
-[tools]
-node = "22"
-python = "3.12"
-ruby = "3.4"
-cosign = "latest"
-slsa-verifier = "latest"
-bun = "1.2"
-rust = "latest"
-"cargo:mergiraf" = "latest"
-jujutsu = "0.33"
-
 [settings]
 experimental = true
-npm.bun = true
 idiomatic_version_file_enable_tools = ["python", "ruby"]
+
+[settings.npm]
+bun = true
 ```
 
 **Step 3: Run test to verify it passes**
@@ -52,7 +43,7 @@ Expected: exit status `0`.
 **Step 4: Sanity-check the content**
 
 Run: `sed -n '1,160p' template/mise-config.toml`
-Expected: the TOML contains the shared tools and settings currently defined in `packages.nix` and `local.nix`.
+Expected: the TOML contains only the shared `mise` settings defaults.
 
 ### Task 2: Remove Home Manager ownership of global `mise` config
 
@@ -83,7 +74,7 @@ Expected: no matches.
 Run: `nix-instantiate --parse default.nix`
 Expected: successful parse output with exit status `0`.
 
-### Task 3: Seed the live `mise` config during one-time setup
+### Task 3: Seed the live `mise` config and migrate existing symlinks
 
 **Files:**
 - Modify: `setup.nix`
@@ -91,12 +82,19 @@ Expected: successful parse output with exit status `0`.
 
 **Step 1: Write the failing test**
 
-Run: `rg -n "mise/config.toml|mise-config.toml" setup.nix`
-Expected: no matches because setup does not currently seed `mise`.
+Run: `rg -n "mise/config.toml|mise-config.toml|oldGenPath|readlink -f" setup.nix`
+Expected: no matches because setup does not currently seed or migrate `mise`.
 
 **Step 2: Write the minimal implementation**
 
-Extend the `runSetup` activation block in `setup.nix` to:
+Extend `setup.nix` in two parts:
+
+1. Add a Home Manager activation entry after `linkGeneration` that copies the
+   old Home Manager-managed `mise` config into `~/.config/mise/config.toml`
+   when the live file is missing and the previous generation contained the old
+   generated `mise` config.
+
+2. Extend the existing `runSetup` activation block to seed fresh installs with:
 
 ```sh
 if [ ! -f "$HOME/.config/mise/config.toml" ]; then
@@ -110,8 +108,8 @@ seeding logic.
 
 **Step 3: Run the test to verify the new logic exists**
 
-Run: `rg -n "mise/config.toml|mise-config.toml" setup.nix`
-Expected: matches showing the new seeding logic.
+Run: `rg -n "mise/config.toml|mise-config.toml|oldGenPath|readlink -f" setup.nix`
+Expected: matches showing the new seeding and migration logic.
 
 **Step 4: Verify the repo still evaluates**
 
@@ -134,6 +132,8 @@ Update the relevant `AGENTS.md` sections to explain:
 
 - shared `mise` defaults now live in `template/mise-config.toml`
 - `setup.nix` seeds `~/.config/mise/config.toml` only when missing
+- `setup.nix` also preserves the old Home Manager-managed `mise` symlink on
+  existing systems by converting it into a real file once
 - machine-local global `mise` additions should be made with `mise use --global`
   or direct edits to `~/.config/mise/config.toml`
 

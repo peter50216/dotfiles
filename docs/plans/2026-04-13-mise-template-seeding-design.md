@@ -3,7 +3,7 @@
 ## Goal
 
 Keep `mise` usable as a normal interactive tool on each machine while still
-providing repo-managed defaults during bootstrap.
+providing repo-managed shared settings during bootstrap.
 
 ## Problem
 
@@ -26,23 +26,25 @@ Adopt a seed-once template model for global `mise` config.
 ### Ownership
 
 - Home Manager may continue to install the `mise` binary.
-- The repo owns only a starter template for `mise` global config.
+- The repo owns only a starter template for `mise` global settings.
 - Each machine owns the live `~/.config/mise/config.toml` after bootstrap.
 
 ### Behavior
 
-- Move the current repo-wide `mise` defaults out of Home Manager
+- Move the current repo-wide `mise` settings out of Home Manager
   `programs.mise.globalConfig`.
-- Store those defaults in a plain repo template file.
+- Store only shared `[settings]` defaults in a plain repo template file.
 - During one-time setup, copy the template to
   `~/.config/mise/config.toml` only when the file does not already exist.
+- On existing systems, detect the old Home Manager-managed `mise` symlink and
+  convert it into a real file once so the current machine state is preserved.
 - Never overwrite an existing live `mise` config.
 
 ## Why This Approach
 
 This keeps the useful part of the current setup:
 
-- repo-managed defaults for new machines
+- repo-managed settings defaults for new machines
 - declarative installation of packages and custom derivations
 - low-friction bootstrap
 
@@ -66,8 +68,9 @@ file.
 
 ## Consequences
 
-- Fresh installs get the repo baseline automatically.
-- Existing machines keep their current `~/.config/mise/config.toml`.
+- Fresh installs get the repo baseline settings automatically.
+- Existing machines keep their current `~/.config/mise/config.toml`, including
+  any tool versions that were previously generated through Home Manager.
 - Future template edits affect fresh installs only unless an explicit refresh
   mechanism is added later.
 - Drift between machines is intentional for `mise` global state.
