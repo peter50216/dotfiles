@@ -18,10 +18,14 @@ if [ ! -f ./local.nix ]; then
   cp ./template/local.nix ./local.nix
 fi
 
-# Enable nix features
-if [ ! -f ~/.config/nix/ ]; then
-  mkdir -p ~/.config/nix/
-  echo "experimental-features = nix-command flakes" >~/.config/nix/nix.conf
+# Enable nix features.
+mkdir -p ~/.config/nix
+nix_conf=~/.config/nix/nix.conf
+if [ ! -f "$nix_conf" ]; then
+  echo "experimental-features = nix-command flakes" >"$nix_conf"
+elif ! grep -Fxq "experimental-features = nix-command flakes" "$nix_conf"; then
+  echo "Existing $nix_conf does not contain: experimental-features = nix-command flakes" >&2
+  exit 1
 fi
 
 if ! command -v nix >/dev/null; then
