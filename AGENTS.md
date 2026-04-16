@@ -49,8 +49,8 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 ./setup/install.sh
 ```
 
-- `setup/fetch.sh` checks for sudo, installs `git` if needed, clones the repo with `--filter=blob:none`, rewrites the push remote to SSH, and runs `./setup/install.sh`.
-- `setup/install.sh` ensures `xz` is installed, creates `home.nix` and `local.nix` from `template/` when missing, enables `nix-command flakes`, installs Lix if `nix` is absent, and builds/applies the Home Manager activation when `home-manager` is not yet installed.
+- `setup/fetch.sh` rejects running as root, checks for sudo, installs `git` if needed, clones the repo with `--filter=blob:none`, rewrites the push remote to SSH, and runs `./setup/install.sh`.
+- `setup/install.sh` ensures `xz` is installed, creates `home.nix` and `local.nix` from `template/` when missing, enables `nix-command flakes`, installs Lix if `nix` is absent, builds/applies the Home Manager activation when `home-manager` is not yet installed, and then uses `sudo` to make sure the profile `zsh` path is listed in `/etc/shells` and set as the login shell.
 
 ## Repo Layout
 

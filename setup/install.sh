@@ -4,6 +4,37 @@ set -e
 # Minimal setup for nix.
 # Other one-time setup should be using home-manager.
 
+setup_login_zsh() {
+  local shells_file zsh_path current_shell
+
+  if [ "$(uname -s)" != "Linux" ]; then
+    return
+  fi
+
+  if ! command -v getent >/dev/null 2>&1 || ! command -v chsh >/dev/null 2>&1; then
+    return
+  fi
+
+  if ! command -v zsh >/dev/null 2>&1; then
+    echo $'\e[1;33mzsh is not in PATH yet, skipping login shell setup.\e[m'
+    return
+  fi
+
+  shells_file="${DOTFILES_SHELLS_FILE:-/etc/shells}"
+  zsh_path="$(command -v zsh)"
+  current_shell="$(getent passwd "$USER" | cut -d: -f7)"
+
+  if ! grep -Fxq "$zsh_path" "$shells_file"; then
+    echo $'\e[1;33mAdding zsh to /etc/shells...\e[m'
+    printf '%s\n' "$zsh_path" | sudo tee -a "$shells_file" >/dev/null
+  fi
+
+  if [ "$current_shell" != "$zsh_path" ]; then
+    echo $'\e[1;33mChanging login shell to zsh...\e[m'
+    sudo chsh -s "$zsh_path" "$USER"
+  fi
+}
+
 # Nix installer needs xz.
 if ! command -v xz >/dev/null 2>&1; then
   echo $'\e[1;33mxz not installed, installing...\e[m'
@@ -36,3 +67,5 @@ fi
 if ! command -v home-manager >/dev/null; then
   nix-build $HOME/dotfiles && $HOME/dotfiles/result/bin/switch
 fi
+
+setup_login_zsh

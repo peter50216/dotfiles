@@ -1,3 +1,7 @@
+if [ "$(id -u)" -eq 0 ]; then
+  echo $'\e[1;31mPlease run setup as your normal user, not root.\e[m'
+  exit 1
+fi
 if ! sudo -l >/dev/null 2>&1; then
   echo $'\e[1;31mIt appears that you can\'t sudo, but installing nix & git needs sudo privilege...\e[m'
   exit 1

@@ -33,6 +33,5 @@
         run cp ~/dotfiles/template/mise-config.toml "$HOME/.config/mise/config.toml"
       fi
     '';
-    # TODO: Somehow automate chsh zsh
   };
 }
