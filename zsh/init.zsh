@@ -34,6 +34,20 @@ if command -v zoxide &>/dev/null && [[ "$CLAUDECODE" != "1" ]]; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
 
+function _dotfiles_init_fzf() {
+  precmd_functions=(${precmd_functions:#_dotfiles_init_fzf})
+
+  if (( ${+functions[fzf-file-widget]} )) || ! command -v fzf &>/dev/null; then
+    return
+  fi
+
+  eval "$(fzf --zsh)"
+}
+
+if [[ -o interactive ]]; then
+  precmd_functions+=(_dotfiles_init_fzf)
+fi
+
 function _dotfiles_hm_upgrade_maybe_remind() {
   command -v jq &>/dev/null || return
 

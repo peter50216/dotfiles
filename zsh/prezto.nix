@@ -42,6 +42,12 @@ in {
     git.submoduleIgnore = "dirty";
 
     extraConfig = ''
+      fpath=(
+        "$HOME/.local/share/dotfiles/zsh-completions"
+        "$HOME/dotfiles/external/zsh/completions"
+        $fpath
+      )
+
       # Solve completion takes too long.
       zstyle ':completion:*' users pihsun root
     '';

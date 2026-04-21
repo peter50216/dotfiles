@@ -26,6 +26,7 @@
   };
 
   home.sessionPath = [
+    "$HOME/bin/common"
     "$HOME/bin"
   ];
 }

@@ -8,6 +8,7 @@ bun = true
 [tools]
 bat = "latest"
 btop = "latest"
+cosign = "latest"
 dua = "latest"
 eza = "latest"
 fd = "latest"
@@ -19,6 +20,7 @@ make = "latest"
 neovim = "latest"
 ripgrep = "latest"
 shellcheck = "latest"
+slsa-verifier = "latest"
 usage = "latest"
 zoxide = "latest"
 

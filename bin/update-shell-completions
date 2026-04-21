@@ -1,0 +1,242 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+global_completions_dir="${DOTFILES_GLOBAL_COMPLETIONS_DIR:-$repo_root/external/zsh/completions}"
+local_completions_dir="${DOTFILES_LOCAL_COMPLETIONS_DIR:-$HOME/.local/share/dotfiles/zsh-completions}"
+local_tools_file="${DOTFILES_COMPLETION_TOOLS_FILE:-$HOME/.config/dotfiles/shell-completions}"
+mise_dir="${DOTFILES_MISE_COMPLETIONS_DIR:-$HOME}"
+cache_clear_failed=0
+
+global_tools=(
+  bat
+  broot
+  cosign
+  dua
+  fd
+  git-lfs
+  jujutsu
+  ripgrep
+  slsa-verifier
+)
+
+usage() {
+  cat <<EOF
+usage: update-shell-completions [--list | --list-known]
+
+Regenerate zsh completions for supported mise-managed CLI tools.
+
+Global baseline tools are vendored into:
+  $global_completions_dir
+
+Machine-local tools are generated into:
+  $local_completions_dir
+
+To add machine-local tools, put one supported tool key per line in:
+  $local_tools_file
+EOF
+}
+
+tool_outputs() {
+  case "$1" in
+    bat) echo "_bat" ;;
+    broot) echo "_broot _br" ;;
+    bun) echo "_bun" ;;
+    cosign) echo "_cosign" ;;
+    dua) echo "_dua" ;;
+    fd) echo "_fd" ;;
+    git-lfs) echo "_git-lfs" ;;
+    jujutsu) echo "_jj" ;;
+    ripgrep) echo "_rg" ;;
+    slsa-verifier) echo "_slsa-verifier" ;;
+    *) return 1 ;;
+  esac
+}
+
+list_known_tools() {
+  cat <<'EOF'
+bat _bat
+broot _broot _br
+bun _bun
+cosign _cosign
+dua _dua
+fd _fd
+git-lfs _git-lfs
+jujutsu _jj
+ripgrep _rg
+slsa-verifier _slsa-verifier
+EOF
+}
+
+local_tools() {
+  if [[ -f "$local_tools_file" ]]; then
+    sed 's/#.*//; s/^[[:space:]]*//; s/[[:space:]]*$//; /^$/d' "$local_tools_file"
+  fi
+}
+
+list_tools_from() {
+  local source="$1"
+  local tool
+
+  while IFS= read -r tool; do
+    [[ -n "$tool" ]] || continue
+    if ! tool_outputs "$tool" >/dev/null; then
+      echo "unsupported completion tool in $source: $tool" >&2
+      return 1
+    fi
+    printf '%s %s %s\n' "$source" "$tool" "$(tool_outputs "$tool")"
+  done
+}
+
+list_selected_tools() {
+  printf '%s\n' "${global_tools[@]}" | list_tools_from global
+  local_tools | awk '!seen[$0]++' | list_tools_from local
+}
+
+case "${1:-}" in
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  --list)
+    list_selected_tools
+    exit 0
+    ;;
+  --list-known)
+    list_known_tools
+    exit 0
+    ;;
+  "")
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+run_tool() {
+  mise -C "$mise_dir" exec -- "$@"
+}
+
+write_generated() {
+  local output="$1"
+  shift
+
+  echo "generating $output"
+  run_tool "$@" >"$target_tmp_dir/$output"
+  [[ -s "$target_tmp_dir/$output" ]]
+}
+
+copy_completion() {
+  local output="$1"
+  local source="$2"
+
+  echo "copying $output"
+  [[ -f "$source" ]]
+  cp "$source" "$target_tmp_dir/$output"
+}
+
+find_completion() {
+  local tool="$1"
+  local pattern="$2"
+  local tool_dir
+
+  tool_dir="$(mise -C "$mise_dir" where "$tool")"
+  find "$tool_dir" -path "$pattern" -type f | sort | head -n 1
+}
+
+generate_tool() {
+  case "$1" in
+    bat) write_generated _bat bat --completion zsh ;;
+    broot)
+      copy_completion _broot "$(find_completion github:Canop/broot '*/completion/_broot')"
+      copy_completion _br "$(find_completion github:Canop/broot '*/completion/_br')"
+      ;;
+    bun) write_generated _bun bun completions ;;
+    cosign) write_generated _cosign cosign completion zsh ;;
+    dua) write_generated _dua dua completions zsh ;;
+    fd) copy_completion _fd "$(find_completion fd '*/autocomplete/_fd')" ;;
+    git-lfs) write_generated _git-lfs git-lfs completion zsh ;;
+    jujutsu) write_generated _jj jj util completion zsh ;;
+    ripgrep) write_generated _rg rg --generate complete-zsh ;;
+    slsa-verifier) write_generated _slsa-verifier slsa-verifier completion zsh ;;
+    *)
+      echo "unsupported completion tool: $1" >&2
+      return 1
+      ;;
+  esac
+}
+
+sync_completions() {
+  local destination="$1"
+  local manifest="$destination/.update-shell-completions.manifest"
+  local generated_file managed_file
+
+  mkdir -p "$destination"
+
+  if [[ -f "$manifest" ]]; then
+    while IFS= read -r managed_file; do
+      [[ -n "$managed_file" ]] || continue
+      rm -f "$destination/$managed_file"
+    done <"$manifest"
+  fi
+
+  find "$target_tmp_dir" -maxdepth 1 -type f -printf '%f\n' | sort >"$manifest"
+  while IFS= read -r generated_file; do
+    cp "$target_tmp_dir/$generated_file" "$destination/$generated_file"
+  done <"$manifest"
+}
+
+clear_zcompdump() {
+  local cache_home="${XDG_CACHE_HOME:-$HOME/.cache}"
+  local path
+
+  for path in \
+    "$cache_home/prezto/zcompdump" \
+    "$cache_home/prezto/zcompdump.zwc" \
+    "$HOME/.zcompdump" \
+    "$HOME/.zcompdump.zwc"; do
+    [[ -e "$path" ]] || continue
+    rm -f "$path" || {
+      cache_clear_failed=1
+      echo "warning: could not remove $path" >&2
+    }
+  done
+}
+
+tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/shell-completions.XXXXXX")"
+trap 'rm -rf "$tmp_root"' EXIT
+
+target_tmp_dir="$tmp_root/global"
+mkdir -p "$target_tmp_dir"
+for tool in "${global_tools[@]}"; do
+  generate_tool "$tool"
+done
+sync_completions "$global_completions_dir"
+
+target_tmp_dir="$tmp_root/local"
+mkdir -p "$target_tmp_dir"
+local_tools_list="$tmp_root/local-tools"
+local_tools | awk '!seen[$0]++' >"$local_tools_list"
+if [[ -s "$local_tools_list" || -f "$local_completions_dir/.update-shell-completions.manifest" ]]; then
+  while IFS= read -r tool; do
+    [[ -n "$tool" ]] || continue
+    generate_tool "$tool"
+  done <"$local_tools_list"
+  sync_completions "$local_completions_dir"
+fi
+
+clear_zcompdump
+
+echo "Updated global zsh completions in $global_completions_dir."
+if [[ -s "$local_tools_list" ]]; then
+  echo "Updated local zsh completions in $local_completions_dir."
+else
+  echo "No local zsh completion tools configured in $local_tools_file."
+fi
+if ((cache_clear_failed)); then
+  echo "Some Prezto completion caches could not be removed; delete them manually if stale completions persist."
+else
+  echo "Prezto completion caches were cleared."
+fi
+echo "Run 'exec zsh' in existing shells."

@@ -1,0 +1,396 @@
+#compdef dua
+
+autoload -U is-at-least
+
+_dua() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+":: :_dua_commands" \
+"*::: :->dua" \
+&& ret=0
+    case $state in
+    (dua)
+        words=($line[2] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-command-$line[2]:"
+        case $line[2] in
+            (interactive)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-e[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'--no-entry-check[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(i)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-e[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'--no-entry-check[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(aggregate)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'--stats[If set, print additional statistics about the file traversal to stderr]' \
+'--no-sort[If set, paths will be printed in their order of occurrence on the command-line. Otherwise they are sorted by their size in bytes, ascending]' \
+'--no-total[If set, no total column will be computed for multiple inputs]' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(a)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'--stats[If set, print additional statistics about the file traversal to stderr]' \
+'--no-sort[If set, paths will be printed in their order of occurrence on the command-line. Otherwise they are sorted by their size in bytes, ascending]' \
+'--no-total[If set, no total column will be computed for multiple inputs]' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+':shell -- The shell to generate a completions-script for:(bash elvish fish powershell zsh)' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+":: :_dua__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[2] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-config-command-$line[2]:"
+        case $line[2] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__config__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-config-help-command-$line[1]:"
+        case $line[1] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-help-command-$line[1]:"
+        case $line[1] in
+            (interactive)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(aggregate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__help__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-help-config-command-$line[1]:"
+        case $line[1] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_dua_commands] )) ||
+_dua_commands() {
+    local commands; commands=(
+'interactive:Launch the terminal user interface' \
+'i:Launch the terminal user interface' \
+'aggregate:Aggregate the consumed space of one or more directories or files' \
+'a:Aggregate the consumed space of one or more directories or files' \
+'completions:Generate shell completions' \
+'config:Configuration related commands' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua commands' commands "$@"
+}
+(( $+functions[_dua__aggregate_commands] )) ||
+_dua__aggregate_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua aggregate commands' commands "$@"
+}
+(( $+functions[_dua__completions_commands] )) ||
+_dua__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua completions commands' commands "$@"
+}
+(( $+functions[_dua__config_commands] )) ||
+_dua__config_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua config commands' commands "$@"
+}
+(( $+functions[_dua__config__edit_commands] )) ||
+_dua__config__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config edit commands' commands "$@"
+}
+(( $+functions[_dua__config__help_commands] )) ||
+_dua__config__help_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua config help commands' commands "$@"
+}
+(( $+functions[_dua__config__help__edit_commands] )) ||
+_dua__config__help__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config help edit commands' commands "$@"
+}
+(( $+functions[_dua__config__help__help_commands] )) ||
+_dua__config__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config help help commands' commands "$@"
+}
+(( $+functions[_dua__help_commands] )) ||
+_dua__help_commands() {
+    local commands; commands=(
+'interactive:Launch the terminal user interface' \
+'aggregate:Aggregate the consumed space of one or more directories or files' \
+'completions:Generate shell completions' \
+'config:Configuration related commands' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua help commands' commands "$@"
+}
+(( $+functions[_dua__help__aggregate_commands] )) ||
+_dua__help__aggregate_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help aggregate commands' commands "$@"
+}
+(( $+functions[_dua__help__completions_commands] )) ||
+_dua__help__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help completions commands' commands "$@"
+}
+(( $+functions[_dua__help__config_commands] )) ||
+_dua__help__config_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+    )
+    _describe -t commands 'dua help config commands' commands "$@"
+}
+(( $+functions[_dua__help__config__edit_commands] )) ||
+_dua__help__config__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help config edit commands' commands "$@"
+}
+(( $+functions[_dua__help__help_commands] )) ||
+_dua__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help help commands' commands "$@"
+}
+(( $+functions[_dua__help__interactive_commands] )) ||
+_dua__help__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help interactive commands' commands "$@"
+}
+(( $+functions[_dua__interactive_commands] )) ||
+_dua__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua interactive commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_dua" ]; then
+    _dua "$@"
+else
+    compdef _dua dua
+fi

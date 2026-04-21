@@ -37,6 +37,9 @@ hm-upgrade-abort
 # Run a temporary package shell from pinned nixpkgs
 npins-shell package-name
 npins-run package-name
+
+# Refresh vendored zsh completions generated from mise-installed tools
+update-shell-completions
 ```
 
 ## Bootstrap Flow
@@ -61,12 +64,12 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink.
 - `packages.nix`: minimal shared Nix package and program config. Most userland CLI tools live in the linked `mise` baseline instead.
 - `local.nix`: host-local package additions and overrides.
-- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}` and remove the obsolete old Home Manager-managed `mise` config symlink so the linked `conf.d` baseline can take over.
+- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`.
 - `config/`: Home Manager modules for `git` and `tmux`.
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.
-- `external/`: raw config assets such as tmux config, git defaults, gitignore, Neovim config, and the shared `mise` baseline.
-- `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink, such as `rgr` and `unarchive`.
+- `external/`: raw config assets such as tmux config, git defaults, gitignore, Neovim config, the shared `mise` baseline, and vendored zsh completions.
+- `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink and `$HOME/bin/common` PATH entry, such as `rgr`, `unarchive`, and `update-shell-completions`.
 - `template/`: starter `home.nix` and `local.nix` files used during bootstrap.
 - `upgrade/staged-packages.json`: top-level Nixpkgs attribute names currently sourced from `nixpkgs-next` during a staged package upgrade.
 
@@ -75,6 +78,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - Shared `mise` defaults and baseline tools live in `external/mise/00-dotfiles.toml`, linked to `~/.config/mise/conf.d/00-dotfiles.toml`.
 - `mise` machine-local additions and overrides live in user-owned `~/.config/mise/config.toml`. Use `mise use --global ...` or edit that file directly for per-machine additions.
 - `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and `alejandra`.
+- Generated zsh completions for shared mise baseline tools are vendored in `external/zsh/completions/`. Machine-local extra completions are listed in `~/.config/dotfiles/shell-completions` and generated into `~/.local/share/dotfiles/zsh-completions/`. Refresh both with `update-shell-completions`; after the initial `hm-switch` that adds these directories to `fpath`, refreshing completions only needs a new shell (`exec zsh`), not another `hm-switch`.
 - `stylua.toml` defines Lua formatting for the Neovim config.
 - `npins/default.nix` is generated code. Update pins through `npins update`, not by hand.
 - The repo now tracks both `nixpkgs` and `nixpkgs-next`. `nixpkgs` stays the default package source, while staged package names listed in `upgrade/staged-packages.json` are overlaid from `nixpkgs-next`.
