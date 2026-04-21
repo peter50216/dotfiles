@@ -4,7 +4,7 @@
 
 **Goal:** Move shared CLI tools from Nix to a linked `mise conf.d` baseline while preserving a small Nix core.
 
-**Architecture:** Home Manager links `external/mise/00-dotfiles.toml` into `~/.config/mise/conf.d/00-dotfiles.toml`, while custom scripts live under `bin/` and are exposed by a Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink. Nix stops installing tools that `mise` now owns, while activation cleanup removes only the obsolete old Home Manager-managed `mise/config.toml` symlink.
+**Architecture:** Home Manager links `external/mise/00-dotfiles.toml` into `~/.config/mise/conf.d/00-dotfiles.toml`, while custom scripts live under `bin/` and are exposed by a Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink. Nix stops installing tools that `mise` now owns, and Home Manager's built-in orphan-link cleanup removes obsolete managed `mise/config.toml` symlinks.
 
 **Tech Stack:** Nix Home Manager, `mise`, shell scripts
 
@@ -27,10 +27,9 @@
 - Modify: `setup.nix`
 
 **Steps:**
-1. Keep detecting the old Home Manager-managed `mise/config.toml` store target.
-2. Remove the obsolete current symlink if it still points into the old store target.
-3. Do not touch regular user-owned `~/.config/mise/config.toml` files.
-4. Remove the fresh-install template seeding activation.
+1. Rely on Home Manager's built-in orphan-link cleanup for old managed `mise/config.toml` symlinks.
+2. Do not touch regular user-owned `~/.config/mise/config.toml` files.
+3. Remove the fresh-install template seeding activation.
 
 ### Task 3: Move shared packages
 

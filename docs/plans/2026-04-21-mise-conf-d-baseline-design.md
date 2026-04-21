@@ -18,7 +18,7 @@ Move these shared tools from Nix to the `mise` baseline:
 
 - `bat`
 - `btop`
-- `broot` via `cargo:broot`
+- `broot` via `github:Canop/broot`
 - `dua`
 - `eza`
 - `fd`
@@ -47,7 +47,7 @@ Keep these in Nix:
 - `htop`
 - `xxd`
 
-`htop` stays in Nix because the `cargo:htop` crate is a different HTML-to-PDF tool, not the C process viewer. `xxd` stays in Nix because there is no clean `mise` source for the standard Vim `xxd`.
+`broot` uses GitHub release assets instead of Cargo because upstream publishes prebuilt binaries in its release zip. `htop` stays in Nix because the `cargo:htop` crate is a different HTML-to-PDF tool, not the C process viewer. `xxd` stays in Nix because there is no clean `mise` source for the standard Vim `xxd`.
 
 ## Custom Scripts
 

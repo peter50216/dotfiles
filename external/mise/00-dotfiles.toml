@@ -8,7 +8,6 @@ bun = true
 [tools]
 bat = "latest"
 btop = "latest"
-"cargo:broot" = "latest"
 dua = "latest"
 eza = "latest"
 fd = "latest"
@@ -21,3 +20,11 @@ ripgrep = "latest"
 shellcheck = "latest"
 usage = "latest"
 zoxide = "latest"
+
+[tools."github:Canop/broot"]
+version = "latest"
+
+[tools."github:Canop/broot".platforms]
+linux-arm64 = { bin_path = "aarch64-unknown-linux-gnu" }
+linux-x64 = { bin_path = "x86_64-unknown-linux-gnu" }
+macos-arm64 = { bin_path = "aarch64-apple-darwin" }
