@@ -8,8 +8,12 @@ in {
   home.file = {
     # git
     ".config/git/ignore".source = ./external/gitignore_global;
+    # mise
+    ".config/mise/conf.d/00-dotfiles.toml".source =
+      mkDotfileSymlink "external/mise/00-dotfiles.toml";
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
-    # Remove the zlogout from prezto.
+    # scripts
+    "bin/common".source = mkDotfileSymlink "bin";
   };
 }

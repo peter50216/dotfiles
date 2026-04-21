@@ -1,0 +1,23 @@
+[settings]
+experimental = true
+idiomatic_version_file_enable_tools = ["python", "ruby"]
+
+[settings.npm]
+bun = true
+
+[tools]
+bat = "latest"
+btop = "latest"
+"cargo:broot" = "latest"
+dua = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+git-lfs = "latest"
+jq = "latest"
+make = "latest"
+neovim = "latest"
+ripgrep = "latest"
+shellcheck = "latest"
+usage = "latest"
+zoxide = "latest"
