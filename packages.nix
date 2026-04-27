@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     nil
     npins
+    gnumake
     unixtools.xxd
     bubblewrap
   ];
