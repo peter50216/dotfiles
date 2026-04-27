@@ -61,10 +61,10 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `mkHome.nix`: shared module graph. Imports `env.nix`, `file.nix`, `packages.nix`, `config/`, `zsh/`, `local.nix`, and `setup.nix`.
 - `default.nix`: evaluates Home Manager from `npins/` and builds a `switch` shell application that activates the config.
 - `env.nix`: session environment variables and PATH additions.
-- `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink.
+- `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink, and links shared `jj` and `mise` defaults into their `conf.d` directories.
 - `packages.nix`: minimal shared Nix package and program config. Most userland CLI tools live in the linked `mise` baseline instead.
 - `local.nix`: host-local package additions and overrides.
-- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`.
+- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
 - `config/`: Home Manager modules for `git` and `tmux`.
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.

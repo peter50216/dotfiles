@@ -8,6 +8,9 @@ in {
   home.file = {
     # git
     ".config/git/ignore".source = ./external/gitignore_global;
+    # jj
+    ".config/jj/conf.d/00-dotfiles.toml".source =
+      mkDotfileSymlink "external/jj/00-dotfiles.toml";
     # mise
     ".config/mise/conf.d/00-dotfiles.toml".source =
       mkDotfileSymlink "external/mise/00-dotfiles.toml";

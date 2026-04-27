@@ -61,11 +61,12 @@ fi
 
 if ! command -v nix >/dev/null; then
   curl -sSf -L https://install.lix.systems/lix | sh -s -- install --no-confirm --nix-build-user-count 11
+  # shellcheck source=/dev/null
   source /etc/profile.d/nix.sh
 fi
 
 if ! command -v home-manager >/dev/null; then
-  nix-build $HOME/dotfiles && $HOME/dotfiles/result/bin/switch
+  nix-build "$HOME/dotfiles" && "$HOME/dotfiles/result/bin/switch"
 fi
 
 setup_login_zsh
