@@ -37,7 +37,7 @@ fi
 function _dotfiles_init_fzf() {
   precmd_functions=(${precmd_functions:#_dotfiles_init_fzf})
 
-  if (( ${+functions[fzf-file-widget]} )) || ! command -v fzf &>/dev/null; then
+  if ((${+functions[fzf - file - widget]})) || ! command -v fzf &>/dev/null; then
     return
   fi
 
@@ -66,7 +66,7 @@ function _dotfiles_command_finish_time_precmd() {
   unset _dotfiles_command_start_time
 
   if ((elapsed >= _dotfiles_command_finish_time_threshold)); then
-    _dotfiles_command_finish_rprompt="%F{242}Finished: $(strftime "%Y-%m-%d %H:%M:%S" $EPOCHSECONDS)%f"
+    _dotfiles_command_finish_rprompt="%F{242}$(strftime "%Y-%m-%d %H:%M:%S" $EPOCHSECONDS)%f"
   fi
 }
 
@@ -93,7 +93,7 @@ function _dotfiles_hm_upgrade_maybe_remind() {
     return
   fi
 
-  print -r -- "$today" >! "$stamp_file"
+  print -r -- "$today" >|"$stamp_file"
   staged_summary="$(jq -r 'if length == 0 then "(none)" else join(", ") end' "$staged_file")"
 
   print
