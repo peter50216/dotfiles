@@ -48,6 +48,28 @@ if [[ -o interactive ]]; then
   precmd_functions+=(_dotfiles_init_fzf)
 fi
 
+zmodload zsh/datetime
+
+typeset -gi _dotfiles_command_finish_time_threshold=60
+typeset -g _dotfiles_command_finish_rprompt=
+
+function _dotfiles_command_finish_time_preexec() {
+  typeset -g _dotfiles_command_start_time=$EPOCHSECONDS
+}
+
+function _dotfiles_command_finish_time_precmd() {
+  _dotfiles_command_finish_rprompt=
+
+  [[ -n ${_dotfiles_command_start_time:-} ]] || return
+
+  local elapsed=$((EPOCHSECONDS - _dotfiles_command_start_time))
+  unset _dotfiles_command_start_time
+
+  if ((elapsed >= _dotfiles_command_finish_time_threshold)); then
+    _dotfiles_command_finish_rprompt="%F{242}Finished: $(strftime "%Y-%m-%d %H:%M:%S" $EPOCHSECONDS)%f"
+  fi
+}
+
 function _dotfiles_hm_upgrade_maybe_remind() {
   command -v jq &>/dev/null || return
 
@@ -86,4 +108,20 @@ _dotfiles_hm_upgrade_maybe_remind
 # too.
 if [[ -f ~/.zshrc_local ]]; then
   source ~/.zshrc_local
+fi
+
+if [[ ${RPROMPT:-} != *dotfiles_command_finish_rprompt* ]]; then
+  if [[ -n ${RPROMPT:-} ]]; then
+    RPROMPT="${RPROMPT}"'${_dotfiles_command_finish_rprompt:+ ${_dotfiles_command_finish_rprompt}}'
+  else
+    RPROMPT='${_dotfiles_command_finish_rprompt}'
+  fi
+fi
+
+if [[ -o interactive ]]; then
+  autoload -Uz add-zsh-hook
+  preexec_functions=(${preexec_functions:#_dotfiles_command_finish_time_preexec})
+  precmd_functions=(${precmd_functions:#_dotfiles_command_finish_time_precmd})
+  add-zsh-hook preexec _dotfiles_command_finish_time_preexec
+  add-zsh-hook precmd _dotfiles_command_finish_time_precmd
 fi
