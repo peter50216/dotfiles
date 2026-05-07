@@ -44,7 +44,6 @@ return {
   { "sgeb/vim-diff-fold" },
   { "jyelloz/vim-dts-indent" },
   { "tmux-plugins/vim-tmux" },
-  { "nvim-treesitter/playground" },
   { "https://github.com/kalcutter/vim-gn" },
   { "dstein64/vim-startuptime" },
   -- {
