@@ -20,7 +20,7 @@ neovim = "latest"
 ripgrep = "latest"
 shellcheck = "latest"
 slsa-verifier = "latest"
-"cargo:tree-sitter-cli" = "0.26.8"
+tree-sitter = "latest"
 usage = "latest"
 zoxide = "latest"
 
