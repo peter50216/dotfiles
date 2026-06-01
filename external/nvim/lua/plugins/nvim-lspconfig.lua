@@ -93,6 +93,8 @@ return {
             },
           },
         },
+        -- mise use -g aqua:elixir-lang/expert
+        expert = {},
       },
     },
     config = function(_, opts)
