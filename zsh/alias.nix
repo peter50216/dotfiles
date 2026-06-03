@@ -28,7 +28,7 @@
       rsync-update = "${rsync_cmd} --update";
       rsync-synchronize = "${rsync_cmd} --update --delete";
       hm-gc = "nix-collect-garbage --delete-old";
-      "," = "MISE_TASK_DISABLE_PATHS=$HOME/.config/mise/tasks/sequence-run/node_modules mise run";
+      "," = "MISE_TASK_DISABLE_PATHS=$HOME/.config/mise/tasks/packages mise run";
       j = "jj";
     };
   };
