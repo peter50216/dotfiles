@@ -7,6 +7,7 @@
     gnumake
     unixtools.xxd
     bubblewrap
+    tree-sitter
   ];
 
   programs = {

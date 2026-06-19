@@ -20,7 +20,7 @@ neovim = "latest"
 ripgrep = "latest"
 shellcheck = "latest"
 slsa-verifier = "latest"
-tree-sitter = "latest"
+# tree-sitter = "latest"
 usage = "latest"
 zoxide = "latest"
 
