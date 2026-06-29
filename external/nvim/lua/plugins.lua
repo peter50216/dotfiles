@@ -54,7 +54,7 @@ return {
   -- },
   -- { "RaafatTurki/hex.nvim", config = true },
   { "isobit/vim-caddyfile" },
-  { "vmchale/just-vim" },
+  -- { "vmchale/just-vim" },
   { "edgedb/edgedb-vim" },
   { "wsdjeg/vim-fetch" },
   { "elixir-editors/vim-elixir" },
