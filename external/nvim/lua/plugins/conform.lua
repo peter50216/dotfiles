@@ -106,6 +106,7 @@ return {
         typescript = web_formatters("typescript"),
         typescriptreact = web_formatters("typescriptreact"),
         vue = web_formatters("vue"),
+        liquid = { "prettier" },
         nix = { "alejandra" },
         json = { "prettier" },
         html = { "prettier" },
