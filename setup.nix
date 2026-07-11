@@ -1,4 +1,8 @@
-{config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   mise = "${config.programs.mise.package}/bin/mise";
 in {
   home.activation = {
