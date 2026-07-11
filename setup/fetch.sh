@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ "$(id -u)" -eq 0 ]; then
   echo $'\e[1;31mPlease run setup as your normal user, not root.\e[m'
   exit 1
@@ -11,6 +13,6 @@ if ! command -v git >/dev/null 2>&1; then
   sudo apt-get -y install git
 fi
 git clone --filter=blob:none https://github.com/peter50216/dotfiles ~/dotfiles
-cd ~/dotfiles
+cd ~/dotfiles || exit 1
 git remote set-url --push origin git@github.com:peter50216/dotfiles.git
 ./setup/install.sh

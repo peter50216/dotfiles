@@ -32,7 +32,7 @@ replace() {
   # mv -T is not supported on BSD :(
   local temp_dir
   temp_dir=$(mktemp -d tmp.unarchive.XXXXXXXXXX)
-  temp_files+=(${temp_dir})
+  temp_files+=("${temp_dir}")
   mv -- "$1" "$temp_dir/$2"
   mv -- "$temp_dir/$2" .
 }
@@ -162,7 +162,7 @@ unarchive() {
 
   local temp_dir
   temp_dir=$(mktemp -d tmp.unarchive.XXXXXXXXXX)
-  temp_files+=(${temp_dir})
+  temp_files+=("${temp_dir}")
 
   "unarchive_${archive_type}" "${archive_orig_path}" "${temp_dir}"
 
