@@ -20,6 +20,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
+  -- Keep the per-machine lockfile out of the dotfiles repo.
+  lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
   install = {
     colorscheme = { "everforest" },
   },
