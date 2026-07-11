@@ -109,21 +109,23 @@ function hm-upgrade-abort() {
 
 function npins-shell() {
   if (($# < 1)); then
-    echo "$0 package-name [extra-args]"
+    echo "usage: $0 package-name [extra-args]" >&2
+    return 1
   fi
-  pkg="$1"
+  local pkg="$1"
   shift
   # For some reason we still need to use this to avoid re-fetching the nixpkgs on each invocation...
-  nix-shell -I "nixpkgs=$(jq -r .pins.nixpkgs.url $HOME/dotfiles/npins/sources.json)" -E "let npins = import ~/dotfiles/npins; pkgs = import npins.nixpkgs {}; in pkgs.mkShell { packages = [pkgs.$pkg]; }" "$@"
+  nix-shell -I "nixpkgs=$(jq -r .pins.nixpkgs.url "$HOME/dotfiles/npins/sources.json")" -E "let npins = import ~/dotfiles/npins; pkgs = import npins.nixpkgs {}; in pkgs.mkShell { packages = [pkgs.$pkg]; }" "$@"
 }
 
 function npins-run() {
   if (($# < 1)); then
-    echo "$0 package-name [run-command]"
+    echo "usage: $0 package-name [run-command]" >&2
+    return 1
   fi
-  pkg="$1"
+  local pkg="$1"
   shift
-  cmd="${1:-$pkg}"
+  local cmd="${1:-$pkg}"
   npins-shell "$pkg" --run "$cmd"
 }
 
