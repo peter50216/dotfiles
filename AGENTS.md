@@ -6,6 +6,8 @@ This file provides guidance to coding agents working in this repository.
 
 - Use `jj` for repo operations. Prefer `jj status`, `jj diff`, `jj log`, `jj show`, and `jj commit`.
 - A `.git/` directory is present for tool compatibility, but repo-local history management is done with Jujutsu.
+- Design docs live in `docs/plans/` and review notes in `docs/reviews/`. Read the relevant plan doc before implementing a change it covers; record deviations there.
+- `home.nix` and `local.nix` at the repo root are machine-local and gitignored. Never commit them; shared changes belong in the tracked modules.
 - Avoid editing generated outputs like `result/` or generated pin code like `npins/default.nix` unless the task is explicitly to regenerate them.
 
 ## Common Commands
@@ -22,6 +24,10 @@ nix-build
 
 # Apply the current configuration
 hm-switch
+
+# Format checks (tools come from the repo-local mise.toml)
+alejandra --check . --exclude ./npins
+stylua --check external/nvim
 
 # Update pinned sources
 npins update
@@ -53,51 +59,55 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 ```
 
 - `setup/fetch.sh` rejects running as root, checks for sudo, installs `git` if needed, clones the repo with `--filter=blob:none`, rewrites the push remote to SSH, and runs `./setup/install.sh`.
-- `setup/install.sh` ensures `xz` is installed, creates `home.nix` and `local.nix` from `template/` when missing, enables `nix-command flakes`, installs Lix if `nix` is absent, builds/applies the Home Manager activation when `home-manager` is not yet installed, and then uses `sudo` to make sure the profile `zsh` path is listed in `/etc/shells` and set as the login shell.
+- `setup/install.sh` ensures `xz` is installed, creates `home.nix` and `local.nix` from `template/` when missing, ensures `~/.config/nix/nix.conf` enables `nix-command flakes` (failing if an existing conf lacks the line), installs Lix if `nix` is absent, builds/applies the Home Manager activation when `home-manager` is not yet installed, and then uses `sudo` to make sure the profile `zsh` path is listed in `/etc/shells` and set as the login shell.
 
 ## Repo Layout
 
-- `home.nix`: user-specific entry point. In a fresh install it is generated from `template/home.nix`.
+- `home.nix`: user-specific entry point (machine-local, gitignored). In a fresh install it is generated from `template/home.nix`.
 - `mkHome.nix`: shared module graph. Imports `env.nix`, `file.nix`, `packages.nix`, `config/`, `zsh/`, `local.nix`, and `setup.nix`.
 - `default.nix`: evaluates Home Manager from `npins/` and builds a `switch` shell application that activates the config.
 - `env.nix`: session environment variables and PATH additions.
 - `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink, and links shared `jj` and `mise` defaults into their `conf.d` directories.
-- `packages.nix`: minimal shared Nix package and program config. Most userland CLI tools live in the linked `mise` baseline instead.
-- `local.nix`: host-local package additions and overrides.
+- `packages.nix`: minimal shared Nix package and program config (currently `nil`, `npins`, `gnumake`, `xxd`, `bubblewrap`, `tree-sitter`, plus `htop` and `mise` programs). Most userland CLI tools live in the linked `mise` baseline instead.
+- `local.nix`: host-local package additions and overrides (machine-local, gitignored).
 - `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
-- `config/`: Home Manager modules for `git` and `tmux`.
+- `config/`: Home Manager modules for `git` (including delta) and `tmux`.
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.
-- `external/`: raw config assets such as tmux config, git defaults, gitignore, Neovim config, the shared `mise` baseline, and vendored zsh completions.
+- `external/`: raw config assets such as tmux config, git defaults, gitignore, Neovim config, the shared `jj` and `mise` baselines, and vendored zsh completions.
 - `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink and `$HOME/bin/common` PATH entry, such as `rgr`, `unarchive`, and `update-shell-completions`.
 - `template/`: starter `home.nix` and `local.nix` files used during bootstrap.
+- `docs/`: design docs (`docs/plans/`) and review notes (`docs/reviews/`).
 - `upgrade/staged-packages.json`: top-level Nixpkgs attribute names currently sourced from `nixpkgs-next` during a staged package upgrade.
 
 ## Tooling Notes
 
 - Shared `mise` defaults and baseline tools live in `external/mise/00-dotfiles.toml`, linked to `~/.config/mise/conf.d/00-dotfiles.toml`.
 - `mise` machine-local additions and overrides live in user-owned `~/.config/mise/config.toml`. Use `mise use --global ...` or edit that file directly for per-machine additions.
-- `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and `alejandra`.
+- `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and a musl `alejandra` binary from `github:kamadorueda/alejandra`.
+- `tree-sitter` is installed through Nix (`packages.nix`) instead of mise because the mise-installed binary had glibc issues; its entry stays commented out in `external/mise/00-dotfiles.toml`.
 - Generated zsh completions for shared mise baseline tools are vendored in `external/zsh/completions/`. Machine-local extra completions are listed in `~/.config/dotfiles/shell-completions` and generated into `~/.local/share/dotfiles/zsh-completions/`. Refresh both with `update-shell-completions`; after the initial `hm-switch` that adds these directories to `fpath`, refreshing completions only needs a new shell (`exec zsh`), not another `hm-switch`.
-- `stylua.toml` defines Lua formatting for the Neovim config.
+- `stylua.toml` defines Lua formatting for the Neovim config; `alejandra` formats the Nix files.
 - `npins/default.nix` is generated code. Update pins through `npins update`, not by hand.
-- The repo now tracks both `nixpkgs` and `nixpkgs-next`. `nixpkgs` stays the default package source, while staged package names listed in `upgrade/staged-packages.json` are overlaid from `nixpkgs-next`.
-- `hm-upgrade-begin` updates `nixpkgs-next`, `hm-upgrade-stage` and `hm-upgrade-unstage` control the staged package list, `hm-upgrade-finish` promotes `nixpkgs-next` into `nixpkgs`, and `hm-upgrade-abort` resets `nixpkgs-next` back to `nixpkgs`.
+- The repo tracks both `nixpkgs` and `nixpkgs-next`. `nixpkgs` stays the default package source, while staged package names listed in `upgrade/staged-packages.json` are overlaid from `nixpkgs-next`.
+- `hm-upgrade-begin` updates `nixpkgs-next`, `hm-upgrade-stage` and `hm-upgrade-unstage` control the staged package list, `hm-upgrade-finish` promotes `nixpkgs-next` into `nixpkgs`, and `hm-upgrade-abort` resets `nixpkgs-next` back to `nixpkgs`. `hm-upgrade-status` (also surfaced by a once-per-day shell reminder) shows pin and staging state.
 
 ## Neovim
 
 - `external/nvim/init.vim` contains the base Vim settings and loads `lua/init.lua`.
 - `external/nvim/lua/init.lua` bootstraps `lazy.nvim` and loads plugin specs.
-- Plugin specs are split between `external/nvim/lua/plugins.lua` and 28 per-plugin files under `external/nvim/lua/plugins/`.
+- Plugin specs are split between `external/nvim/lua/plugins.lua` and per-plugin files under `external/nvim/lua/plugins/`.
+- `external/nvim/lazy-lock.json` pins plugin versions; `external/nvim/queries/` holds tree-sitter query overrides.
 - VSCode-specific Neovim behavior lives in `external/nvim/lua/my/vscode.lua`.
 - Because `file.nix` links the whole directory out of store, edits under `external/nvim/` are reflected directly in `~/.config/nvim` once the link exists.
 
 ## Shell Notes
 
 - `hm-switch` is defined in `zsh/functions.zsh` and runs `nix-build -o $HOME/dotfiles/result $HOME/dotfiles && $HOME/dotfiles/result/bin/switch && rehash`.
-- `npins-shell` and `npins-run` are custom helpers implemented in `zsh/functions.zsh`.
+- `npins-shell` and `npins-run` are custom helpers implemented in `zsh/functions.zsh`; the `hm-upgrade-*` staged-upgrade helpers live there too.
 - `zsh/init.zsh` prints a once-per-day reminder when `nixpkgs` and `nixpkgs-next` diverge or when `upgrade/staged-packages.json` is non-empty.
 - `zsh/init.zsh` disables zoxide integration when `CLAUDECODE=1` to work around Claude Code shell conflicts.
+- `zsh/init.zsh` lazy-initializes fzf key bindings on the first prompt, and shows a finish timestamp in `RPROMPT` after commands that ran 60 seconds or longer.
 - Optional per-machine shell customizations are sourced from `~/.zshrc_local` and `~/.zprofile_local` when present.
 
 ## Editing Guidance
@@ -115,6 +125,8 @@ For configuration changes, use the smallest relevant check first and then build/
 
 ```bash
 nix-instantiate --parse default.nix
+alejandra --check . --exclude ./npins
+stylua --check external/nvim
 nix-build
 hm-switch
 ```
