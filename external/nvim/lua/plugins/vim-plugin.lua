@@ -15,7 +15,7 @@ return {
       })
     end,
     cond = function()
-      vim.fn.has("macunix")
+      return vim.fn.has("macunix") == 1
     end,
   },
 }

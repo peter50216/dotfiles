@@ -136,7 +136,7 @@ return {
               return
             end
           end
-          vim.diagnostic.open_float({ "cursor", focusable = false })
+          vim.diagnostic.open_float({ scope = "cursor", focusable = false })
         end,
         desc = "Open floating diagnostic under cursor on CursorHold",
       })
