@@ -13,10 +13,6 @@
       gcp = "git cherry-pick";
       gcff = "git commit --fixup";
       gbl = "git branch -v --sort=-committerdate";
-      gwdd = "GIT_EXTERNAL_DIFF=difft gwd --ext-diff";
-      gidd = "GIT_EXTERNAL_DIFF=difft gid --ext-diff";
-      gsdd = "GIT_EXTERNAL_DIFF=difft gsd --ext-diff";
-      gldd = "GIT_EXTERNAL_DIFF=difft gld --ext-diff";
       fd = "noglob fd";
       vi = "nvim";
       ls = "eza";
