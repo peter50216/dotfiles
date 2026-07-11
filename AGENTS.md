@@ -25,9 +25,8 @@ nix-build
 # Apply the current configuration
 hm-switch
 
-# Format checks (tools come from the repo-local mise.toml)
-alejandra --check . --exclude ./npins
-stylua --check external/nvim
+# Run all repo checks (nix syntax, nix/lua formatting, shellcheck)
+mise run check
 
 # Update pinned sources
 npins update
@@ -121,12 +120,10 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 
 ## Verification
 
-For configuration changes, use the smallest relevant check first and then build/apply as needed:
+For configuration changes, run the check gate first, then build/apply as needed:
 
 ```bash
-nix-instantiate --parse default.nix
-alejandra --check . --exclude ./npins
-stylua --check external/nvim
+mise run check   # nix syntax, alejandra + stylua formatting, shellcheck
 nix-build
 hm-switch
 ```

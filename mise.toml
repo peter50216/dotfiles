@@ -2,3 +2,13 @@
 lua-language-server = "latest"
 stylua = "latest"
 "github:kamadorueda/alejandra" = { version = "latest", matching = "musl" }
+
+[tasks.check]
+description = "Nix syntax, nix/lua formatting, and shellcheck"
+run = [
+  "nix-instantiate --parse default.nix > /dev/null",
+  "alejandra --check . --exclude ./npins",
+  "stylua --check external/nvim",
+  # bin/rgr is vendored third-party code and stays out of shellcheck.
+  "shellcheck bin/unarchive bin/update-shell-completions setup/fetch.sh setup/install.sh",
+]
