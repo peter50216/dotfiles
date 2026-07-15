@@ -47,7 +47,7 @@ Keep these in Nix:
 - `htop`
 - `xxd`
 
-`broot` uses GitHub release assets instead of Cargo because upstream publishes prebuilt binaries in its release zip. `htop` stays in Nix because the `cargo:htop` crate is a different HTML-to-PDF tool, not the C process viewer. `xxd` stays in Nix because there is no clean `mise` source for the standard Vim `xxd`.
+`btop` uses mise's GitHub backend because its release archive names changed from `.tbz` to `.tar.gz`, while older Aqua registry metadata still selects the obsolete suffix. The GitHub backend detects the current per-platform release asset directly. `broot` uses GitHub release assets instead of Cargo because upstream publishes prebuilt binaries in its release zip. `htop` stays in Nix because the `cargo:htop` crate is a different HTML-to-PDF tool, not the C process viewer. `xxd` stays in Nix because there is no clean `mise` source for the standard Vim `xxd`.
 
 ## Custom Scripts
 

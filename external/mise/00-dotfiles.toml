@@ -7,7 +7,7 @@ bun = true
 
 [tools]
 bat = "latest"
-btop = "latest"
+"github:aristocratos/btop" = "latest"
 cosign = "latest"
 dua = "latest"
 eza = "latest"
