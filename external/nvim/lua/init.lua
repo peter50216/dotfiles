@@ -43,6 +43,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  pattern = "*.bp",
+  group = au_id,
+  callback = function()
+    vim.bo.syntax = "json5"
+  end,
+})
+
 if vim.g.vscode then
   require("my.vscode")
 end
