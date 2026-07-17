@@ -66,3 +66,9 @@
 2. Run `nix-instantiate --parse default.nix`.
 3. Run `nix-build`.
 4. Check `jj diff` for unintended changes.
+
+## Follow-up deviation (2026-07-17)
+
+Home Manager now creates an empty, user-owned `~/.config/mise/config.toml` when
+the file does not exist. This preserves the `conf.d` shared baseline while making
+`mise use --global` target the intended machine-local file.

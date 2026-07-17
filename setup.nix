@@ -17,7 +17,16 @@ in {
       fi
     '';
 
-    installMiseTools = lib.hm.dag.entryAfter ["linkGeneration"] ''
+    ensureMiseConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
+      mise_config="$HOME/.config/mise/config.toml"
+      if [[ ! -e "$mise_config" && ! -L "$mise_config" ]]; then
+        verboseEcho "Creating empty user-owned mise config..."
+        run mkdir -p "$HOME/.config/mise"
+        run touch "$mise_config"
+      fi
+    '';
+
+    installMiseTools = lib.hm.dag.entryAfter ["ensureMiseConfig"] ''
       verboseEcho "Installing mise global packages..."
       run ${mise} install --yes -C "$HOME"
     '';

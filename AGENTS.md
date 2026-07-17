@@ -66,14 +66,14 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `mkHome.nix`: shared module graph. Imports `env.nix`, `file.nix`, `packages.nix`, `config/`, `zsh/`, `local.nix`, and `setup.nix`.
 - `default.nix`: evaluates Home Manager from `npins/` and builds a `switch` shell application that activates the config.
 - `env.nix`: session environment variables and PATH additions.
-- `file.nix`: Home Manager file links. Notably links `external/nvim` into `~/.config/nvim` with an out-of-store symlink, and links shared `jj` and `mise` defaults into their `conf.d` directories.
+- `file.nix`: Home Manager file links. Notably manages `~/.bunfig.toml`, links `external/nvim` into `~/.config/nvim` with an out-of-store symlink, and links shared `jj` and `mise` defaults into their `conf.d` directories.
 - `packages.nix`: minimal shared Nix package and program config (currently `nil`, `npins`, `gnumake`, `xxd`, `bubblewrap`, `tree-sitter`, plus `htop` and `mise` programs). Most userland CLI tools live in the linked `mise` baseline instead.
 - `local.nix`: host-local package additions and overrides (machine-local, gitignored).
-- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
+- `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, create an empty user-owned mise `config.toml` when missing, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
 - `config/`: Home Manager modules for `git` (including delta) and `tmux`.
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.
-- `external/`: raw config assets such as tmux config, git defaults, gitignore, Neovim config, the shared `jj` and `mise` baselines, and vendored zsh completions.
+- `external/`: raw config assets such as Bun and tmux config, git defaults, gitignore, Neovim config, the shared `jj` and `mise` baselines, and vendored zsh completions.
 - `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink and `$HOME/bin/common` PATH entry, such as `rgr`, `unarchive`, and `update-shell-completions`.
 - `template/`: starter `home.nix` and `local.nix` files used during bootstrap.
 - `docs/`: design docs (`docs/plans/`) and review notes (`docs/reviews/`).
@@ -82,7 +82,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 ## Tooling Notes
 
 - Shared `mise` defaults and baseline tools live in `external/mise/00-dotfiles.toml`, linked to `~/.config/mise/conf.d/00-dotfiles.toml`.
-- `mise` machine-local additions and overrides live in user-owned `~/.config/mise/config.toml`. Use `mise use --global ...` or edit that file directly for per-machine additions.
+- `mise` machine-local additions and overrides live in user-owned `~/.config/mise/config.toml`, which activation creates empty when missing. Use `mise use --global ...` or edit that file directly for per-machine additions.
 - `mise.toml` is only for repo-local dev tools: `lua-language-server`, `stylua`, and a musl `alejandra` binary from `github:kamadorueda/alejandra`.
 - `tree-sitter` is installed through Nix (`packages.nix`) instead of mise because the mise-installed binary had glibc issues; its entry stays commented out in `external/mise/00-dotfiles.toml`.
 - Generated zsh completions for shared mise baseline tools are vendored in `external/zsh/completions/`. Machine-local extra completions are listed in `~/.config/dotfiles/shell-completions` and generated into `~/.local/share/dotfiles/zsh-completions/`. Refresh both with `update-shell-completions`; after the initial `hm-switch` that adds these directories to `fpath`, refreshing completions only needs a new shell (`exec zsh`), not another `hm-switch`.

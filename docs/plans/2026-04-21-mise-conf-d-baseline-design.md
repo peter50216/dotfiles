@@ -10,7 +10,7 @@ Move shared userland CLI tools out of Nix and into a `mise` baseline while keepi
 
 Use a Home Manager-linked file at `~/.config/mise/conf.d/00-dotfiles.toml` for shared dotfiles defaults. `mise` loads `conf.d/*.toml` alphabetically, so a `00-` file provides a stable baseline while each machine can keep user-owned additions and overrides in `~/.config/mise/config.toml`.
 
-Fresh installs should no longer seed `~/.config/mise/config.toml` from a template. That file remains machine-local state. Existing systems that still have the old Home Manager-managed `~/.config/mise/config.toml` symlink should have that obsolete symlink removed so the new `conf.d` baseline can take over. Newer template-seeded user files are not migrated automatically.
+Fresh installs should no longer seed `~/.config/mise/config.toml` from a template. Home Manager creates the file empty when it does not exist so `mise use --global` writes machine-local changes there instead of selecting the linked `conf.d` baseline. The file remains user-owned machine-local state. Existing systems that still have the old Home Manager-managed `~/.config/mise/config.toml` symlink should have that obsolete symlink removed so the new `conf.d` baseline can take over. Newer template-seeded user files are not migrated automatically.
 
 ## Tool Boundary
 

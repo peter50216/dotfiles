@@ -1,0 +1,3 @@
+[install]
+minimumReleaseAge = 864000
+minimumReleaseAgeExcludes = ["@openai/codex"]
