@@ -26,6 +26,15 @@ in {
       fi
     '';
 
+    ensureJjConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
+      jj_config="$HOME/.config/jj/config.toml"
+      if [[ ! -e "$jj_config" && ! -L "$jj_config" ]]; then
+        verboseEcho "Creating empty user-owned jj config..."
+        run mkdir -p "$HOME/.config/jj"
+        run touch "$jj_config"
+      fi
+    '';
+
     installMiseTools = lib.hm.dag.entryAfter ["ensureMiseConfig"] ''
       verboseEcho "Installing mise global packages..."
       run ${mise} install --yes -C "$HOME"
