@@ -28,3 +28,8 @@ concat(
 
 [aliases]
 tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+# -b bookmarks(), NOT tracked_remote_bookmarks(): remote refs lag local rebases
+# until push, so a second pre-push run re-rebases the stale remote copies and
+# makes the whole forest divergent.
+rebase-all = ["rebase", "-b", "bookmarks()", "-d", "trunk()", "--skip-emptied"]
+push-all = ["git", "push", "-r", "bookmarks() & ~(conflicts()::)"]
