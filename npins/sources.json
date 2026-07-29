@@ -39,6 +39,19 @@
       "artifact": "nixexprs.tar.xz",
       "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1023798.e1c1b84752fb/nixexprs.tar.xz",
       "hash": "sha256-Yf2TcFLw0r574fP/5eUN6N8el70HbYNdbDeeHpnK2eQ="
+    },
+    "ticket": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "peter50216",
+        "repo": "ticket"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "7c41ac8a4629d36399ae6b2d40d7c4350bb13139",
+      "url": "https://github.com/peter50216/ticket/archive/7c41ac8a4629d36399ae6b2d40d7c4350bb13139.tar.gz",
+      "hash": "sha256-QKIUpUQ9WCCDNRNHwY5REzGf0Us3kbS5bOfWcKQ+UjE="
     }
   },
   "version": 8

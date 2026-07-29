@@ -8,6 +8,7 @@
     unixtools.xxd
     bubblewrap
     tree-sitter
+    (callPackage ./packages/ticket.nix {})
   ];
 
   programs = {

@@ -67,7 +67,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `default.nix`: evaluates Home Manager from `npins/` and builds a `switch` shell application that activates the config.
 - `env.nix`: session environment variables and PATH additions.
 - `file.nix`: Home Manager file links. Notably manages `~/.bunfig.toml`, links `external/nvim` into `~/.config/nvim` with an out-of-store symlink, and links shared `jj` and `mise` defaults into their `conf.d` directories.
-- `packages.nix`: minimal shared Nix package and program config (currently `nil`, `npins`, `gnumake`, `xxd`, `bubblewrap`, `tree-sitter`, plus `htop` and `mise` programs). Most userland CLI tools live in the linked `mise` baseline instead.
+- `packages.nix`: minimal shared Nix package and program config (currently `nil`, `npins`, `gnumake`, `xxd`, `bubblewrap`, `tree-sitter`, the npins-pinned `ticket` CLI installed as `tk`, plus `htop` and `mise` programs). Most userland CLI tools live in the linked `mise` baseline instead.
 - `local.nix`: host-local package additions and overrides (machine-local, gitignored).
 - `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, create an empty user-owned mise `config.toml` when missing, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
 - `config/`: Home Manager modules for `git` (including delta) and `tmux`.
