@@ -8,6 +8,7 @@
     unixtools.xxd
     bubblewrap
     tree-sitter
+    herdr
     (callPackage ./packages/ticket.nix {})
   ];
 
