@@ -21,6 +21,8 @@ in {
       mkDotfileSymlink "external/mise/00-dotfiles.toml";
     # nvim
     ".config/nvim".source = mkDotfileSymlink "external/nvim";
+    # herdr
+    ".config/herdr/config.toml".source = mkDotfileSymlink "external/herdr.toml";
     # scripts
     "bin/common".source = mkDotfileSymlink "bin";
   };
