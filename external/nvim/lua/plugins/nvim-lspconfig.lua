@@ -95,6 +95,8 @@ return {
         },
         -- mise use -g aqua:elixir-lang/expert
         expert = {},
+        -- rustup component add rust-analyzer
+        rust_analyzer = {},
       },
     },
     config = function(_, opts)
