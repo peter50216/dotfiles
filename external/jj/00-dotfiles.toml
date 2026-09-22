@@ -33,3 +33,6 @@ tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
 # makes the whole forest divergent.
 rebase-all = ["rebase", "-b", "bookmarks()", "-d", "trunk()", "--skip-emptied"]
 push-all = ["git", "push", "-r", "bookmarks() & ~(conflicts()::)"]
+
+[snapshot]
+auto-update-stale = true
