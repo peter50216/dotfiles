@@ -70,7 +70,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `packages.nix`: minimal shared Nix package and program config (currently `nil`, `npins`, `gnumake`, `xxd`, `bubblewrap`, `tree-sitter`, the npins-pinned `ticket` CLI installed as `tk`, plus `htop` and `mise` programs). Most userland CLI tools live in the linked `mise` baseline instead.
 - `local.nix`: host-local package additions and overrides (machine-local, gitignored).
 - `setup.nix`: idempotent activation tasks that seed `~/.gitconfig` from `external/gitconfig_defaults/{google,public}`, create an empty user-owned mise `config.toml` when missing, install mise global packages after Home Manager links the shared mise config, and initialize `~/dotfiles` as a colocated jj repo when needed.
-- `config/`: Home Manager modules for `git` (including delta) and `tmux`.
+- `config/`: Home Manager modules for `git` (including delta), `tmux`, and `chrome-reaper`: an opt-in hourly systemd user timer (`dotfiles.chromeReaper.enable = true;` in `local.nix`) that stops headless Chrome whose launcher exited, after 6 hours and two idle runs with no CDP connection; `chrome-reaper --dry-run` shows what it would stop.
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.
 - `external/`: raw config assets such as Bun and tmux config, git defaults, gitignore, Neovim config, the shared `jj` and `mise` baselines, and vendored zsh completions.

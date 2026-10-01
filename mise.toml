@@ -10,5 +10,5 @@ run = [
   "alejandra --check . --exclude ./npins",
   "stylua --check external/nvim",
   # bin/rgr is vendored third-party code and stays out of shellcheck.
-  "shellcheck bin/unarchive bin/update-shell-completions setup/fetch.sh setup/install.sh",
+  "shellcheck bin/unarchive bin/update-shell-completions setup/fetch.sh setup/install.sh config/chrome-reaper.sh",
 ]
