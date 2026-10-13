@@ -106,6 +106,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `npins-shell` and `npins-run` are custom helpers implemented in `zsh/functions.zsh`; the `hm-upgrade-*` staged-upgrade helpers live there too.
 - `zsh/init.zsh` prints a once-per-day reminder when `nixpkgs` and `nixpkgs-next` diverge or when `upgrade/staged-packages.json` is non-empty.
 - `zsh/init.zsh` disables zoxide integration when `CLAUDECODE=1` to work around Claude Code shell conflicts.
+- `zsh/init.zsh` turns off `EQUALS` expansion when `CLAUDECODE` is set, so a command such as `echo ===` does not fail with `== not found`.
 - `zsh/init.zsh` lazy-initializes fzf key bindings on the first prompt, and shows a finish timestamp in `RPROMPT` after commands that ran 60 seconds or longer.
 - Optional per-machine shell customizations are sourced from `~/.zshrc_local` and `~/.zprofile_local` when present.
 

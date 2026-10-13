@@ -34,6 +34,13 @@ if command -v zoxide &>/dev/null && [[ "$CLAUDECODE" != "1" ]]; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
 
+# Under Claude Code, do not expand a word that starts with "=" to a command
+# path: a separator such as `echo ===` fails with "== not found" and stops
+# the whole command line.
+if [[ -n "$CLAUDECODE" ]]; then
+  setopt no_equals
+fi
+
 function _dotfiles_init_fzf() {
   precmd_functions=(${precmd_functions:#_dotfiles_init_fzf})
 
