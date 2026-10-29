@@ -74,7 +74,7 @@ bash <(curl -s https://raw.githubusercontent.com/peter50216/dotfiles/main/setup/
 - `zsh/`: shell config split into `base.nix`, `alias.nix`, and `prezto.nix`, with sourced shell code in `functions.zsh`, `init.zsh`, and `profile.zsh`.
 - `packages/`: custom derivations such as `tmux-mem-cpu-load`.
 - `external/`: raw config assets such as Bun and tmux config, git defaults, gitignore, Neovim config, the shared `jj` and `mise` baselines, and vendored zsh completions.
-- `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink and `$HOME/bin/common` PATH entry, such as `rgr`, `unarchive`, and `update-shell-completions`.
+- `bin/`: custom user scripts exposed through the Home Manager-managed `~/bin/common -> ~/dotfiles/bin` symlink and `$HOME/bin/common` PATH entry, such as `rgr`, `unarchive`, and `update-shell-completions`. `herdr-snapshot` and `herdr-restore` are Bun scripts: run `herdr-snapshot` before a reboot to save the program in each Herdr pane, and `herdr-restore` (plan) then `herdr-restore --run` after the reboot to start those programs again.
 - `template/`: starter `home.nix` and `local.nix` files used during bootstrap.
 - `docs/`: design docs (`docs/plans/`) and review notes (`docs/reviews/`).
 - `upgrade/staged-packages.json`: top-level Nixpkgs attribute names currently sourced from `nixpkgs-next` during a staged package upgrade.

@@ -1,0 +1,77 @@
+#!/usr/bin/env bun
+// Save what runs in every Herdr pane, so that herdr-restore can start it again after a reboot.
+//
+//   herdr-snapshot
+//
+// Herdr saves the layout and the cwd of each pane (~/.config/herdr/session.json) and restores them when its
+// server starts. It does not start the programs again. This script saves, for each pane: the workspace and tab,
+// the pane id, the cwd, the foreground command (argv) and, for Claude Code, the session id
+// (~/.claude/sessions/<pid>.json). The result is ~/.local/state/herdr-restore/snapshot.json, plus a copy with
+// the date in its name.
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+const HOME = homedir();
+const OUT = join(HOME, ".local/state/herdr-restore");
+
+function herdr(...args: string[]) {
+  const r = Bun.spawnSync(["herdr", ...args], { stdout: "pipe", stderr: "pipe" });
+  if (r.exitCode !== 0) throw new Error(`herdr ${args.join(" ")}: ${r.stderr.toString()}`);
+  return JSON.parse(r.stdout.toString()).result;
+}
+
+/** The Claude Code session of a process, from ~/.claude/sessions/<pid>.json. */
+function claudeSession(pid: number): string | null {
+  const f = join(HOME, ".claude/sessions", `${pid}.json`);
+  if (!existsSync(f)) return null;
+  try {
+    return JSON.parse(readFileSync(f, "utf-8")).sessionId ?? null;
+  } catch {
+    return null;
+  }
+}
+
+const SHELLS = new Set(["zsh", "bash", "sh", "fish", "-zsh", "-bash"]);
+
+const workspaces = herdr("workspace", "list").workspaces;
+const panes: any[] = [];
+for (const w of workspaces) {
+  const tabs = herdr("tab", "list", "--workspace", w.workspace_id).tabs;
+  const tabLabel = Object.fromEntries(tabs.map((t: any) => [t.tab_id, t.label ?? null]));
+  for (const p of herdr("pane", "list", "--workspace", w.workspace_id).panes) {
+    const info = herdr("pane", "process-info", "--pane", p.pane_id).process_info;
+    const procs: any[] = info.foreground_processes ?? [];
+    // The leader of the foreground process group is the command the user typed.
+    const lead = procs.find((x) => x.pid === info.foreground_process_group_id) ?? procs[0];
+    const isShell = !lead || lead.pid === info.shell_pid || SHELLS.has(lead.name);
+    const entry: any = {
+      workspace_id: w.workspace_id,
+      workspace: w.label,
+      tab_id: p.tab_id,
+      tab: tabLabel[p.tab_id] ?? null,
+      pane_id: p.pane_id,
+      cwd: p.cwd,
+      title: p.terminal_title_stripped ?? null,
+      agent: p.agent ?? null,
+    };
+    if (!isShell) {
+      entry.argv = lead.argv;
+      entry.command_cwd = lead.cwd;
+      if (lead.name === "claude" || p.agent === "claude") entry.claude_session = claudeSession(lead.pid);
+    }
+    panes.push(entry);
+  }
+}
+
+mkdirSync(OUT, { recursive: true });
+const snap = { saved: new Date().toISOString(), panes };
+const text = JSON.stringify(snap, null, 1) + "\n";
+writeFileSync(join(OUT, "snapshot.json"), text);
+writeFileSync(join(OUT, `snapshot-${snap.saved.slice(0, 19).replace(/:/g, "")}.json`), text);
+
+for (const p of panes) {
+  const what = p.argv ? p.argv.join(" ") + (p.claude_session ? `  (session ${p.claude_session})` : "") : "(shell)";
+  console.log(`${p.workspace.padEnd(22)} ${p.pane_id.padEnd(8)} ${p.cwd.replace(HOME, "~").padEnd(40)} ${what}`);
+}
+console.log(`\n${panes.length} panes, ${panes.filter((p) => p.argv).length} running a program -> ${join(OUT, "snapshot.json")}`);

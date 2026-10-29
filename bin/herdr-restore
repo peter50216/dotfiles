@@ -1,0 +1,83 @@
+#!/usr/bin/env bun
+// Start the programs of a Herdr snapshot again (herdr-snapshot), after a reboot has restored the layout.
+//
+//   herdr-restore            print the plan; nothing runs
+//   herdr-restore --run      run each command in its pane
+//   herdr-restore <file>     use another snapshot (default ~/.local/state/herdr-restore/snapshot.json)
+//
+// Herdr restores the workspaces, tabs, panes and their cwd by itself when its server starts. This script then
+// types each saved command into its pane with `herdr pane run`, only when the pane still exists, has the same
+// cwd, and sits at its shell prompt (so a pane that Herdr already resumed is left alone).
+// - Claude Code: `claude --resume <session id>`; `claude rc` (Remote Control) runs as it was.
+// - A command started from /nix/store or a mise install path runs by its name (`mise run dev-public`).
+// - Elixir (beam.smp ... -extra .../mix phx.server) runs as `mix phx.server`.
+// - A command that refers to a /tmp path that is gone is skipped. Since 2026-10-20, /tmp is on the disk, so a
+//   reboot keeps it, but systemd-tmpfiles removes files older than 10 days.
+import { existsSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { basename, join } from "node:path";
+
+const HOME = homedir();
+const args = process.argv.slice(2);
+const run = args.includes("--run");
+const file = args.find((a) => !a.startsWith("--")) ?? join(HOME, ".local/state/herdr-restore/snapshot.json");
+
+function herdr(...a: string[]) {
+  const r = Bun.spawnSync(["herdr", ...a], { stdout: "pipe", stderr: "pipe" });
+  if (r.exitCode !== 0) throw new Error(`herdr ${a.join(" ")}: ${r.stderr.toString()}`);
+  const out = r.stdout.toString().trim();
+  return out ? JSON.parse(out).result : null; // `pane run` prints nothing
+}
+
+const quote = (s: string) => (/^[\w@%+=:,./-]+$/.test(s) ? s : `'${s.replace(/'/g, `'\\''`)}'`);
+const SHELLS = new Set(["zsh", "bash", "sh", "fish", "-zsh", "-bash"]);
+
+/** The command to type for a saved pane, or a reason to skip it. */
+function command(p: any): { cmd?: string; skip?: string } {
+  let argv: string[] = [...p.argv];
+  const gone = argv.find((a) => a.startsWith("/tmp/") && !existsSync(a));
+  if (gone) return { skip: `refers to ${gone}, which is gone` };
+  if (basename(argv[0]) === "claude" || p.agent === "claude") {
+    if (argv[1] === "rc") return { cmd: "claude rc" };
+    return p.claude_session ? { cmd: `claude --resume ${p.claude_session}` } : { cmd: "claude" };
+  }
+  if (basename(argv[0]) === "beam.smp") {
+    const k = argv.indexOf("-extra");
+    if (k < 0) return { skip: "an Erlang VM without the command that started it" };
+    argv = argv.slice(k + 1);
+  }
+  if (argv[0].startsWith("/nix/store/") || argv[0].includes("/.local/share/mise/") || argv[0].includes("/mise/installs/")) argv[0] = basename(argv[0]);
+  return { cmd: argv.map(quote).join(" ") };
+}
+
+if (!existsSync(file)) throw new Error(`${file} is missing: run herdr-snapshot before the reboot`);
+const snap = JSON.parse(readFileSync(file, "utf-8"));
+const live = new Map<string, any>();
+for (const w of herdr("workspace", "list").workspaces) for (const p of herdr("pane", "list", "--workspace", w.workspace_id).panes) live.set(p.pane_id, p);
+
+console.log(`snapshot ${snap.saved}${run ? "" : " (plan only: add --run to start them)"}\n`);
+let started = 0;
+for (const p of snap.panes.filter((x: any) => x.argv)) {
+  const where = `${p.workspace} ${p.pane_id}`.padEnd(30);
+  const { cmd, skip } = command(p);
+  const now = live.get(p.pane_id);
+  let why = skip;
+  if (!why && !now) why = "the pane is not there";
+  if (!why && now.cwd !== p.cwd) why = `the pane is in ${now.cwd}, not ${p.cwd}`;
+  if (!why) {
+    const info = herdr("pane", "process-info", "--pane", p.pane_id).process_info;
+    const lead = (info.foreground_processes ?? []).find((x: any) => x.pid === info.foreground_process_group_id);
+    if (now.agent || (lead && lead.pid !== info.shell_pid && !SHELLS.has(lead.name))) why = `already running ${now.agent ?? lead.cmdline}`;
+  }
+  const full = cmd && p.command_cwd && p.command_cwd !== p.cwd ? `cd ${quote(p.command_cwd)} && ${cmd}` : cmd;
+  if (why) {
+    console.log(`skip  ${where} ${why}${full ? `\n      ${"".padEnd(30)} (command: ${full})` : ""}`);
+    continue;
+  }
+  console.log(`${run ? "run " : "plan"}  ${where} ${full}`);
+  if (run) {
+    herdr("pane", "run", p.pane_id, full!);
+    started++;
+  }
+}
+if (run) console.log(`\nstarted ${started}`);
