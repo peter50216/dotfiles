@@ -63,18 +63,47 @@
   };
 
   # The upstream CLI, limited to the commands that only read or touch the
-  # state and config directories. `start`, `update`, `skill`, `hooks`,
-  # `crew` and the others write systemd units, run `tailscale serve`, fetch
-  # new code or write agent config, so the wrapper refuses them.
+  # state and config directories. `start`, `update`, `skill`, `crew`,
+  # `hooks install` and the others write systemd units, run `tailscale
+  # serve`, fetch new code or write agent config, so the wrapper refuses
+  # them.
+  #
+  # `beacon` is the command of the Claude Code hooks in ~/.claude/settings.json
+  # (entries marked `# collie-beacon v1`, written by hand because
+  # `hooks install` would point them at a bin/collie that does not exist
+  # here). It comes first and never fails: Claude Code treats exit status 2
+  # from a UserPromptSubmit or Stop hook as "block", so any problem exits 0
+  # with no output. It must `exec`, because Collie reads its parent pid.
   cli = pkgs.writeShellApplication {
     name = "collie";
     runtimeInputs = [pkgs.git pkgs.coreutils];
     text = ''
+      if [ "''${1:-}" = beacon ]; then
+        caller_sock="''${HERDR_SOCKET_PATH-}"
+        set -a
+        # shellcheck disable=SC1091
+        . ${envFile} 2>/dev/null || exit 0
+        set +a
+        if [ -n "$caller_sock" ]; then export HERDR_SOCKET_PATH="$caller_sock"; fi
+        bun_dir="$(${pkgs.mise}/bin/mise where bun@${cfg.bunVersion} 2>/dev/null)" || exit 0
+        [ -x "$bun_dir/bin/bun" ] || exit 0
+        exec "$bun_dir/bin/bun" ${lib.escapeShellArg "${cfg.checkout}/cli/main.ts"} "$@"
+      fi
       case "''${1:-}" in
+        hooks)
+          case "''${2:-}" in
+            status | uninstall) ;;
+            *)
+              echo "collie: only 'hooks status' and 'hooks uninstall' are allowed." >&2
+              echo "'hooks install' writes a bin/collie path that does not exist here; see config/collie.nix." >&2
+              exit 2
+              ;;
+          esac
+          ;;
         pair | devices | doctor | push-keys | help | --help | -h | --version) ;;
         *)
           echo "collie: '$*' is not allowed by the dotfiles wrapper (config/collie.nix)." >&2
-          echo "Allowed: pair, devices, doctor, push-keys, help." >&2
+          echo "Allowed: pair, devices, doctor, push-keys, hooks status, hooks uninstall, help." >&2
           exit 2
           ;;
       esac
