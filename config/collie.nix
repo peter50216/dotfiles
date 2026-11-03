@@ -35,6 +35,10 @@
     COLLIE_WALKY = "off";
     COLLIE_PROGRAMS = "off";
     COLLIE_SKILL_SYNC = "off";
+    # Usage windows: Codex only (local session files). Claude's would read the
+    # OAuth token in ~/.claude/.credentials.json; the statusLine already shows
+    # those numbers.
+    COLLIE_ACCOUNT_WINDOWS = "codex";
   };
   envFile = pkgs.writeText "collie.env" (lib.concatStrings (lib.mapAttrsToList (k: v: "${k}=${v}\n") envVars));
 
