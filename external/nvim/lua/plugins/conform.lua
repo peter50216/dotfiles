@@ -112,6 +112,7 @@ return {
         html = { "prettier" },
         python = { "ruff_format" },
         ruby = { "syntax_tree", "standardrb" },
+        rust = { "rustfmt" },
         eruby = { "erb_format" },
         sh = { "shfmt" },
         bash = { "shfmt" },
@@ -200,6 +201,19 @@ return {
                 "--length",
                 tostring(length),
               }
+            end,
+          },
+          rustfmt = {
+            args = function(self, ctx)
+              local args = { "--emit=stdout" }
+              local edition = util.parse_rust_edition(ctx.dirname)
+              if edition then
+                table.insert(args, "--edition=" .. edition)
+              end
+              if self.options.nightly then
+                table.insert(args, 1, "+nightly")
+              end
+              return args
             end,
           },
         },
