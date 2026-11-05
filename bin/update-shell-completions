@@ -9,6 +9,7 @@ mise_dir="${DOTFILES_MISE_COMPLETIONS_DIR:-$HOME}"
 cache_clear_failed=0
 
 global_tools=(
+  ast-grep
   bat
   broot
   cosign
@@ -39,6 +40,7 @@ EOF
 
 tool_outputs() {
   case "$1" in
+    ast-grep) echo "_ast-grep" ;;
     bat) echo "_bat" ;;
     broot) echo "_broot _br" ;;
     bun) echo "_bun" ;;
@@ -55,6 +57,7 @@ tool_outputs() {
 
 list_known_tools() {
   cat <<'EOF'
+ast-grep _ast-grep
 bat _bat
 broot _broot _br
 bun _bun
@@ -147,6 +150,7 @@ find_completion() {
 
 generate_tool() {
   case "$1" in
+    ast-grep) write_generated _ast-grep ast-grep completions zsh ;;
     bat) write_generated _bat bat --completion zsh ;;
     broot)
       copy_completion _broot "$(find_completion github:Canop/broot '*/completion/_broot')"

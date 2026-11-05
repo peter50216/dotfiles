@@ -6,6 +6,7 @@ idiomatic_version_file_enable_tools = ["python", "ruby"]
 bun = true
 
 [tools]
+ast-grep = "latest"
 bat = "latest"
 "github:aristocratos/btop" = "latest"
 cosign = "latest"
