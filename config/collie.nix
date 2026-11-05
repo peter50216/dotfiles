@@ -181,8 +181,8 @@ in {
     };
     rev = lib.mkOption {
       type = lib.types.str;
-      default = "8e94f2d1a2fe79cd9d8aee6e637b934e12bec30f";
-      description = "The audited Collie commit (v1.26.1). The bridge does not start from any other commit.";
+      default = "a245cd3082e91a4b656e8d74f74d3c8b8d094b4c";
+      description = "The audited Collie commit (v1.26.3). The bridge does not start from any other commit.";
     };
     bunVersion = lib.mkOption {
       type = lib.types.str;
