@@ -39,6 +39,9 @@
     # OAuth token in ~/.claude/.credentials.json; the statusLine already shows
     # those numbers.
     COLLIE_ACCOUNT_WINDOWS = "codex";
+    # No daily install ping to ping.colliepwa.dev (on by default since 1.27.0).
+    # An env "off" also stops the phone from turning it back on.
+    COLLIE_TELEMETRY = "0";
   };
   envFile = pkgs.writeText "collie.env" (lib.concatStrings (lib.mapAttrsToList (k: v: "${k}=${v}\n") envVars));
 
@@ -181,8 +184,8 @@ in {
     };
     rev = lib.mkOption {
       type = lib.types.str;
-      default = "9d1f81de213b3dd5022657a315e174face74901b";
-      description = "The audited Collie commit (v1.26.3 plus PR #696). The bridge does not start from any other commit.";
+      default = "399ca0adbd06721e694261a415a646aa21278d49";
+      description = "The audited Collie commit (v1.27.2). The bridge does not start from any other commit.";
     };
     bunVersion = lib.mkOption {
       type = lib.types.str;
