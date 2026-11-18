@@ -163,6 +163,63 @@
       };
     }
     // lib.optionalAttrs (cfg.launchers != []) {launchers = cfg.launchers;});
+
+  # The Quick dock. A file row replaces the shipped groups on the panes it
+  # addresses, so the rows restate the shipped "confirm" and "common" groups.
+  # Scoped to claude: an unscoped row would also replace a shell's y/n, and
+  # Codex starts a skill with `$afk`, not `/afk`.
+  quickReplies = toml.generate "collie-quick-replies.toml" {
+    replies = [
+      {
+        scope = "claude";
+        title = "confirm";
+        items = ["yes" "no"];
+      }
+      {
+        scope = "claude";
+        title = "common";
+        items = ["continue" "commit and push" "retry" "skip" "drastically simplify" "/afk"];
+      }
+    ];
+  };
+
+  # The Keys tray presets: the shipped six (Ctrl C/D/U/R/L/Z) and Ctrl B, which
+  # sends a running command to the background in Claude Code. Unscoped, so every
+  # pane gets the same list.
+  keyPresets = toml.generate "collie-keys.toml" {
+    keys = [
+      {
+        label = "Ctrl C";
+        keys = ["ctrl+c"];
+      }
+      {
+        label = "Ctrl D";
+        keys = ["ctrl+d"];
+        danger = true;
+      }
+      {
+        label = "Ctrl U";
+        keys = ["ctrl+u"];
+      }
+      {
+        label = "Ctrl R";
+        keys = ["ctrl+r"];
+      }
+      {
+        label = "Ctrl L";
+        keys = ["ctrl+l"];
+      }
+      {
+        label = "Ctrl Z";
+        keys = ["ctrl+z"];
+        danger = true;
+      }
+      {
+        label = "Ctrl B";
+        keys = ["ctrl+b"];
+      }
+    ];
+  };
 in {
   # Collie (github.com/AltanS/collie) is a phone client for herdr. It can
   # type into every shell on this machine, so this module keeps it on
@@ -238,11 +295,17 @@ in {
     home.packages = [cli];
 
     xdg.configFile."collie/launchers.toml".source = launchers;
+    xdg.configFile."collie/quick-replies.toml".source = quickReplies;
+    xdg.configFile."collie/keys.toml".source = keyPresets;
 
     systemd.user.services.collie = {
       Unit = {
         Description = "Collie bridge (phone client for herdr) on 127.0.0.1";
         StartLimitIntervalSec = 0;
+        # Collie re-reads its operator files only when their mtime changes, and
+        # every file in the Nix store has the same mtime. A changed file thus
+        # changes this unit, and the switch restarts the bridge.
+        X-Restart-Triggers = ["${launchers}" "${quickReplies}" "${keyPresets}"];
       };
       Service = {
         Type = "simple";
