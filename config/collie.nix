@@ -35,6 +35,10 @@
     COLLIE_WALKY = "off";
     COLLIE_PROGRAMS = "off";
     COLLIE_SKILL_SYNC = "off";
+    # No inside wire (1.29.0, experimental): without this, a claude.link.json
+    # that any process of this user writes opens <stateDir>/inside/sock, and a
+    # plugin in Claude Code can then take phone messages and answer asks.
+    COLLIE_INSIDE = "off";
     # Usage windows: Codex only (local session files). Claude's would read the
     # OAuth token in ~/.claude/.credentials.json; the statusLine already shows
     # those numbers.
@@ -184,8 +188,8 @@ in {
     };
     rev = lib.mkOption {
       type = lib.types.str;
-      default = "93d132246eb9e3c09c85506cf3d605dad226acd7";
-      description = "The audited Collie commit (v1.28.3). The bridge does not start from any other commit.";
+      default = "866bfb2800b4bb99d8931417300eea1214a45e7d";
+      description = "The audited Collie commit (v1.29.0). The bridge does not start from any other commit.";
     };
     bunVersion = lib.mkOption {
       type = lib.types.str;
