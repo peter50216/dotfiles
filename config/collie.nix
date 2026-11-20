@@ -245,8 +245,8 @@ in {
     };
     rev = lib.mkOption {
       type = lib.types.str;
-      default = "866bfb2800b4bb99d8931417300eea1214a45e7d";
-      description = "The audited Collie commit (v1.29.0). The bridge does not start from any other commit.";
+      default = "74dad92821696b690fceae1605098b1edd8e44f8";
+      description = "The audited Collie commit (v1.29.0 plus the local SendUserFile patch, branch local/v1.29.0-send-user-file on peter50216/collie). The bridge does not start from any other commit.";
     };
     bunVersion = lib.mkOption {
       type = lib.types.str;
