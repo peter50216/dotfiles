@@ -319,7 +319,11 @@ in {
         RestartSec = 5;
         RestartPreventExitStatus = 78;
         NoNewPrivileges = true;
-        PrivateTmp = true;
+        # No PrivateTmp: the bridge serves the files Claude Code sends with
+        # SendUserFile from where the agent left them, and those are often in
+        # its scratchpad under /tmp/claude-<uid>. A private /tmp answered 404
+        # for each of them (2026-11-20). The bridge runs as this user and
+        # reads the whole home, so a private /tmp kept little out.
       };
       Install.WantedBy = ["default.target"];
     };
